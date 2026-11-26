@@ -13,17 +13,19 @@
     --text: #f1f5f9; --muted: #94a3b8; --paper: #ffffff;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; max-width: 100vw; overflow-x: hidden; }
   body {
     font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
     background: var(--bg); color: var(--text);
-    height: 100vh; display: flex; flex-direction: column; overflow: hidden;
+    height: 100vh; height: 100dvh; display: flex; flex-direction: column; overflow: hidden;
   }
   header {
     background: var(--panel); border-bottom: 1px solid var(--border);
     padding: 8px 14px; display: flex; align-items: center;
-    justify-content: space-between; gap: 8px; flex-wrap: wrap; z-index: 20;
+    justify-content: space-between; gap: 8px; flex-wrap: wrap; z-index: 20; width: 100%;
   }
-  .brand { display: flex; align-items: center; gap: 9px; }
+  .brand { display: flex; align-items: center; gap: 9px; min-width: 0; }
+  .brand > div:last-child { min-width: 0; overflow: hidden; }
   .brand-badge {
     background: linear-gradient(135deg, #0284c7, #10b981);
     color: #fff; font-weight: 800; font-size: 11.5px;
@@ -96,7 +98,7 @@
 
   .viewport {
     flex: 1; background: #1a2234; background-image: radial-gradient(#334155 1px, transparent 1px);
-    background-size: 20px 20px; position: relative; overflow: hidden; cursor: grab;
+    background-size: 20px 20px; position: relative; overflow: hidden; cursor: grab; touch-action: none;
   }
   .viewport:active { cursor: grabbing; }
   #stage { transform-origin: 0 0; position: absolute; top: 0; left: 0; padding: 26px; }
@@ -136,7 +138,7 @@
   .iso-ctrl { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #e2e8f0; flex-wrap: wrap; }
   .canvas-3d-wrap {
     width: 100%; height: 640px; border-radius: 10px; overflow: hidden;
-    border: 1px solid var(--border); position: relative; background: #0b1120; cursor: grab;
+    border: 1px solid var(--border); position: relative; background: #0b1120; cursor: grab; touch-action: none;
   }
   .canvas-3d-wrap:active { cursor: grabbing; }
   .hud-3d {
@@ -167,7 +169,78 @@
   .room-hit:hover { fill: #38bdf8 !important; fill-opacity: 0.22 !important; }
   .room-hit.selected { stroke: #0284c7 !important; stroke-width: 3px !important; fill: #38bdf8 !important; fill-opacity: 0.18 !important; }
 
-  @media (max-width: 960px) { aside { width: 240px; } .grid-2, .grid-4 { grid-template-columns: 1fr; } }
+  .mobile-only { display: none; }
+  .drawer-backdrop { display: none; position: fixed; inset: 0; background: rgba(2,6,23,.68); z-index: 35; backdrop-filter: blur(2px); }
+  .drawer-backdrop.open { display: block; }
+  .mobile-floor-bar {
+    display: none; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 15;
+    background: rgba(15,23,42,.92); border: 1px solid var(--border); border-radius: 9px; padding: 4px;
+    gap: 4px; backdrop-filter: blur(6px); box-shadow: 0 6px 20px rgba(0,0,0,.45);
+  }
+  .mobile-floor-bar button {
+    border: none; background: transparent; color: #cbd5e1; padding: 7px 11px; border-radius: 6px;
+    font-size: 12.5px; font-weight: 700; cursor: pointer; white-space: nowrap;
+  }
+  .mobile-floor-bar button.active { background: #38bdf8; color: #0f172a; }
+  .mobile-insp {
+    display: none; position: absolute; left: 10px; right: 10px; bottom: 60px; z-index: 18;
+    background: rgba(15,23,42,.96); border: 1px solid #38bdf8; border-radius: 10px; padding: 11px 13px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.6); backdrop-filter: blur(8px);
+  }
+  .mobile-insp.open { display: block; }
+  .mobile-insp-close {
+    position: absolute; top: 8px; right: 10px; background: #334155; color: #fff; border: none;
+    width: 26px; height: 26px; border-radius: 6px; font-size: 14px; font-weight: 700; cursor: pointer;
+  }
+
+  @media (max-width: 960px) { .grid-2, .grid-4 { grid-template-columns: 1fr; } }
+  @media (max-width: 820px) {
+    .mobile-only { display: inline-flex; align-items: center; gap: 4px; }
+    .desktop-only { display: none !important; }
+    header { padding: 7px 10px; gap: 6px; }
+    .brand { flex: 1; min-width: 0; gap: 7px; }
+    .brand-badge { font-size: 10.5px; padding: 4px 6px; flex-shrink: 0; }
+    .brand h1 { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .brand p { display: none; }
+    .actions { gap: 5px; flex-shrink: 0; }
+    .btn { padding: 6px 9px; font-size: 11.8px; white-space: nowrap; }
+    .tabs {
+      order: 3; width: 100%; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; padding: 4px; gap: 4px;
+    }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab-btn { white-space: nowrap; flex-shrink: 0; padding: 8px 12px; font-size: 12.8px; }
+
+    /* Sidebar becomes slide-over drawer so viewport gets 100% width! */
+    aside {
+      position: fixed; top: 0; left: 0; bottom: 0; width: 84vw; max-width: 320px; z-index: 40;
+      transform: translateX(-105%); transition: transform .22s ease; box-shadow: 12px 0 40px rgba(0,0,0,.65);
+      padding-top: 14px;
+    }
+    aside.open { transform: translateX(0); }
+    .mobile-floor-bar { display: flex; }
+    #stage { padding: 8px; }
+    .zoom-hud { bottom: 10px; right: 10px; padding: 5px 7px; gap: 6px; }
+    .zoom-hud .zoom-hint { display: none; }
+    .zoom-hud button { width: 36px; height: 36px; font-size: 18px; }
+    #zoom-pct { min-width: 42px; text-align: center; font-size: 12.5px; font-weight: 700; }
+
+    /* Full views (Showroom, 3D, Custos, Ilustrativa, Regras) */
+    .full-view { padding: 10px; }
+    .container { gap: 12px; }
+    .box { padding: 12px; overflow-x: auto; }
+    .box h2 { font-size: 13.5px; flex-wrap: wrap; gap: 6px; }
+    table.tech { font-size: 12px; min-width: 460px; }
+    .kpi .k-val { font-size: 19px; }
+    .tier-btn { flex: 1 1 auto; text-align: center; padding: 9px 10px; font-size: 12.5px; }
+    .iso-toolbar { padding: 10px; gap: 8px; }
+    .iso-ctrl { gap: 6px; font-size: 12.5px; }
+    .iso-ctrl .btn { padding: 7px 9px; font-size: 11.8px; }
+    .canvas-3d-wrap { height: 56dvh; min-height: 360px; }
+    .hud-3d { bottom: 8px; left: 8px; right: 8px; flex-direction: column; gap: 5px; align-items: stretch; }
+    .hud-pill { font-size: 11.2px; padding: 5px 9px; text-align: center; }
+    .hud-3d .hud-tip { display: none; }
+  }
   @media print {
     @page { size: A3 landscape; margin: 6mm; }
     body { background: #fff; height: auto; overflow: visible; }
@@ -203,13 +276,20 @@
   </div>
 
   <div class="actions">
-    <button class="btn" onclick="resetView()">Centralizar</button>
-    <button class="btn btn-primary" onclick="window.print()">🖨️ PDF (A3)</button>
+    <button class="btn mobile-only" id="btn-drawer" onclick="toggleDrawer()">☰ Painel</button>
+    <button class="btn desktop-only" onclick="resetView()">Centralizar</button>
+    <button class="btn btn-primary" onclick="window.print()">🖨️ PDF</button>
   </div>
 </header>
 
+<div id="drawer-backdrop" class="drawer-backdrop" onclick="toggleDrawer(false)"></div>
+
 <main>
   <aside id="sidebar">
+    <div class="mobile-only" style="justify-content:space-between;align-items:center;margin-bottom:2px;">
+      <strong style="font-size:13px;color:#38bdf8;">Controles &amp; Índices R03</strong>
+      <button class="btn" onclick="toggleDrawer(false)">✕ Fechar</button>
+    </div>
     <div class="card">
       <h3>Pavimentos</h3>
       <div class="floor-switch">
@@ -256,16 +336,26 @@
 
   <!-- VIEWPORT: ARQ / ELE / HID / SEC -->
   <div class="viewport" id="viewport">
+    <div class="mobile-floor-bar" id="mobile-floor-bar">
+      <button id="mfl-terreo" onclick="setFloor('terreo')">1º Térreo</button>
+      <button id="mfl-sup" onclick="setFloor('sup')">2º Superior</button>
+      <button id="mfl-both" onclick="setFloor('both')">Prancha A3</button>
+    </div>
     <div id="stage">
       <div class="sheet">
         <svg id="blueprint-svg" xmlns="http://www.w3.org/2000/svg" width="1680" height="1140" viewBox="0 0 1680 1140"></svg>
       </div>
     </div>
+    <div id="mobile-insp" class="mobile-insp">
+      <button class="mobile-insp-close" onclick="closeMobileInsp()">✕</button>
+      <div id="mobile-insp-body"></div>
+    </div>
     <div class="zoom-hud">
-      <span>Arraste para mover · Roda para zoom</span>
-      <button onclick="zoomBy(-0.15)">−</button>
+      <span class="zoom-hint">Arraste para mover · Roda para zoom</span>
+      <button onclick="zoomBy(-0.18)" aria-label="Diminuir zoom">−</button>
       <span id="zoom-pct">100%</span>
-      <button onclick="zoomBy(0.15)">+</button>
+      <button onclick="zoomBy(0.18)" aria-label="Aumentar zoom">+</button>
+      <button class="mobile-only" style="justify-content:center;" onclick="resetView()" aria-label="Centralizar">⌖</button>
     </div>
   </div>
 
@@ -338,8 +428,8 @@
 
       <div class="canvas-3d-wrap" id="canvas-3d-wrap">
         <div class="hud-3d">
-          <div class="hud-pill">🖱️ <strong>Arraste</strong> para girar 360° e inclinar · <strong>Roda do mouse</strong> para zoom</div>
-          <div class="hud-pill" style="color:#34d399;">Dica: desmarque <strong>"2º Pavimento"</strong> ou <strong>"Telhado"</strong> para ver todos os móveis e ambientes por dentro!</div>
+          <div class="hud-pill">🖱️ <strong>Arraste</strong> para girar 360° · <strong>Pinça / Roda</strong> para zoom</div>
+          <div class="hud-pill hud-tip" style="color:#34d399;">Dica: desmarque <strong>"2º Pavimento"</strong> ou <strong>"Telhado"</strong> para ver todos os móveis e ambientes por dentro!</div>
         </div>
       </div>
     </div>
@@ -556,13 +646,26 @@ function txt(x, y, content, attrs = {}, parent = null) {
   return t;
 }
 
+function isMobile() { return window.innerWidth <= 820; }
+
+function toggleDrawer(force) {
+  const sb = document.getElementById("sidebar");
+  const bd = document.getElementById("drawer-backdrop");
+  const open = typeof force === "boolean" ? force : !sb.classList.contains("open");
+  sb.classList.toggle("open", open);
+  bd.classList.toggle("open", open);
+}
+function closeMobileInsp() {
+  document.getElementById("mobile-insp").classList.remove("open");
+}
+
 function selectRoom(id) {
   selectedRoomId = id;
   document.querySelectorAll(".room-hit").forEach(n => n.classList.toggle("selected", n.dataset.room === id));
   const r = ROOM_MAP[id];
   if (!r) return;
   const area = (r.w * r.h).toFixed(2).replace(".", ",");
-  document.getElementById("inspector-content").innerHTML = `
+  const html = `
     <div style="font-size:10px;color:#38bdf8;font-weight:700;text-transform:uppercase;">${r.floor === "terreo" ? "1º Pavimento (Térreo)" : "2º Pavimento"}</div>
     <div class="insp-title">${r.name}</div>
     <div class="insp-grid">
@@ -572,6 +675,11 @@ function selectRoom(id) {
     <div style="font-size:10.6px;color:#cbd5e1;"><strong>Esquadrias / Obs.:</strong> ${r.esq}</div>
     <div class="insp-note">${r.note}</div>
   `;
+  document.getElementById("inspector-content").innerHTML = html;
+  if (isMobile()) {
+    document.getElementById("mobile-insp-body").innerHTML = html;
+    document.getElementById("mobile-insp").classList.add("open");
+  }
 }
 
 function addDefs(root) {
@@ -1067,7 +1175,12 @@ function renderShowroomPlan() {
   const flt = el("filter", { id:"sh-drop", x:"-20%", y:"-20%", width:"150%", height:"150%" }, defs);
   el("feDropShadow", { dx:2, dy:2.5, stdDeviation:2.2, "flood-color":"#0f172a", "flood-opacity":"0.22" }, flt);
 
-  el("rect", { width:1220, height:980, fill:"#f8fafc" }, ssvg);
+  const mob = isMobile();
+  const sw = mob ? 520 : 1220, sh = mob ? 1910 : 980;
+  ssvg.setAttribute("width", sw);
+  ssvg.setAttribute("height", sh);
+  ssvg.setAttribute("viewBox", `0 0 ${sw} ${sh}`);
+  el("rect", { width: sw, height: sh, fill: "#f8fafc" }, ssvg);
 
   function drawHumanized(ox, oy, isGround) {
     const X = m => ox + m * sc, Y = m => oy + (24 - m) * sc;
@@ -1211,8 +1324,13 @@ function renderShowroomPlan() {
       });
     }
   }
-  drawHumanized(110, 62, true);
-  drawHumanized(730, 62, false);
+  if (mob) {
+    drawHumanized(80, 56, true);
+    drawHumanized(80, 995, false);
+  } else {
+    drawHumanized(110, 62, true);
+    drawHumanized(730, 62, false);
+  }
 }
 
 // =============================================================================
@@ -1235,9 +1353,10 @@ function init3D() {
   scene3D.background = new THREE.Color(0xcfe4f7);
   scene3D.fog = new THREE.Fog(0xcfe4f7, 48, 115);
 
-  const w = wrap.clientWidth || 1160, h = wrap.clientHeight || 640;
-  camera3D = new THREE.PerspectiveCamera(40, w / h, 0.2, 220);
+  const w = wrap.clientWidth || (isMobile() ? window.innerWidth - 22 : 1160), h = wrap.clientHeight || 520;
+  camera3D = new THREE.PerspectiveCamera(isMobile() ? 46 : 40, w / h, 0.2, 220);
   camTarget = new THREE.Vector3(0, 2.4, 0);
+  if (isMobile()) camRadius = 35;
 
   renderer3D = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
   renderer3D.setSize(w, h);
@@ -1261,8 +1380,8 @@ function init3D() {
   houseGroup3D = new THREE.Group();
   scene3D.add(houseGroup3D);
 
-  // Smooth Orbit Controls (mouse + mobile touch)
-  let drag3 = false, lx = 0, ly = 0;
+  // Smooth Orbit Controls (mouse + mobile 1-finger orbit + 2-finger pinch zoom)
+  let drag3 = false, lx = 0, ly = 0, pinch3 = 0;
   const dom = renderer3D.domElement;
   dom.addEventListener("mousedown", e => { drag3 = true; lx = e.clientX; ly = e.clientY; });
   window.addEventListener("mousemove", e => {
@@ -1274,16 +1393,28 @@ function init3D() {
   });
   window.addEventListener("mouseup", () => drag3 = false);
   dom.addEventListener("touchstart", e => {
-    if (e.touches.length === 1) { drag3 = true; lx = e.touches[0].clientX; ly = e.touches[0].clientY; }
+    if (e.touches.length === 1) { drag3 = true; pinch3 = 0; lx = e.touches[0].clientX; ly = e.touches[0].clientY; }
+    else if (e.touches.length === 2) {
+      drag3 = false;
+      pinch3 = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+    }
   }, { passive: true });
   dom.addEventListener("touchmove", e => {
-    if (!drag3 || e.touches.length !== 1) return;
-    camTheta -= (e.touches[0].clientX - lx) * 0.009;
-    camPhi = Math.max(0.20, Math.min(1.48, camPhi - (e.touches[0].clientY - ly) * 0.008));
-    lx = e.touches[0].clientX; ly = e.touches[0].clientY;
-    updateCam3D();
-  }, { passive: true });
-  window.addEventListener("touchend", () => drag3 = false);
+    if (e.touches.length === 1 && drag3) {
+      e.preventDefault();
+      camTheta -= (e.touches[0].clientX - lx) * 0.009;
+      camPhi = Math.max(0.20, Math.min(1.48, camPhi - (e.touches[0].clientY - ly) * 0.008));
+      lx = e.touches[0].clientX; ly = e.touches[0].clientY;
+      updateCam3D();
+    } else if (e.touches.length === 2 && pinch3 > 0) {
+      e.preventDefault();
+      const d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+      camRadius = Math.max(10, Math.min(52, camRadius * (pinch3 / Math.max(10, d))));
+      pinch3 = d;
+      updateCam3D();
+    }
+  }, { passive: false });
+  window.addEventListener("touchend", () => { drag3 = false; pinch3 = 0; });
   dom.addEventListener("wheel", e => {
     e.preventDefault();
     camRadius = Math.max(10, Math.min(52, camRadius + e.deltaY * 0.018));
@@ -1705,15 +1836,35 @@ function drawTitleBlock(root) {
   txt(bx+380, y5+157, "A3 Paisagem", { "font-size": 8.2, "font-weight": 700, fill: "#0f172a" }, g);
 }
 
+let bpW = 1680, bpH = 1140;
+
 function renderBlueprint() {
   svg.innerHTML = "";
   addDefs(svg);
-  el("rect", { x: 0, y: 0, width: 1680, height: 1140, fill: "#fff" }, svg);
-  if (currentTab === "sec") renderSectionsAndFacade(svg);
-  else if (currentFloor === "both") { buildFloorR03(svg, 115, 130, true); buildFloorR03(svg, 685, 130, false); }
-  else if (currentFloor === "terreo") buildFloorR03(svg, 395, 130, true);
-  else buildFloorR03(svg, 395, 130, false);
-  drawTitleBlock(svg);
+  const mobileSingle = isMobile() && currentTab !== "sec" && currentFloor !== "both";
+  bpW = mobileSingle ? 540 : 1680;
+  bpH = mobileSingle ? 1050 : 1140;
+  svg.setAttribute("width", bpW);
+  svg.setAttribute("height", bpH);
+  svg.setAttribute("viewBox", `0 0 ${bpW} ${bpH}`);
+  el("rect", { x: 0, y: 0, width: bpW, height: bpH, fill: "#fff" }, svg);
+
+  if (currentTab === "sec") {
+    renderSectionsAndFacade(svg);
+    drawTitleBlock(svg);
+  } else if (mobileSingle) {
+    buildFloorR03(svg, 88, 92, currentFloor === "terreo");
+  } else if (currentFloor === "both") {
+    buildFloorR03(svg, 115, 130, true);
+    buildFloorR03(svg, 685, 130, false);
+    drawTitleBlock(svg);
+  } else if (currentFloor === "terreo") {
+    buildFloorR03(svg, 395, 130, true);
+    drawTitleBlock(svg);
+  } else {
+    buildFloorR03(svg, 395, 130, false);
+    drawTitleBlock(svg);
+  }
 
   ["cotas","mob","esq-tags","recuos","hatch"].forEach(k => {
     const map = { cotas:"chk-cotas", mob:"chk-mob", "esq-tags":"chk-esq", recuos:"chk-rec", hatch:"chk-hatch" };
@@ -1721,6 +1872,7 @@ function renderBlueprint() {
   });
   if (selectedRoomId) selectRoom(selectedRoomId);
   updateLegend();
+  document.getElementById("mobile-floor-bar").style.display = (isMobile() && ["arq","ele","hid"].includes(currentTab)) ? "flex" : "";
 }
 
 function updateLegend() {
@@ -1736,51 +1888,126 @@ function updateLegend() {
 
 function setTab(tab, btn) {
   currentTab = tab;
+  toggleDrawer(false);
+  closeMobileInsp();
   document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-  if (btn) btn.classList.add("active");
+  if (btn) {
+    btn.classList.add("active");
+    if (isMobile() && btn.scrollIntoView) btn.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  }
   const isBP = ["arq","ele","hid","sec"].includes(tab);
   document.getElementById("viewport").style.display = isBP ? "block" : "none";
   document.getElementById("sidebar").style.display = isBP ? "flex" : "none";
+  const drawerBtn = document.getElementById("btn-drawer");
+  if (drawerBtn) drawerBtn.style.visibility = isBP ? "visible" : "hidden";
   ["show","iso","cost","ilus","reg"].forEach(v => document.getElementById(v + "-view").style.display = tab === v ? "block" : "none");
-  if (isBP) { renderBlueprint(); setTimeout(resetView, 20); }
+  if (isBP) { renderBlueprint(); setTimeout(resetView, 25); }
   if (tab === "show") renderShowroomPlan();
   if (tab === "iso") setTimeout(init3D, 30);
   if (tab === "cost") renderCosts();
 }
 function setFloor(fl) {
   currentFloor = fl;
-  document.querySelectorAll(".floor-btn").forEach(b => b.classList.remove("active"));
-  document.getElementById("fl-" + fl).classList.add("active");
+  document.querySelectorAll(".floor-btn, .mobile-floor-bar button").forEach(b => b.classList.remove("active"));
+  const b1 = document.getElementById("fl-" + fl); if (b1) b1.classList.add("active");
+  const b2 = document.getElementById("mfl-" + fl); if (b2) b2.classList.add("active");
+  closeMobileInsp();
   renderBlueprint();
+  setTimeout(resetView, 20);
 }
 function toggleLayer(cls, show) { document.querySelectorAll("." + cls).forEach(n => n.style.display = show ? "" : "none"); }
 
-// PAN & ZOOM
-let scale = 0.72, panX = 18, panY = 12, dragging = false, startX = 0, startY = 0;
+// PAN & ZOOM (Mouse + Touch Pan + 2-Finger Pinch Zoom)
+let scale = 0.72, panX = 18, panY = 12, dragging = false, startX = 0, startY = 0, pinchDist = 0, pinchMidX = 0, pinchMidY = 0;
 const viewport = document.getElementById("viewport"), stage = document.getElementById("stage");
 function applyTransform() { stage.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`; document.getElementById("zoom-pct").textContent = Math.round(scale * 100) + "%"; }
 function resetView() {
-  const vw = viewport.clientWidth - 40, vh = viewport.clientHeight - 40;
+  const mob = isMobile();
+  const pad = mob ? 12 : 40;
+  const topOff = (mob && ["arq","ele","hid"].includes(currentTab)) ? 46 : 8;
+  const vw = viewport.clientWidth - pad, vh = viewport.clientHeight - topOff - 16;
   if (vw <= 0) return;
-  scale = Math.min(vw / 1720, vh / 1180, 1.0);
-  panX = Math.max(10, (vw - 1680 * scale) / 2); panY = Math.max(8, (vh - 1140 * scale) / 2);
+  if (mob && bpW === 540) {
+    // On phone single-floor mode: fill screen width cleanly with margin so nothing clips!
+    scale = Math.min((viewport.clientWidth - 20) / bpW, 1.35);
+    panX = Math.max(4, (viewport.clientWidth - bpW * scale) / 2 - 4);
+    panY = topOff;
+  } else {
+    scale = Math.min(vw / (bpW + 40), vh / (bpH + 40), 1.0);
+    panX = Math.max(6, (viewport.clientWidth - (bpW + (mob ? 16 : 52)) * scale) / 2);
+    panY = Math.max(topOff, (viewport.clientHeight - (bpH + (mob ? 16 : 52)) * scale) / 2);
+  }
   applyTransform();
 }
-function zoomBy(d) { scale = Math.min(2.6, Math.max(0.35, scale + d)); applyTransform(); }
+function zoomBy(d) {
+  const r = viewport.getBoundingClientRect(), cx = r.width / 2, cy = r.height / 2, old = scale;
+  scale = Math.min(3.2, Math.max(0.20, scale + d));
+  panX = cx - (cx - panX) * (scale / old);
+  panY = cy - (cy - panY) * (scale / old);
+  applyTransform();
+}
 viewport.addEventListener("wheel", e => {
   e.preventDefault(); const r = viewport.getBoundingClientRect(), mx = e.clientX - r.left, my = e.clientY - r.top, old = scale;
-  scale = Math.min(2.8, Math.max(0.35, scale * (e.deltaY < 0 ? 1.12 : 0.89)));
+  scale = Math.min(3.2, Math.max(0.20, scale * (e.deltaY < 0 ? 1.12 : 0.89)));
   panX = mx - (mx - panX) * (scale / old); panY = my - (my - panY) * (scale / old); applyTransform();
 }, { passive: false });
 viewport.addEventListener("mousedown", e => { if (e.target.classList.contains("room-hit")) return; dragging = true; startX = e.clientX - panX; startY = e.clientY - panY; });
 window.addEventListener("mousemove", e => { if (!dragging) return; panX = e.clientX - startX; panY = e.clientY - startY; applyTransform(); });
 window.addEventListener("mouseup", () => dragging = false);
-viewport.addEventListener("touchstart", e => { if (e.touches.length === 1 && !e.target.classList.contains("room-hit")) { dragging = true; startX = e.touches[0].clientX - panX; startY = e.touches[0].clientY - panY; } }, { passive: true });
-viewport.addEventListener("touchmove", e => { if (!dragging || e.touches.length !== 1) return; panX = e.touches[0].clientX - startX; panY = e.touches[0].clientY - startY; applyTransform(); }, { passive: true });
-window.addEventListener("touchend", () => dragging = false);
-window.addEventListener("resize", () => { resetView(); resize3D(); });
+viewport.addEventListener("touchstart", e => {
+  if (e.target.closest(".mobile-floor-bar, .zoom-hud, .mobile-insp")) return;
+  if (e.touches.length === 1 && !e.target.classList.contains("room-hit")) {
+    dragging = true; pinchDist = 0;
+    startX = e.touches[0].clientX - panX; startY = e.touches[0].clientY - panY;
+  } else if (e.touches.length === 2) {
+    dragging = false;
+    const r = viewport.getBoundingClientRect();
+    pinchDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+    pinchMidX = (e.touches[0].clientX + e.touches[1].clientX) / 2 - r.left;
+    pinchMidY = (e.touches[0].clientY + e.touches[1].clientY) / 2 - r.top;
+  }
+}, { passive: true });
+viewport.addEventListener("touchmove", e => {
+  if (e.target.closest(".mobile-floor-bar, .zoom-hud, .mobile-insp")) return;
+  if (e.touches.length === 1 && dragging) {
+    e.preventDefault();
+    panX = e.touches[0].clientX - startX; panY = e.touches[0].clientY - startY; applyTransform();
+  } else if (e.touches.length === 2 && pinchDist > 0) {
+    e.preventDefault();
+    const d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+    const r = viewport.getBoundingClientRect();
+    const mx = (e.touches[0].clientX + e.touches[1].clientX) / 2 - r.left;
+    const my = (e.touches[0].clientY + e.touches[1].clientY) / 2 - r.top;
+    const old = scale;
+    scale = Math.min(3.2, Math.max(0.20, scale * (d / Math.max(10, pinchDist))));
+    panX = mx - (mx - panX) * (scale / old);
+    panY = my - (my - panY) * (scale / old);
+    pinchDist = d;
+    applyTransform();
+  }
+}, { passive: false });
+window.addEventListener("touchend", () => { dragging = false; pinchDist = 0; });
+let lastWasMobile = isMobile();
+window.addEventListener("resize", () => {
+  const nowMob = isMobile();
+  if (nowMob !== lastWasMobile) {
+    lastWasMobile = nowMob;
+    if (["arq","ele","hid","sec"].includes(currentTab)) renderBlueprint();
+    if (currentTab === "show") renderShowroomPlan();
+  }
+  resetView();
+  resize3D();
+});
 
-// Init (+ optional ?tab= deep link)
+// Init (+ mobile single-floor default + optional ?tab= deep link)
+if (isMobile()) {
+  currentFloor = "terreo";
+  document.querySelectorAll(".floor-btn, .mobile-floor-bar button").forEach(b => b.classList.remove("active"));
+  document.getElementById("fl-terreo").classList.add("active");
+  document.getElementById("mfl-terreo").classList.add("active");
+} else {
+  document.getElementById("mfl-both").classList.add("active");
+}
 renderBlueprint();
 renderCosts();
 const urlTab = new URLSearchParams(window.location.search).get("tab");
