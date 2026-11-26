@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Prancha Técnica — Casa em U (2 Pavimentos · Terreno 10×24 m)</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --panel: #1e293b;
+    --border: #334155;
+    --accent: #38bdf8;
+    --accent2: #10b981;
+    --warn: #f59e0b;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --paper: #ffffff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  /* TOP BAR */
+  header {
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+    z-index: 20;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-badge {
+    background: linear-gradient(135deg, #0284c7, #0d9488);
+    color: #fff;
+    font-weight: 800;
+    font-size: 13px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+  }
+  .brand h1 { font-size: 15px; font-weight: 700; color: #fff; line-height: 1.2; }
+  .brand p { font-size: 11.5px; color: var(--muted); }
+
+  .tabs { display: flex; gap: 6px; background: #0f172a; padding: 4px; border-radius: 8px; border: 1px solid var(--border); }
+  .tab-btn {
+    border: none; background: transparent; color: var(--muted);
+    padding: 7px 13px; border-radius: 6px; font-size: 12.5px; font-weight: 600;
+    cursor: pointer; transition: all .15s; display: flex; align-items: center; gap: 6px;
+  }
+  .tab-btn:hover { color: #fff; background: #1e293b; }
+  .tab-btn.active { background: #0284c7; color: #fff; box-shadow: 0 2px 8px rgba(2,132,199,.35); }
+  .tab-btn.elec.active { background: #d97706; box-shadow: 0 2px 8px rgba(217,119,6,.35); }
+  .tab-btn.hidro.active { background: #0891b2; box-shadow: 0 2px 8px rgba(8,145,178,.35); }
+  .tab-btn.reg.active { background: #059669; box-shadow: 0 2px 8px rgba(5,150,105,.35); }
+
+  .actions { display: flex; gap: 8px; align-items: center; }
+  .btn {
+    background: #334155; color: #fff; border: 1px solid #475569;
+    padding: 6px 11px; border-radius: 6px; font-size: 12px; font-weight: 600;
+    cursor: pointer; transition: .15s;
+  }
+  .btn:hover { background: #475569; }
+  .btn-primary { background: #10b981; border-color: #059669; color: #022c22; }
+  .btn-primary:hover { background: #34d399; }
+
+  /* MAIN LAYOUT */
+  main { flex: 1; display: flex; overflow: hidden; position: relative; }
+
+  /* SIDEBAR */
+  aside {
+    width: 315px;
+    background: var(--panel);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 14px;
+    gap: 14px;
+    flex-shrink: 0;
+  }
+  .card {
+    background: #0f172a;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 11px 12px;
+  }
+  .card h3 {
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: var(--accent);
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .toggle-list { display: flex; flex-direction: column; gap: 6px; }
+  .toggle-item {
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 12.5px; color: #e2e8f0; cursor: pointer; padding: 3px 2px;
+  }
+  .toggle-item input { accent-color: #38bdf8; width: 15px; height: 15px; cursor: pointer; }
+
+  .floor-switch { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; }
+  .floor-btn {
+    padding: 7px 6px; font-size: 11.5px; font-weight: 600;
+    border-radius: 6px; border: 1px solid var(--border);
+    background: #1e293b; color: var(--muted); cursor: pointer;
+  }
+  .floor-btn.active { background: #38bdf8; color: #0f172a; border-color: #38bdf8; }
+
+  .inspector-empty { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .insp-title { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .insp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 8px 0; }
+  .insp-stat { background: #1e293b; padding: 6px 8px; border-radius: 6px; }
+  .insp-stat span { display: block; font-size: 10px; color: var(--muted); }
+  .insp-stat strong { font-size: 13px; color: #38bdf8; }
+  .insp-note { font-size: 11.5px; color: #cbd5e1; line-height: 1.45; border-top: 1px solid var(--border); padding-top: 7px; margin-top: 6px; }
+
+  .metric-row { display: flex; justify-content: space-between; font-size: 12px; padding: 4px 0; border-bottom: 1px dashed #1e293b; }
+  .metric-row:last-child { border-bottom: none; }
+  .ok { color: #34d399; font-weight: 700; }
+
+  .legend-grid { display: grid; grid-template-columns: 1fr; gap: 5px; font-size: 11.5px; color: #cbd5e1; }
+  .leg-item { display: flex; align-items: center; gap: 8px; }
+  .leg-swatch { width: 22px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+  /* CANVAS VIEWPORT */
+  .viewport {
+    flex: 1;
+    background: #1a2234;
+    background-image: radial-gradient(#334155 1px, transparent 1px);
+    background-size: 20px 20px;
+    position: relative;
+    overflow: hidden;
+    cursor: grab;
+  }
+  .viewport:active { cursor: grabbing; }
+  #stage {
+    transform-origin: 0 0;
+    position: absolute;
+    top: 0; left: 0;
+    padding: 30px;
+  }
+  .sheet {
+    background: var(--paper);
+    box-shadow: 0 20px 60px rgba(0,0,0,.55);
+    border: 1px solid #94a3b8;
+    display: inline-block;
+  }
+
+  .zoom-hud {
+    position: absolute;
+    bottom: 16px; right: 16px;
+    background: rgba(15,23,42,.92);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 10px;
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: #e2e8f0;
+    backdrop-filter: blur(6px);
+  }
+  .zoom-hud button {
+    background: #334155; color: #fff; border: none; width: 26px; height: 26px;
+    border-radius: 5px; cursor: pointer; font-weight: 700; font-size: 14px;
+  }
+  .zoom-hud button:hover { background: #475569; }
+
+  /* COMPLIANCE & SCHEDULE VIEW */
+  #reg-view {
+    display: none;
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 32px;
+    background: #0f172a;
+  }
+  .reg-container { max-width: 1180px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+  .reg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .reg-box { background: #1e293b; border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+  .reg-box h2 { font-size: 15px; color: #38bdf8; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  table.tech { width: 100%; border-collapse: collapse; font-size: 12px; }
+  table.tech th, table.tech td { border: 1px solid #334155; padding: 7px 9px; text-align: left; }
+  table.tech th { background: #0f172a; color: #94a3b8; font-weight: 700; text-transform: uppercase; font-size: 10.5px; }
+  table.tech tr:nth-child(even) { background: rgba(15,23,42,.4); }
+
+  /* SVG INTERACTIVITY */
+  .room-hit { cursor: pointer; transition: fill-opacity .15s; }
+  .room-hit:hover { fill: #38bdf8 !important; fill-opacity: 0.22 !important; }
+  .room-hit.selected { stroke: #0284c7 !important; stroke-width: 3px !important; fill: #38bdf8 !important; fill-opacity: 0.18 !important; }
+
+  /* PRINT MODE (A3 Landscape Technical Drawing!) */
+  @media print {
+    @page { size: A3 landscape; margin: 6mm; }
+    body { background: #fff; height: auto; overflow: visible; }
+    header, aside, .zoom-hud, #reg-view { display: none !important; }
+    main, .viewport { overflow: visible !important; background: #fff !important; display: block !important; }
+    #stage { position: static !important; transform: none !important; padding: 0 !important; }
+    .sheet { box-shadow: none !important; border: none !important; width: 100% !important; }
+    #blueprint-svg { width: 100% !important; height: auto !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-badge">NBR 6492</div>
+    <div>
+      <h1>Estudo Arquitetônico &amp; Complementares — Casa em "U" (2 Pav.)</h1>
+      <p>Terreno Padrão 10,00 × 24,00 m (240,00 m²) · Diretrizes ZDU-V (Ecovalle II)</p>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="setDiscipline('arq', this)">📐 Arquitetônico (Padrão Obra)</button>
+    <button class="tab-btn elec" onclick="setDiscipline('ele', this)">⚡ Elétrica (Referência)</button>
+    <button class="tab-btn hidro" onclick="setDiscipline('hid', this)">💧 Hidrossanitária (Referência)</button>
+    <button class="tab-btn" style="--tab-col:#8b5cf6" onclick="setDiscipline('ilus', this)">🎨 Ilustrativa (Colorida)</button>
+    <button class="tab-btn reg" onclick="setDiscipline('reg', this)">📋 Esquadrias &amp; Regulamento</button>
+  </div>
+
+  <div class="actions">
+    <button class="btn" onclick="resetView()">Centralizar</button>
+    <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimir / Salvar PDF (A3)</button>
+  </div>
+</header>
+
+<main>
+  <aside id="sidebar">
+    <div class="card">
+      <h3>Visualização de Pavimentos</h3>
+      <div class="floor-switch">
+        <button class="floor-btn active" id="fl-both" onclick="setFloor('both')">Ambos</button>
+        <button class="floor-btn" id="fl-terreo" onclick="setFloor('terreo')">Térreo</button>
+        <button class="floor-btn" id="fl-sup" onclick="setFloor('sup')">Superior</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Camadas Técnicas (Layers)</h3>
+      <div class="toggle-list">
+        <label class="toggle-item"><span>Cotas e Eixos Externos</span><input type="checkbox" id="chk-cotas" checked onchange="toggleLayer('layer-cotas', this.checked)"></label>
+        <label class="toggle-item"><span>Layout / Mobiliário Fixo</span><input type="checkbox" id="chk-mob" checked onchange="toggleLayer('layer-mob', this.checked)"></label>
+        <label class="toggle-item"><span>Códigos de Portas e Janelas (P/J)</span><input type="checkbox" id="chk-esq" checked onchange="toggleLayer('layer-esq-tags', this.checked)"></label>
+        <label class="toggle-item"><span>Linhas de Recuo e Paredes Cegas</span><input type="checkbox" id="chk-rec" checked onchange="toggleLayer('layer-recuos', this.checked)"></label>
+        <label class="toggle-item"><span>Hachura Pisos Molhados / Jardim</span><input type="checkbox" id="chk-hatch" checked onchange="toggleLayer('layer-hatch', this.checked)"></label>
+      </div>
+    </div>
+
+    <div class="card" id="inspector-card">
+      <h3>Inspetor de Ambiente <span style="font-size:10px;color:#94a3b8;">clique no cômodo</span></h3>
+      <div id="inspector-content" class="inspector-empty">
+        Clique em qualquer cômodo na planta para ver suas <strong>dimensões livres internas</strong>, área útil, esquadrias (P/J), ponto elétrico/hidráulico e conformidade com o Ecovalle II.
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Resumo de Índices (ZDU-V)</h3>
+      <div class="metric-row"><span>Terreno (10 × 24 m)</span><strong>240,00 m²</strong></div>
+      <div class="metric-row"><span>Projeção Térreo (TO)</span><strong class="ok">132,60 m² (55,25% ≤ 60%)</strong></div>
+      <div class="metric-row"><span>Área Total (2 Pav.)</span><strong class="ok">265,20 m² (CA 1,11 ≤ 2,0)</strong></div>
+      <div class="metric-row"><span>Recuo Frontal / Fundos</span><strong class="ok">5,00 m / 3,50 m</strong></div>
+      <div class="metric-row"><span>Paredes Cegas Divisa</span><strong class="ok">31,0 m ≤ 34,0 m (50%)</strong></div>
+      <div class="metric-row"><span>Altura Divisa / Total</span><strong class="ok">6,80 m ≤ 8,00 m</strong></div>
+      <div class="metric-row"><span>Área Permeável Total</span><strong class="ok">~82,7 m² (34,5%)</strong></div>
+    </div>
+
+    <div class="card" id="legend-card">
+      <h3>Legenda Ativa</h3>
+      <div id="legend-content" class="legend-grid"></div>
+    </div>
+  </aside>
+
+  <div class="viewport" id="viewport">
+    <div id="stage">
+      <div class="sheet">
+        <svg id="blueprint-svg" xmlns="http://www.w3.org/2000/svg" width="1680" height="1140" viewBox="0 0 1680 1140"></svg>
+      </div>
+    </div>
+    <div class="zoom-hud">
+      <span>Arraste para mover · Roda do mouse para zoom</span>
+      <button onclick="zoomBy(-0.15)">−</button>
+      <span id="zoom-pct">100%</span>
+      <button onclick="zoomBy(0.15)">+</button>
+    </div>
+  </div>
+
+  <!-- TAB 4: PLANTA ILUSTRATIVA COLORIDA -->
+  <div id="ilus-view" style="display:none; flex:1; overflow:auto; background:#0f172a; padding:22px; text-align:center;">
+    <div style="max-width:1420px; margin:0 auto;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; background:#1e293b; border:1px solid #334155; border-radius:8px; padding:10px 16px;">
+        <div style="text-align:left;">
+          <div style="font-size:14px; font-weight:700; color:#fff;">Planta Ilustrativa Colorida — Visão Geral dos Ambientes e Metragens</div>
+          <div style="font-size:11.5px; color:#94a3b8;">Versão visual simplificada por setores (Social, Serviços, Íntimo e Jardins) — Terreno 10,00 × 24,00 m</div>
+        </div>
+        <a href="planta_ilustrativa.png" target="_blank" style="background:#38bdf8; color:#0f172a; text-decoration:none; font-size:12px; font-weight:700; padding:7px 12px; border-radius:6px;">Abrir imagem em tamanho real ↗</a>
+      </div>
+      <img src="planta_ilustrativa.png" alt="Planta Ilustrativa Casa em U" style="max-width:100%; height:auto; border-radius:8px; box-shadow:0 18px 50px rgba(0,0,0,.55); border:1px solid #334155; background:#fff;">
+    </div>
+  </div>
+
+  <!-- TAB 5: QUADROS TÉCNICOS E REGULAMENTO -->
+  <div id="reg-view">
+    <div class="reg-container">
+      <div class="reg-grid">
+        <div class="reg-box">
+          <h2>Quadro de Esquadrias — Portas (P) e Janelas (J)</h2>
+          <table class="tech">
+            <thead>
+              <tr><th>Cód.</th><th>Tipo / Material</th><th>Dimensão (L × H)</th><th>Peitoril</th><th>Qtd</th><th>Ambientes</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>P1</strong></td><td>Porta Pivotante Madeira/Alum.</td><td>1,20 × 2,20 m</td><td>0,00 m</td><td>1</td><td>Entrada Social (Hall)</td></tr>
+              <tr><td><strong>P2</strong></td><td>Porta de Abrir (Social/Dorm.)</td><td>0,80 × 2,10 m</td><td>0,00 m</td><td>7</td><td>Escritório, Q1, Q2, Suíte, Closets</td></tr>
+              <tr><td><strong>P3</strong></td><td>Porta de Abrir (Áreas Molhadas)</td><td>0,70 × 2,10 m</td><td>0,00 m</td><td>5</td><td>Lavabo, BWC Gourmet, Social, Master, Desp.</td></tr>
+              <tr><td><strong>P4</strong></td><td>Porta de Serviço / Acesso Garagem</td><td>0,80 × 2,10 m</td><td>0,00 m</td><td>2</td><td>Garagem→Hall, Cozinha→Lavanderia</td></tr>
+              <tr><td><strong>PC1</strong></td><td>Porta de Correr Vidro Temperado 4 fls</td><td>4,20 × 2,40 m</td><td>0,00 m</td><td>2</td><td>Sala Estar→Jardim, Galeria Sup.→Vazio</td></tr>
+              <tr><td><strong>PC2</strong></td><td>Porta de Correr Vidro Temperado 3 fls</td><td>3,40 × 2,40 m</td><td>0,00 m</td><td>3</td><td>Jantar/Cozinha→Jardim e Fundos, Suíte→Varanda</td></tr>
+              <tr><td><strong>PC3</strong></td><td>Porta de Correr Vidro 2 fls</td><td>1,50 × 2,40 m</td><td>0,00 m</td><td>2</td><td>Hall→Jardim Central, Hall Sup.→Sacada</td></tr>
+              <tr><td><strong>PG1</strong></td><td>Portão Garagem Basculante/Seccional</td><td>3,00 × 2,40 m</td><td>0,00 m</td><td>1</td><td>Garagem Coberta (alinhado ao rebaixo 3m)</td></tr>
+              <tr><td><strong>J1</strong></td><td>Janela de Correr Alumínio + Persiana</td><td>2,40 × 1,40 m</td><td>0,90 m</td><td>4</td><td>Escritório, Q1, Q2, Suíte Master (p/ Pátio)</td></tr>
+              <tr><td><strong>J2</strong></td><td>Janela de Correr Alumínio</td><td>1,80 × 1,20 m</td><td>1,10 m</td><td>2</td><td>Closet Master (Fundos), Hall Sup. (Pátio)</td></tr>
+              <tr><td><strong>J3</strong></td><td>Janela Basculante / Maxim-ar</td><td>1,20 × 0,60 m</td><td>1,60 m</td><td>4</td><td>Lavanderia, BWC Gourmet, BWC Social, Banho Master</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="reg-box">
+          <h2>Quadro de Conformidade — Regulamento Ecovalle II (ZDU-V)</h2>
+          <table class="tech">
+            <thead>
+              <tr><th>Parâmetro (Regulamento ZDU-V)</th><th>Regra Aplicável</th><th>Projeto Proposto</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Recuo Frontal (Item 1.4)</td><td>5,00 m obrigatórios</td><td>5,00 m livres</td><td class="ok">✔ ATENDE</td></tr>
+              <tr><td>Recuo de Fundos (Item 1.4)</td><td>≥ 1,50 m (até h=10,50m)</td><td>3,50 m livres</td><td class="ok">✔ ATENDE</td></tr>
+              <tr><td>Paredes Cegas Divisa (Item 1.4)</td><td>≤ 50% perím. (34m) e h ≤ 8m</td><td>31,00 m e h = 6,80 m</td><td class="ok">✔ ATENDE</td></tr>
+              <tr><td>Taxa de Ocupação — TO (Item 1.4)</td><td>≤ 60% (144,00 m²)</td><td>55,25% (132,60 m²)</td><td class="ok">✔ ATENDE</td></tr>
+              <tr><td>Coeficiente Aproveit. — CA (Item 1.4)</td><td>≤ 2,00 (480,00 m²)</td><td>1,11 (265,20 m²)</td><td class="ok">✔ ATENDE</td></tr>
+              <tr><td>Área Construída Mínima (Item 1.9.A)</td><td>≥ 60,00 m²</td><td>265,20 m²</td><td class="ok">✔ ATENDE</td></tr>
+              <tr><td>Sistema Construtivo (Item 1.9.D)</td><td>Vedado madeira</td><td>Alvenaria / Concreto</td><td class="ok">✔ ATENDE</td></tr>
+              <tr><td>Ajardinamento Frontal (Item 1.7.A)</td><td>Proibida pavimentação extra</td><td>Somente acessos</td><td class="ok">✔ ATENDE</td></tr>
+              <tr><td>Rebaixo de Meio-Fio (Item 1.7.C)</td><td>Máx. 3,00 m</td><td>3,00 m exatos</td><td class="ok">✔ ATENDE</td></tr>
+              <tr><td>Beirais sobre Recuos (Item 1.6.A)</td><td>Máx. 0,80 m</td><td>0,60 m</td><td class="ok">✔ ATENDE</td></tr>
+              <tr><td>Muros de Divisa (Item 1.5.C)</td><td>Alvenaria h ≥ 2,20 m</td><td>h = 2,20 m</td><td class="ok">✔ ATENDE</td></tr>
+              <tr><td>Lixeira Frontal (Item 1.9.E)</td><td>≥1,20m L × 2,40m H, azulejada</td><td>1,50×1,00m, h=2,40m</td><td class="ok">✔ ATENDE</td></tr>
+              <tr><td>Caixa de Gordura (Item 1.9.F / An. 10-11)</td><td>Padrão 5 pessoas (1,90×0,80m)</td><td>Prevista nos fundos</td><td class="ok">✔ ATENDE</td></tr>
+              <tr><td>Reservatório Água (Item 1.9.B)</td><td>100 L/dia × 7 compart. = 700 L</td><td>1.500 L superior</td><td class="ok">✔ ATENDE</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="reg-grid">
+        <div class="reg-box">
+          <h2>Quadro de Circuitos Elétricos — Referência (NBR 5410)</h2>
+          <table class="tech">
+            <thead>
+              <tr><th>Circ.</th><th>Descrição / Cargas</th><th>Tensão</th><th>Disjuntor</th><th>Fio (mm²)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>C01</strong></td><td>Iluminação Térreo (Social + Jardins + Garagem)</td><td>220V</td><td>10A (B)</td><td>1,5</td></tr>
+              <tr><td><strong>C02</strong></td><td>Iluminação 2º Pavimento (Íntimo + Varandas)</td><td>220V</td><td>10A (B)</td><td>1,5</td></tr>
+              <tr><td><strong>C03</strong></td><td>TUGs Sala Estar, Hall, Escritório, Garagem</td><td>220V</td><td>16A (C)</td><td>2,5</td></tr>
+              <tr><td><strong>C04</strong></td><td>TUGs Cozinha, Jantar, Gourmet (bancadas)</td><td>220V</td><td>20A (C) + DR</td><td>2,5</td></tr>
+              <tr><td><strong>C05</strong></td><td>TUGs Lavanderia e Despensa (Máq. Lavar/Secar)</td><td>220V</td><td>20A (C) + DR</td><td>4,0</td></tr>
+              <tr><td><strong>C06</strong></td><td>TUE — Forno Elétrico / Cooktop Indução (Cozinha)</td><td>220V</td><td>32A (C) + DR</td><td>6,0</td></tr>
+              <tr><td><strong>C07</strong></td><td>TUGs Dormitórios 01, 02, Suíte Master e Closets</td><td>220V</td><td>16A (C)</td><td>2,5</td></tr>
+              <tr><td><strong>C08</strong></td><td>TUE — Chuveiro / Aquecimento Banho Master (7.500W)</td><td>220V</td><td>40A (B) + DR</td><td>6,0</td></tr>
+              <tr><td><strong>C09</strong></td><td>TUE — Chuveiro BWC Social + BWC Gourmet</td><td>220V</td><td>32A (B) + DR</td><td>6,0</td></tr>
+              <tr><td><strong>C10–12</strong></td><td>Ar-Condicionado Split (3 circuitos: Sala, Suíte, Q1/Q2)</td><td>220V</td><td>16A / 20A</td><td>2,5</td></tr>
+              <tr><td><strong>C13</strong></td><td>Infraestrutura Carregador Veicular (Wallbox Garagem)</td><td>220V</td><td>32A (C) + DR</td><td>6,0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="reg-box">
+          <h2>Diretrizes Hidrossanitárias — Referência (NBR 5626 / 8160)</h2>
+          <table class="tech">
+            <thead>
+              <tr><th>Sistema</th><th>Traçado e Especificação Adotada</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Água Fria (AF)</strong></td><td>Cavalete frontal (Via Pública) → tubulação Ø25mm embutida pelo corredor/shaft até Reservatório Superior (1.500 L) sobre o Banho Master. Distribuição por 3 colunas (AF1 Cozinha/Gourmet, AF2 Lavanderia/BWCs ala direita, AF3 Lavabo).</td></tr>
+              <tr><td><strong>Água Quente (AQ)</strong></td><td>Previsão de aquecimento solar/boiler ou gás na central frontal (Item 1.6.B) atendendo Banho Master, BWC Social e torneira da ilha da cozinha em PPR/CPVC Ø22mm.</td></tr>
+              <tr><td><strong>Esgoto Sanitário (ES)</strong></td><td>Prumada vertical única na parede técnica da ala direita (Banho Master + BWC Social descendo alinhados sobre BWC Gourmet + Lavanderia + Lavabo), seguindo em PVC Ø100mm com caixas de inspeção (CI) até a rede coletora na testada frontal.</td></tr>
+              <tr><td><strong>Caixa de Gordura (CG)</strong></td><td>Obrigatória pelo <strong>Item 1.9.F e Anexos 10/11 do Ecovalle II</strong> (concreto 1,90×0,80m, 3 tampas 50×50cm, cap. 5 pessoas), posicionada na saída da cozinha/gourmet no quintal dos fundos antes de interligar à rede de esgoto.</td></tr>
+              <tr><td><strong>Águas Pluviais (AP)</strong></td><td>Calhas e condutores verticais (Ø100mm) drenando telhado + ralos no <strong>Jardim Central</strong> com tubulação independente sob o corredor/garagem até a sarjeta/rede pluvial frontal (estritamente proibido ligar esgoto na rede pluvial — Item 2.4.D).</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+// =============================================================================
+// PARAMETRIC ARCHITECTURAL ENGINE — NBR 6492 TECHNICAL FLOOR PLAN (1m = 36px)
+// =============================================================================
+const S = 36; // 1 meter = 36 SVG units -> Lot 10m x 24m = 360 x 864 px
+const NS = "http://www.w3.org/2000/svg";
+const svg = document.getElementById("blueprint-svg");
+
+let currentDiscipline = "arq"; // arq | ele | hid | reg
+let currentFloor = "both";     // both | terreo | sup
+let selectedRoomId = null;
+
+// Coordinate helper: lot origin (ox, oy) where y_m=0 is street front (BOTTOM), y_m=24 is back wall (TOP)
+function px(ox, xm) { return ox + xm * S; }
+function py(oy, ym) { return oy + (24 - ym) * S; }
+
+function el(tag, attrs = {}, parent = null) {
+  const n = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
+  if (parent) parent.appendChild(n);
+  return n;
+}
+function txt(x, y, content, attrs = {}, parent = null) {
+  const t = el("text", { x, y, ...attrs }, parent);
+  if (Array.isArray(content)) {
+    content.forEach((line, i) => {
+      const ts = el("tspan", { x, dy: i === 0 ? "0" : (attrs["data-lh"] || "1.22em") }, t);
+      ts.textContent = line;
+    });
+  } else {
+    t.textContent = content;
+  }
+  return t;
+}
+
+// =============================================================================
+// ROOM METADATA (FOR INTERACTIVE INSPECTOR)
+// =============================================================================
+const ROOMS = {
+  // Térreo
+  "t-garagem":   { floor:"Térreo", name:"Garagem Coberta", dims:"3,30 × 4,95 m", area:"18,20 m² (proj.)", esq:"PG1 (3,00×2,40) · P4 (0,80×2,10)", note:"Parede cega na divisa lateral esquerda. Previsão de tomada 32A para carregador veicular (Wallbox). Acesso direto ao Hall." },
+  "t-hall":      { floor:"Térreo", name:"Hall de Entrada & Circulação", dims:"1,60 × 5,00 m", area:"8,84 m²", esq:"P1 Pivotante (1,20×2,20) · PC3 (1,50×2,40)", note:"Ao abrir a porta principal (P1), há eixo visual direto através da porta de vidro (PC3) para o Jardim Central arborizado." },
+  "t-office":    { floor:"Térreo", name:"Escritório / 4º Dormitório", dims:"4,60 × 3,00 m", area:"15,36 m²", esq:"P2 (0,80×2,10) · J1 (2,40×1,40)", note:"Volta-se ao Jardim Frontal (Sudeste / sol da manhã). Pode funcionar como home office ou dormitório térreo acessível." },
+  "t-lavabo":    { floor:"Térreo", name:"Lavabo Social", dims:"2,00 × 1,80 m", area:"4,40 m²", esq:"P3 (0,70×2,10) · Exaustão mec./shaft", note:"Atende visitas na ala social e escritório, alinhado à prumada hidráulica da ala direita." },
+  "t-escada":    { floor:"Térreo / Sup.", name:"Caixa de Escada em 'U'", dims:"2,45 × 1,85 m", area:"5,20 m²", esq:"16 degraus (p=0,28m / e=0,175m)", note:"Pé-direito térreo de 2,80m + laje 0,15m = 2,95m vencidos confortavelmente dentro da Fórmula de Blondel." },
+  "t-jardim":    { floor:"Térreo (Aberto)", name:"Jardim Central — Coração do 'U'", dims:"4,00 × 5,60 m", area:"22,40 m² (100% Permeável)", esq:"Cercado por PC1, PC2, PC3 e J3", note:"Elemento central do partido arquitetônico: traz luz natural e ventilação cruzada a toda a casa sem abrir nenhuma janela para os vizinhos laterais." },
+  "t-estar":     { floor:"Térreo", name:"Sala de Estar e TV", dims:"3,00 × 5,45 m", area:"17,92 m²", esq:"PC1 Vidro Correr 4 fls (4,20×2,40)", note:"Integra-se totalmente ao Jardim Central por grandes folhas de vidro de correr, ampliando visualmente a sala para 7,0m de largura." },
+  "t-despensa":  { floor:"Térreo", name:"Despensa / Depósito", dims:"2,60 × 1,55 m", area:"4,76 m²", esq:"P3 (0,70×2,10)", note:"Apoio imediato à lavanderia e cozinha; abriga o Quadro de Distribuição Geral (QDG) em local seco e acessível." },
+  "t-lavand":    { floor:"Térreo", name:"Lavanderia / Área de Serviço", dims:"2,60 × 2,05 m", area:"6,16 m²", esq:"P4 (0,80×2,10) · J3 (1,20×0,60)", note:"Ventilação natural alta (J3) para o pátio interno (com brise visual). Abriga tanque, máquina de lavar/secar e prumada hidráulica." },
+  "t-bwcg":      { floor:"Térreo", name:"BWC Apoio / Gourmet", dims:"2,60 × 1,55 m", area:"4,76 m²", esq:"P3 (0,70×2,10) · J3 (1,20×0,60)", note:"Banheiro completo com box para atender a área gourmet e futura piscina nos fundos sem precisar circular pela casa." },
+  "t-jantar":    { floor:"Térreo", name:"Sala de Jantar Integrada", dims:"4,35 × 4,50 m", area:"21,15 m²", esq:"PC2 (3,40×2,40) p/ Fundos e Pátio", note:"Mesa para 8–10 lugares com ventilação cruzada direta entre o Jardim Central e o Quintal dos Fundos." },
+  "t-cozinha":   { floor:"Térreo", name:"Cozinha em Ilha & Espaço Gourmet", dims:"5,30 × 4,50 m", area:"25,85 m²", esq:"PC2 (3,40×2,40) p/ Fundos e Pátio", note:"Ilha central de 2,50×0,85m, bancada úmida + churrasqueira. Saída de gordura conectada diretamente à Caixa de Gordura Padrão (Anexos 10/11)." },
+  "t-frontal":   { floor:"Recuo Frontal", name:"Recuo Frontal (5,00 m) & Jardim", dims:"10,00 × 5,00 m", area:"50,00 m² (~26,8m² permeável)", esq:"Rebaixo meio-fio 3,00m (Item 1.7.C)", note:"Cumpre rigorosamente os Itens 1.4, 1.6.B, 1.7.A e 1.9.E: jardim permeável sem pavimentação extra, vaga descoberta, central de gás e lixeira azulejada (h=2,40m)." },
+  "t-fundos":    { floor:"Recuo Fundos", name:"Quintal de Fundos (3,50 m)", dims:"10,00 × 3,50 m", area:"35,00 m² (~33,5m² permeável)", esq:"Muro divisa h = 2,20 m (Item 1.5.C)", note:"Mais que o dobro do recuo mínimo (1,50m). Abriga a Caixa de Gordura Padrão (1,90×0,80m) e reserva área para futura piscina (afastamento mín. 0,80m — Item 1.8.B)." },
+
+  // Superior
+  "s-q1":        { floor:"2º Pavimento", name:"Dormitório 01 + Closet", dims:"4,20 × 3,45 m + Closet", area:"20,96 m²", esq:"P2 (0,80×2,10) · J1 (2,40×1,40)", note:"Sol da manhã (Sudeste), parede cega na divisa esquerda (h total 6,80m ≤ 8,00m permitidos), closet privativo integrado." },
+  "s-sacada":    { floor:"2º Pavimento", name:"Sacada Frontal", dims:"1,10 × 3,05 m", area:"3,84 m²", esq:"PC3 (1,50×2,40) · Guarda-corpo vidro", note:"Recuada dentro do alinhamento de 5,00 m (não invade o recuo frontal obrigatório)." },
+  "s-q2":        { floor:"2º Pavimento", name:"Dormitório 02", dims:"4,20 × 3,05 m", area:"14,08 m²", esq:"P2 (0,80×2,10) · J1 (2,40×1,40)", note:"Sol da manhã (Sudeste), com armário embutido e ponto de ar-condicionado Split." },
+  "s-hall":      { floor:"2º Pavimento", name:"Hall Íntimo & Rouparia", dims:"2,00 × 2,00 + 2,20 × 2,00", area:"8,40 m²", esq:"J2 (1,80×1,20) p/ Vazio do Jardim", note:"Distribuição iluminada naturalmente pelo pátio central e conectada à sacada frontal e bancada de estudos/rouparia." },
+  "s-galeria":   { floor:"2º Pavimento", name:"Sala Íntima / Galeria do Pátio", dims:"3,00 × 5,45 m", area:"17,92 m²", esq:"PC1 Vidro/Guarda-corpo (4,20×2,40)", note:"Conecta a ala dos quartos à Suíte Master com vista panorâmica para a copa das árvores do Jardim Central." },
+  "s-bwcsoc":    { floor:"2º Pavimento", name:"Banheiro Social Superior", dims:"2,60 × 2,45 m", area:"7,28 m²", esq:"P3 (0,70×2,10) · J3 (1,20×0,60)", note:"Atende os Dormitórios 01 e 02. Exatamente sobre a prumada hidráulica da Lavanderia (economia de obra e manutenção simples)." },
+  "s-bwcmast":   { floor:"2º Pavimento", name:"Banho Suíte Master", dims:"2,60 × 2,85 m", area:"8,40 m²", esq:"P3 (0,70×2,10) · J3 (1,20×0,60)", note:"Bancada de cuba dupla, ducha dupla e previsão de banheira. Acima de sua laje fica a Caixa d'Água de 1.500 L (Item 1.9.B)." },
+  "s-suite":     { floor:"2º Pavimento", name:"Suíte Master Casal", dims:"6,00 × 3,25 m", area:"21,08 m²", esq:"P2 (0,80) · J1 (2,40) · PC2 (3,40)", note:"Cama King Size com vista dupla: janela para o Jardim Central e porta-balcão para a varanda privativa nos fundos." },
+  "s-varanda":   { floor:"2º Pavimento", name:"Varanda Privativa da Suíte", dims:"6,00 × 1,20 m", area:"8,06 m²", esq:"PC2 (3,40×2,40) · Guarda-corpo", note:"Espaço de descanso privativo da suíte voltado ao quintal de fundos (recuo livre de 3,50 m)." },
+  "s-closet":    { floor:"2º Pavimento", name:"Closet Master Walk-in", dims:"3,60 × 4,50 m", area:"17,86 m²", esq:"J2 (1,80×1,20) p/ Fundos", note:"Amplo closet em 'U' com ventilação natural para evitar umidade (essencial no clima de Araquari/SC) e acesso direto ao Banho Master." }
+};
+
+function selectRoom(id) {
+  selectedRoomId = id;
+  document.querySelectorAll(".room-hit").forEach(n => n.classList.toggle("selected", n.dataset.room === id));
+  const r = ROOMS[id];
+  if (!r) return;
+  document.getElementById("inspector-content").innerHTML = `
+    <div style="font-size:10.5px;color:#38bdf8;font-weight:700;text-transform:uppercase;">${r.floor}</div>
+    <div class="insp-title">${r.name}</div>
+    <div class="insp-grid">
+      <div class="insp-stat"><span>Dimensões Livres</span><strong>${r.dims}</strong></div>
+      <div class="insp-stat"><span>Área</span><strong>${r.area}</strong></div>
+    </div>
+    <div style="font-size:11px;color:#cbd5e1;"><strong>Esquadrias:</strong> ${r.esq}</div>
+    <div class="insp-note">${r.note}</div>
+  `;
+}
+
+// =============================================================================
+// TECHNICAL ARCHITECTURAL DRAWING PRIMITIVES (NBR 6492)
+// =============================================================================
+function addDefs(root) {
+  const defs = el("defs", {}, root);
+
+  // Tile hatch for wet areas (banheiros, lavanderia, cozinha)
+  const pTile = el("pattern", { id:"pat-tile", width:9, height:9, patternUnits:"userSpaceOnUse" }, defs);
+  el("path", { d:"M 9 0 L 0 0 0 9", fill:"none", stroke:"#cbd5e1", "stroke-width":"0.5" }, pTile);
+
+  // Grass hatch for permeable areas
+  const pGrass = el("pattern", { id:"pat-grass", width:18, height:18, patternUnits:"userSpaceOnUse" }, defs);
+  el("rect", { width:18, height:18, fill:"#f0fdf4" }, pGrass);
+  el("path", { d:"M 4 12 L 5 8 M 6 12 L 6 7 M 8 12 L 7 9 M 13 6 L 14 3 M 15 6 L 15 2", fill:"none", stroke:"#86efac", "stroke-width":"0.8" }, pGrass);
+
+  // Masonry wall solid fill (standard NBR dark charcoal)
+  const pWall = el("pattern", { id:"pat-wall", width:6, height:6, patternUnits:"userSpaceOnUse", patternTransform:"rotate(45)" }, defs);
+  el("rect", { width:6, height:6, fill:"#1e293b" }, pWall);
+
+  // Dimension tick marker (45-deg architectural slash!)
+  const mTick = el("marker", { id:"arch-tick", markerWidth:8, markerHeight:8, refX:4, refY:4, orient:"auto" }, defs);
+  el("path", { d:"M 1 7 L 7 1", stroke:"#334155", "stroke-width":"1.3" }, mTick);
+
+  const mArrow = el("marker", { id:"blue-arrow", markerWidth:8, markerHeight:8, refX:6, refY:4, orient:"auto" }, defs);
+  el("path", { d:"M 1 1 L 7 4 L 1 7 Z", fill:"#0284c7" }, mArrow);
+}
+
+// Draw structural wall segment with real thickness (default 0.15m = 5.4px)
+function drawWall(g, ox, oy, x1, y1, x2, y2, thickM = 0.15, color = "#1e293b") {
+  const sw = thickM * S;
+  el("line", {
+    x1: px(ox, x1), y1: py(oy, y1), x2: px(ox, x2), y2: py(oy, y2),
+    stroke: color, "stroke-width": sw, "stroke-linecap": "square"
+  }, g);
+}
+
+// Draw NBR 6492 Hinged Door with white wall cutout, leaf, 90° swing arc, and tag!
+// dir: 'N','S','E','W' (direction door opens into)
+// hinge: 'start' or 'end' along wall segment
+function drawDoor(g, gTag, ox, oy, xm, ym, widthM, orientation, swingDir, code = "") {
+  const w = widthM * S;
+  const cx = px(ox, xm), cy = py(oy, ym);
+  // White cutout in wall
+  if (orientation === "H") {
+    el("line", { x1: cx, y1: cy, x2: cx + w, y2: cy, stroke: "#ffffff", "stroke-width": 0.22 * S }, g);
+    // Jambs
+    el("line", { x1: cx, y1: cy - 3.5, x2: cx, y2: cy + 3.5, stroke: "#0f172a", "stroke-width": 1.2 }, g);
+    el("line", { x1: cx + w, y1: cy - 3.5, x2: cx + w, y2: cy + 3.5, stroke: "#0f172a", "stroke-width": 1.2 }, g);
+    // Swing arc & leaf
+    // swingDir: 'NW' (hinge left, opens up), 'NE' (hinge right, opens up), 'SW' (hinge left, opens down), 'SE' (hinge right, opens down)
+    let hx, hy, lx, ly, ex, ey, sweep;
+    if (swingDir === "NW") { hx = cx; hy = cy; lx = cx; ly = cy - w; ex = cx + w; ey = cy; sweep = 1; }
+    else if (swingDir === "NE") { hx = cx + w; hy = cy; lx = cx + w; ly = cy - w; ex = cx; ey = cy; sweep = 0; }
+    else if (swingDir === "SW") { hx = cx; hy = cy; lx = cx; ly = cy + w; ex = cx + w; ey = cy; sweep = 0; }
+    else { hx = cx + w; hy = cy; lx = cx + w; ly = cy + w; ex = cx; ey = cy; sweep = 1; }
+    el("line", { x1: hx, y1: hy, x2: lx, y2: ly, stroke: "#0f172a", "stroke-width": 1.6 }, g);
+    el("path", { d: `M ${lx} ${ly} A ${w} ${w} 0 0 ${sweep} ${ex} ${ey}`, fill: "none", stroke: "#475569", "stroke-width": 0.85, "stroke-dasharray": "3,2" }, g);
+    if (code) drawCodeBadge(gTag, cx + w/2, cy + (swingDir.startsWith("N") ? -w*0.42 : w*0.42), code, "#0369a1");
+  } else {
+    // Vertical wall from ym upward by widthM -> cy (bottom) to cy - w (top)
+    el("line", { x1: cx, y1: cy, x2: cx, y2: cy - w, stroke: "#ffffff", "stroke-width": 0.22 * S }, g);
+    el("line", { x1: cx - 3.5, y1: cy, x2: cx + 3.5, y2: cy, stroke: "#0f172a", "stroke-width": 1.2 }, g);
+    el("line", { x1: cx - 3.5, y1: cy - w, x2: cx + 3.5, y2: cy - w, stroke: "#0f172a", "stroke-width": 1.2 }, g);
+    // swingDir: 'EN' (hinge top, opens right), 'ES' (hinge bottom, opens right), 'WN' (hinge top, opens left), 'WS' (hinge bottom, opens left)
+    let hx, hy, lx, ly, ex, ey, sweep;
+    if (swingDir === "ES") { hx = cx; hy = cy; lx = cx + w; ly = cy; ex = cx; ey = cy - w; sweep = 0; }
+    else if (swingDir === "EN") { hx = cx; hy = cy - w; lx = cx + w; ly = cy - w; ex = cx; ey = cy; sweep = 1; }
+    else if (swingDir === "WS") { hx = cx; hy = cy; lx = cx - w; ly = cy; ex = cx; ey = cy - w; sweep = 1; }
+    else { hx = cx; hy = cy - w; lx = cx - w; ly = cy - w; ex = cx; ey = cy; sweep = 0; }
+    el("line", { x1: hx, y1: hy, x2: lx, y2: ly, stroke: "#0f172a", "stroke-width": 1.6 }, g);
+    el("path", { d: `M ${lx} ${ly} A ${w} ${w} 0 0 ${sweep} ${ex} ${ey}`, fill: "none", stroke: "#475569", "stroke-width": 0.85, "stroke-dasharray": "3,2" }, g);
+    if (code) drawCodeBadge(gTag, cx + (swingDir.startsWith("E") ? w*0.45 : -w*0.45), cy - w/2, code, "#0369a1");
+  }
+}
+
+// Draw NBR 6492 Window (4 parallel lines: sill edges + glass panes)
+function drawWindow(g, gTag, ox, oy, x1, y1, x2, y2, code = "", isSlidingDoor = false) {
+  const sx1 = px(ox, x1), sy1 = py(oy, y1), sx2 = px(ox, x2), sy2 = py(oy, y2);
+  const horiz = Math.abs(sy1 - sy2) < 1;
+  // White opening cutout
+  el("line", { x1: sx1, y1: sy1, x2: sx2, y2: sy2, stroke: "#ffffff", "stroke-width": 0.19 * S }, g);
+  // Outer frame lines
+  if (horiz) {
+    el("line", { x1: sx1, y1: sy1 - 2.6, x2: sx2, y2: sy2 - 2.6, stroke: "#0f172a", "stroke-width": 0.8 }, g);
+    el("line", { x1: sx1, y1: sy1 + 2.6, x2: sx2, y2: sy2 + 2.6, stroke: "#0f172a", "stroke-width": 0.8 }, g);
+    if (isSlidingDoor) {
+      // Overlapping sliding panels
+      const mid = (sx1 + sx2) / 2;
+      el("line", { x1: sx1, y1: sy1 - 0.9, x2: mid + 4, y2: sy1 - 0.9, stroke: "#0284c7", "stroke-width": 1.5 }, g);
+      el("line", { x1: mid - 4, y1: sy1 + 0.9, x2: sx2, y2: sy1 + 0.9, stroke: "#0284c7", "stroke-width": 1.5 }, g);
+    } else {
+      el("line", { x1: sx1, y1: sy1 - 0.7, x2: sx2, y2: sy2 - 0.7, stroke: "#0f766e", "stroke-width": 1.1 }, g);
+      el("line", { x1: sx1, y1: sy1 + 0.7, x2: sx2, y2: sy2 + 0.7, stroke: "#0f766e", "stroke-width": 1.1 }, g);
+    }
+    if (code) drawCodeBadge(gTag, (sx1 + sx2)/2, sy1 - 9, code, isSlidingDoor ? "#0284c7" : "#0f766e");
+  } else {
+    el("line", { x1: sx1 - 2.6, y1: sy1, x2: sx2 - 2.6, y2: sy2, stroke: "#0f172a", "stroke-width": 0.8 }, g);
+    el("line", { x1: sx1 + 2.6, y1: sy1, x2: sx2 + 2.6, y2: sy2, stroke: "#0f172a", "stroke-width": 0.8 }, g);
+    if (isSlidingDoor) {
+      const mid = (sy1 + sy2) / 2;
+      el("line", { x1: sx1 - 0.9, y1: sy1, x2: sx1 - 0.9, y2: mid - 4, stroke: "#0284c7", "stroke-width": 1.5 }, g);
+      el("line", { x1: sx1 + 0.9, y1: mid + 4, x2: sx1 + 0.9, y2: sy2, stroke: "#0284c7", "stroke-width": 1.5 }, g);
+    } else {
+      el("line", { x1: sx1 - 0.7, y1: sy1, x2: sx2 - 0.7, y2: sy2, stroke: "#0f766e", "stroke-width": 1.1 }, g);
+      el("line", { x1: sx1 + 0.7, y1: sy1, x2: sx2 + 0.7, y2: sy2, stroke: "#0f766e", "stroke-width": 1.1 }, g);
+    }
+    if (code) drawCodeBadge(gTag, sx1 + 12, (sy1 + sy2)/2, code, isSlidingDoor ? "#0284c7" : "#0f766e");
+  }
+}
+
+function drawCodeBadge(parent, x, y, code, color) {
+  el("rect", { x: x - 11, y: y - 5.5, width: 22, height: 11, rx: 2, fill: "#ffffff", stroke: color, "stroke-width": 0.8 }, parent);
+  txt(x, y + 3, code, { "font-size": 7, "font-weight": 700, fill: color, "text-anchor": "middle" }, parent);
+}
+
+// Architectural Dimension Chain (NBR 6492 tick marks)
+function drawDimH(g, ox, oy, x1, x2, ym, offsetPx, label) {
+  const sx1 = px(ox, x1), sx2 = px(ox, x2);
+  const syBase = py(oy, ym);
+  const sy = syBase + offsetPx;
+  el("line", { x1: sx1, y1: syBase, x2: sx1, y2: sy + (offsetPx > 0 ? 4 : -4), stroke: "#94a3b8", "stroke-width": 0.5 }, g);
+  el("line", { x1: sx2, y1: syBase, x2: sx2, y2: sy + (offsetPx > 0 ? 4 : -4), stroke: "#94a3b8", "stroke-width": 0.5 }, g);
+  el("line", { x1: sx1, y1: sy, x2: sx2, y2: sy, stroke: "#334155", "stroke-width": 0.9, "marker-start": "url(#arch-tick)", "marker-end": "url(#arch-tick)" }, g);
+  txt((sx1 + sx2)/2, sy - 3, label, { "font-size": 8, "font-weight": 700, fill: "#1e293b", "text-anchor": "middle" }, g);
+}
+function drawDimV(g, ox, oy, xm, y1, y2, offsetPx, label, color = "#334155") {
+  const sy1 = py(oy, y1), sy2 = py(oy, y2);
+  const sxBase = px(ox, xm);
+  const sx = sxBase + offsetPx;
+  el("line", { x1: sxBase, y1: sy1, x2: sx + (offsetPx > 0 ? 4 : -4), y2: sy1, stroke: "#94a3b8", "stroke-width": 0.5 }, g);
+  el("line", { x1: sxBase, y1: sy2, x2: sx + (offsetPx > 0 ? 4 : -4), y2: sy2, stroke: "#94a3b8", "stroke-width": 0.5 }, g);
+  el("line", { x1: sx, y1: sy1, x2: sx, y2: sy2, stroke: color, "stroke-width": 0.9, "marker-start": "url(#arch-tick)", "marker-end": "url(#arch-tick)" }, g);
+  const my = (sy1 + sy2) / 2;
+  const rot = offsetPx < 0 ? -90 : 90;
+  txt(sx + (offsetPx < 0 ? -5 : 5), my, label, {
+    "font-size": 8, "font-weight": 700, fill: color, "text-anchor": "middle",
+    transform: `rotate(${rot} ${sx + (offsetPx < 0 ? -5 : 5)} ${my})`
+  }, g);
+}
+
+// =============================================================================
+// FURNITURE & SANITARY FIXTURES (CAD LINEWORK)
+// =============================================================================
+function drawFurnitureGround(g, ox, oy) {
+  const st = { fill: "none", stroke: "#64748b", "stroke-width": 0.85 };
+  const fillSoft = { fill: "#f8fafc", stroke: "#64748b", "stroke-width": 0.85 };
+
+  // Car in garage (1.85 x 4.40 m)
+  el("rect", { x: px(ox, 0.75), y: py(oy, 9.75), width: 1.9*S, height: 4.35*S, rx: 8, fill: "#f1f5f9", stroke: "#94a3b8", "stroke-width": 1, "stroke-dasharray": "4,2" }, g);
+  el("rect", { x: px(ox, 0.95), y: py(oy, 8.9), width: 1.5*S, height: 2.3*S, rx: 4, fill: "none", stroke: "#94a3b8", "stroke-width": 0.7 }, g);
+  // Car in front setback (uncovered spot)
+  el("rect", { x: px(ox, 0.75), y: py(oy, 4.6), width: 1.9*S, height: 4.1*S, rx: 8, fill: "none", stroke: "#94a3b8", "stroke-width": 0.9, "stroke-dasharray": "3,3" }, g);
+
+  // Office desk + chair
+  el("rect", { x: px(ox, 6.2), y: py(oy, 5.9), width: 2.2*S, height: 0.7*S, ...fillSoft }, g);
+  el("circle", { cx: px(ox, 7.3), cy: py(oy, 6.3), r: 0.25*S, ...fillSoft }, g);
+
+  // Living Room Sofa + Coffee Table + TV rack (against blind left wall x=0)
+  el("rect", { x: px(ox, 0.22), y: py(oy, 14.5), width: 0.45*S, height: 2.8*S, ...fillSoft }, g); // TV rack
+  el("rect", { x: px(ox, 1.95), y: py(oy, 14.8), width: 0.95*S, height: 3.1*S, rx: 3, ...fillSoft }, g); // Sofa facing TV/garden
+  el("rect", { x: px(ox, 1.05), y: py(oy, 13.8), width: 0.55*S, height: 1.3*S, rx: 2, ...fillSoft }, g); // Coffee table
+
+  // Dining Table (8 seats)
+  el("rect", { x: px(ox, 1.3), y: py(oy, 19.2), width: 2.2*S, height: 1.05*S, rx: 2, ...fillSoft }, g);
+  for (let i = 0; i < 3; i++) {
+    el("rect", { x: px(ox, 1.5 + i*0.65), y: py(oy, 19.55), width: 0.4*S, height: 0.25*S, ...st }, g);
+    el("rect", { x: px(ox, 1.5 + i*0.65), y: py(oy, 18.05), width: 0.4*S, height: 0.25*S, ...st }, g);
+  }
+
+  // Kitchen L-Counter + Gourmet BBQ + Island (2.50 x 0.85m)
+  el("rect", { x: px(ox, 9.25), y: py(oy, 20.3), width: 0.6*S, height: 4.35*S, ...fillSoft }, g); // Counter right wall
+  el("rect", { x: px(ox, 9.32), y: py(oy, 19.9), width: 0.48*S, height: 0.85*S, fill: "#cbd5e1", stroke: "#475569", "stroke-width": 1 }, g); // Churrasqueira
+  el("rect", { x: px(ox, 9.35), y: py(oy, 18.2), width: 0.4*S, height: 0.65*S, ...st }, g); // Sink
+  // Island
+  el("rect", { x: px(ox, 5.5), y: py(oy, 18.65), width: 2.5*S, height: 0.85*S, ...fillSoft }, g);
+  // Cooktop burners on island
+  for (const [bx, by] of [[6.2,18.35],[6.5,18.35],[6.2,18.1],[6.5,18.1]]) {
+    el("circle", { cx: px(ox, bx), cy: py(oy, by), r: 3.5, ...st }, g);
+  }
+
+  // Lavabo toilet + sink
+  el("rect", { x: px(ox, 8.95), y: py(oy, 9.95), width: 0.85*S, height: 0.45*S, ...fillSoft }, g);
+  el("ellipse", { cx: px(ox, 8.3), cy: py(oy, 9.55), rx: 0.2*S, ry: 0.28*S, ...fillSoft }, g);
+
+  // Laundry counter + washer + tank
+  el("rect", { x: px(ox, 9.2), y: py(oy, 13.9), width: 0.65*S, height: 1.85*S, ...fillSoft }, g);
+  el("circle", { cx: px(ox, 9.52), cy: py(oy, 12.6), r: 0.22*S, ...st }, g);
+
+  // BWC Gourmet shower + toilet + sink
+  el("rect", { x: px(ox, 8.85), y: py(oy, 15.65), width: 1.0*S, height: 1.4*S, fill: "none", stroke: "#64748b", "stroke-width": 0.8 }, g); // Box
+  el("ellipse", { cx: px(ox, 8.2), cy: py(oy, 15.3), rx: 0.2*S, ry: 0.28*S, ...fillSoft }, g);
+  el("rect", { x: px(ox, 7.6), y: py(oy, 14.55), width: 0.8*S, height: 0.4*S, ...fillSoft }, g);
+
+  // Trees in Central Garden & Front Garden (Architectural tree symbols)
+  for (const [tx, ty, tr] of [[5.2, 14.4, 0.72], [6.2, 11.4, 0.55], [6.0, 3.6, 0.62], [8.6, 3.2, 0.7], [6.4, 1.3, 0.5]]) {
+    el("circle", { cx: px(ox, tx), cy: py(oy, ty), r: tr*S, fill: "#dcfce7", "fill-opacity": 0.65, stroke: "#15803d", "stroke-width": 1.1 }, g);
+    el("circle", { cx: px(ox, tx), cy: py(oy, ty), r: 2.2, fill: "#15803d" }, g);
+  }
+}
+
+function drawFurnitureUpper(g, ox, oy) {
+  const st = { fill: "none", stroke: "#64748b", "stroke-width": 0.85 };
+  const fillSoft = { fill: "#f8fafc", stroke: "#64748b", "stroke-width": 0.85 };
+
+  // Quarto 01 Bed + Nightstands
+  el("rect", { x: px(ox, 0.35), y: py(oy, 7.7), width: 1.65*S, height: 2.0*S, rx: 2, ...fillSoft }, g);
+  el("rect", { x: px(ox, 0.45), y: py(oy, 7.6), width: 0.65*S, height: 0.35*S, ...st }, g);
+  el("rect", { x: px(ox, 1.25), y: py(oy, 7.6), width: 0.65*S, height: 0.35*S, ...st }, g);
+
+  // Quarto 02 Bed + Wardrobe
+  el("rect", { x: px(ox, 8.0), y: py(oy, 7.6), width: 1.65*S, height: 1.95*S, rx: 2, ...fillSoft }, g);
+  el("rect", { x: px(ox, 5.8), y: py(oy, 8.05), width: 1.8*S, height: 0.55*S, ...fillSoft }, g);
+
+  // Intimate Gallery Sofa
+  el("rect", { x: px(ox, 0.3), y: py(oy, 14.3), width: 0.9*S, height: 2.6*S, rx: 3, ...fillSoft }, g);
+
+  // BWC Social (Box + Toilet + Sink)
+  el("rect", { x: px(ox, 8.75), y: py(oy, 12.65), width: 1.1*S, height: 1.15*S, ...st }, g);
+  el("rect", { x: px(ox, 7.45), y: py(oy, 10.8), width: 1.4*S, height: 0.5*S, ...fillSoft }, g);
+  el("ellipse", { cx: px(ox, 9.25), cy: py(oy, 10.95), rx: 0.22*S, ry: 0.28*S, ...fillSoft }, g);
+
+  // Master Bath (Double Sink + Double Shower + Toilet)
+  el("rect", { x: px(ox, 8.65), y: py(oy, 15.65), width: 1.2*S, height: 1.55*S, ...st }, g); // Double shower
+  el("rect", { x: px(ox, 7.45), y: py(oy, 13.45), width: 1.8*S, height: 0.55*S, ...fillSoft }, g); // Double sink
+  el("ellipse", { cx: px(ox, 7.95), cy: py(oy, 13.18), rx: 0.22*S, ry: 0.14*S, ...st }, g);
+  el("ellipse", { cx: px(ox, 8.75), cy: py(oy, 13.18), rx: 0.22*S, ry: 0.14*S, ...st }, g);
+  el("ellipse", { cx: px(ox, 9.35), cy: py(oy, 13.5), rx: 0.22*S, ry: 0.28*S, ...fillSoft }, g);
+
+  // Master Suite King Bed (2.0 x 2.05m) facing rear balcony
+  el("rect", { x: px(ox, 0.35), y: py(oy, 18.5), width: 2.05*S, height: 2.0*S, rx: 2, ...fillSoft }, g);
+  el("rect", { x: px(ox, 0.45), y: py(oy, 18.35), width: 0.42*S, height: 0.72*S, ...st }, g);
+  el("rect", { x: px(ox, 0.45), y: py(oy, 17.45), width: 0.42*S, height: 0.72*S, ...st }, g);
+
+  // Walk-in Master Closet U-shelving
+  el("rect", { x: px(ox, 9.25), y: py(oy, 20.3), width: 0.6*S, height: 4.3*S, ...fillSoft }, g);
+  el("rect", { x: px(ox, 6.4), y: py(oy, 20.3), width: 0.55*S, height: 3.1*S, ...fillSoft }, g);
+}
+
+// =============================================================================
+// ELECTRICAL REFERENCE OVERLAY (NBR 5410)
+// =============================================================================
+function drawElectricalOverlay(g, ox, oy, isGround) {
+  const cLight = "#d97706";
+  const cOut = "#dc2626";
+  const cConduit = "#ea580c";
+
+  function lightPt(xm, ym, circ) {
+    const x = px(ox, xm), y = py(oy, ym);
+    el("circle", { cx: x, cy: y, r: 7, fill: "#fef3c7", stroke: cLight, "stroke-width": 1.6 }, g);
+    el("line", { x1: x - 5, y1: y - 5, x2: x + 5, y2: y + 5, stroke: cLight, "stroke-width": 1.1 }, g);
+    el("line", { x1: x + 5, y1: y - 5, x2: x - 5, y2: y + 5, stroke: cLight, "stroke-width": 1.1 }, g);
+    txt(x, y - 9.5, circ, { "font-size": 7, "font-weight": 800, fill: "#92400e", "text-anchor": "middle" }, g);
+  }
+  function outletPt(xm, ym, label = "", isHigh = false) {
+    const x = px(ox, xm), y = py(oy, ym);
+    el("polygon", { points: `${x},${y-5} ${x+5.5},${y+4} ${x-5.5},${y+4}`, fill: isHigh ? cOut : "#fff", stroke: cOut, "stroke-width": 1.3 }, g);
+    if (label) txt(x + 8, y + 3, label, { "font-size": 6.5, "font-weight": 700, fill: "#991b1b" }, g);
+  }
+  function conduit(x1, y1, x2, y2, curve = 14) {
+    const sx1 = px(ox, x1), sy1 = py(oy, y1), sx2 = px(ox, x2), sy2 = py(oy, y2);
+    const mx = (sx1 + sx2)/2 + curve, my = (sy1 + sy2)/2 - curve;
+    el("path", { d: `M ${sx1} ${sy1} Q ${mx} ${my} ${sx2} ${sy2}`, fill: "none", stroke: cConduit, "stroke-width": 1.2, "stroke-dasharray": "5,3" }, g);
+  }
+
+  if (isGround) {
+    // Medidor frontal
+    el("rect", { x: px(ox, 0.05), y: py(oy, 0.7), width: 22, height: 14, fill: "#f59e0b", stroke: "#78350f", "stroke-width": 1.5 }, g);
+    txt(px(ox, 0.35), py(oy, 0.85), "MEDIDOR", { "font-size": 6.5, "font-weight": 800, fill: "#78350f" }, g);
+    // QDG in Despensa
+    el("rect", { x: px(ox, 7.3), y: py(oy, 10.65), width: 24, height: 14, fill: "#ef4444", stroke: "#7f1d1d", "stroke-width": 1.5 }, g);
+    txt(px(ox, 7.65), py(oy, 10.42), "QDG", { "font-size": 7.5, "font-weight": 800, fill: "#ffffff", "text-anchor": "middle" }, g);
+    // Main feeder
+    el("path", { d: `M ${px(ox, 0.35)} ${py(oy, 0.7)} L ${px(ox, 0.35)} ${py(oy, 9.8)} L ${px(ox, 7.65)} ${py(oy, 10.5)}`, fill: "none", stroke: "#b91c1c", "stroke-width": 2.4, "stroke-dasharray": "7,3" }, g);
+
+    // Ceiling Light points
+    lightPt(1.75, 7.6, "C01");
+    lightPt(4.35, 6.6, "C01");
+    lightPt(7.6, 6.6, "C01");
+    lightPt(8.9, 9.2, "C01");
+    lightPt(1.6, 13.0, "C01");
+    lightPt(8.6, 13.0, "C01");
+    lightPt(8.6, 15.0, "C01");
+    lightPt(2.25, 18.1, "C01");
+    lightPt(7.25, 18.1, "C01");
+    lightPt(5.2, 13.0, "Jardim");
+
+    // Conduits from QDG
+    conduit(7.6, 10.5, 7.6, 6.6, 10);
+    conduit(7.6, 6.6, 4.35, 6.6, -8);
+    conduit(4.35, 6.6, 1.75, 7.6, -10);
+    conduit(7.6, 10.5, 8.6, 13.0, 12);
+    conduit(8.6, 13.0, 8.6, 15.0, 8);
+    conduit(8.6, 15.0, 7.25, 18.1, 12);
+    conduit(7.25, 18.1, 2.25, 18.1, -12);
+    conduit(2.25, 18.1, 1.6, 13.0, -14);
+    conduit(1.6, 13.0, 4.35, 6.6, -10);
+
+    // Dedicated TUEs & key outlets
+    outletPt(0.3, 8.8, "Wallbox 32A", true);
+    outletPt(0.3, 13.0, "TV / AC C10", true);
+    outletPt(6.5, 18.3, "Indução C06", true);
+    outletPt(9.6, 17.5, "Forno/Micro", true);
+    outletPt(9.6, 12.6, "Máq. C05", true);
+    outletPt(9.5, 15.0, "Chuv. C09", true);
+    outletPt(9.6, 6.6, "TUG C03", false);
+  } else {
+    // Sub-panel / Riser from QDG at same wall (x=7.5, y=10.5)
+    el("rect", { x: px(ox, 7.3), y: py(oy, 10.65), width: 24, height: 14, fill: "#ef4444", stroke: "#7f1d1d", "stroke-width": 1.5 }, g);
+    txt(px(ox, 7.65), py(oy, 10.42), "QD2", { "font-size": 7.5, "font-weight": 800, fill: "#ffffff", "text-anchor": "middle" }, g);
+
+    lightPt(2.2, 6.8, "C02");
+    lightPt(7.8, 6.6, "C02");
+    lightPt(4.2, 9.2, "C02");
+    lightPt(1.6, 13.0, "C02");
+    lightPt(8.6, 11.5, "C02");
+    lightPt(8.6, 14.3, "C02");
+    lightPt(3.1, 17.5, "C02");
+    lightPt(8.1, 18.1, "C02");
+
+    conduit(7.6, 10.5, 7.8, 6.6, 12);
+    conduit(7.6, 10.5, 4.2, 9.2, -8);
+    conduit(4.2, 9.2, 2.2, 6.8, -10);
+    conduit(4.2, 9.2, 1.6, 13.0, -10);
+    conduit(1.6, 13.0, 3.1, 17.5, -14);
+    conduit(7.6, 10.5, 8.6, 11.5, 8);
+    conduit(8.6, 11.5, 8.6, 14.3, 8);
+    conduit(8.6, 14.3, 8.1, 18.1, 10);
+    conduit(8.1, 18.1, 3.1, 17.5, -10);
+
+    outletPt(0.3, 6.8, "AC C12", true);
+    outletPt(9.6, 6.6, "AC C12", true);
+    outletPt(9.5, 11.8, "Chuv. C09", true);
+    outletPt(9.5, 14.8, "Master C08", true);
+    outletPt(0.3, 17.5, "AC C11", true);
+  }
+}
+
+// =============================================================================
+// HYDRAULIC & SANITARY REFERENCE OVERLAY (NBR 5626 / 8160 + ECOVALLE II)
+// =============================================================================
+function drawHydraulicOverlay(g, ox, oy, isGround) {
+  const cAF = "#0284c7";   // Água Fria
+  const cES = "#7c2d12";   // Esgoto Sanitário
+  const cAP = "#16a34a";   // Águas Pluviais
+
+  function pipe(pts, color, width = 2.4, dash = null) {
+    const d = pts.map((p, i) => `${i===0?'M':'L'} ${px(ox, p[0])} ${py(oy, p[1])}`).join(" ");
+    const attrs = { d, fill: "none", stroke: color, "stroke-width": width, "stroke-linecap": "round", "stroke-linejoin": "round" };
+    if (dash) attrs["stroke-dasharray"] = dash;
+    el("path", attrs, g);
+  }
+  function boxNode(xm, ym, lbl, color, bg) {
+    const x = px(ox, xm), y = py(oy, ym);
+    el("rect", { x: x - 14, y: y - 9, width: 28, height: 18, rx: 2, fill: bg, stroke: color, "stroke-width": 1.6 }, g);
+    txt(x, y + 3, lbl, { "font-size": 7, "font-weight": 800, fill: color, "text-anchor": "middle" }, g);
+  }
+
+  if (isGround) {
+    // 1. Água Fria: Cavalete na Rua -> sobe p/ Caixa d'água (Shaft ala direita x=9.7)
+    boxNode(5.0, 0.4, "HIDR.", cAF, "#e0f2fe");
+    pipe([[5.0, 0.4], [5.0, 4.7], [9.7, 4.7], [9.7, 13.8]], cAF, 2.5);
+    pipe([[9.7, 13.8], [9.7, 18.2], [6.6, 18.2]], cAF, 2.0); // Alimenta cozinha/ilha
+    txt(px(ox, 7.2), py(oy, 4.95), "AF Ø25mm (Alim. Reservatório)", { "font-size": 7, "font-weight": 700, fill: cAF }, g);
+
+    // 2. Esgoto Sanitário (ES Ø100mm) + Caixa de Gordura Padrão Ecovalle II!
+    boxNode(8.75, 21.1, "CG*", "#92400e", "#fef3c7"); // Caixa de Gordura Anexos 10/11
+    // Kitchen grease line to CG
+    pipe([[9.5, 18.2], [8.75, 21.1]], "#d97706", 2.2, "4,2");
+    pipe([[6.6, 18.2], [8.75, 21.1]], "#d97706", 2.2, "4,2");
+    // Sanitary main collector along right service spine -> CI -> Street Sewer
+    pipe([[8.75, 21.1], [9.5, 21.1], [9.5, 15.2], [9.5, 9.5], [9.5, 4.2], [6.6, 4.2], [6.6, 0.0]], cES, 3.0);
+    boxNode(9.45, 15.2, "CI-1", cES, "#ffedd5");
+    boxNode(9.45, 4.2, "CI-2", cES, "#ffedd5");
+    txt(px(ox, 6.6), py(oy, 0.55), "REDE ESGOTO", { "font-size": 7, "font-weight": 800, fill: cES, "text-anchor": "middle" }, g);
+
+    // 3. Águas Pluviais (AP Ø100mm): Ralo do Jardim Central + Quintal -> Rua (Separado do esgoto!)
+    boxNode(5.2, 11.2, "Ralo AP", cAP, "#dcfce7");
+    pipe([[2.0, 22.0], [3.6, 22.0], [3.6, 11.2], [5.2, 11.2], [3.8, 11.2], [3.8, 0.0]], cAP, 2.4, "7,3");
+    txt(px(ox, 3.8), py(oy, 0.55), "REDE PLUVIAL", { "font-size": 7, "font-weight": 800, fill: cAP, "text-anchor": "middle" }, g);
+  } else {
+    // Upper Floor: Water Tank (1,500L) over Master Bath + Vertical Shafts aligned with Ground Floor!
+    el("circle", { cx: px(ox, 8.6), cy: py(oy, 14.3), r: 28, fill: "#bae6fd", "fill-opacity": 0.85, stroke: cAF, "stroke-width": 2.2 }, g);
+    txt(px(ox, 8.6), py(oy, 14.4), ["CX. D'ÁGUA", "1.500 L", "(Item 1.9.B)"], { "font-size": 7.5, "font-weight": 800, fill: "#0c4a6e", "text-anchor": "middle" }, g);
+
+    // Cold/Hot distribution to BWC Master & BWC Social
+    pipe([[8.6, 14.3], [7.8, 13.4], [9.4, 13.4]], cAF, 2.2);
+    pipe([[8.6, 14.3], [8.6, 11.0], [7.8, 11.0]], cAF, 2.2);
+    // Vertical Shafts (Prumadas)
+    boxNode(9.55, 13.5, "TQ-1", cES, "#ffedd5");
+    boxNode(9.55, 11.0, "TQ-2", cES, "#ffedd5");
+    pipe([[9.35, 13.5], [9.55, 13.5], [9.55, 11.0], [9.25, 11.0]], cES, 2.5);
+    txt(px(ox, 8.5), py(oy, 10.4), "Prumadas alinhadas s/ ala molhada térrea", { "font-size": 6.8, "font-weight": 700, fill: cES, "text-anchor": "middle" }, g);
+  }
+}
+
+// =============================================================================
+// BUILD COMPLETE FLOOR (GROUND OR UPPER)
+// =============================================================================
+function buildFloor(root, ox, oy, isGround) {
+  const gFloor = el("g", { id: isGround ? "floor-terreo" : "floor-sup" }, root);
+
+  // Strict bottom-to-top SVG layer order so room fills NEVER cover walls, doors, windows or labels!
+  const gBase   = el("g", { class: "layer-base" }, gFloor);
+  const gFills  = el("g", { class: "layer-fills" }, gFloor);
+  const gHatch  = el("g", { class: "layer-hatch" }, gFloor);
+  const gMob    = el("g", { class: "layer-mob" }, gFloor);
+  const gWalls  = el("g", { class: "layer-walls" }, gFloor);
+  const gRecuos = el("g", { class: "layer-recuos" }, gFloor);
+  const gEsqTag = el("g", { class: "layer-esq-tags" }, gFloor);
+  const gLabels = el("g", { class: "layer-labels" }, gFloor);
+  const gCotas  = el("g", { class: "layer-cotas" }, gFloor);
+  const gDisc   = el("g", { class: "layer-disc" }, gFloor);
+  const gHits   = el("g", { class: "layer-hits" }, gFloor);
+
+  // Title above floor
+  txt(px(ox, 5.0), oy - 48, isGround
+    ? "PLANTA BAIXA — 1º PAVIMENTO (TÉRREO) · ESC. 1:100"
+    : "PLANTA BAIXA — 2º PAVIMENTO (SUPERIOR) · ESC. 1:100",
+    { "font-size": 13, "font-weight": 800, fill: "#0f172a", "text-anchor": "middle", "letter-spacing": "0.5px" }, gBase);
+
+  // Sidewalk & Street (Bottom)
+  el("rect", { x: ox - 18, y: py(oy, 0), width: 10*S + 36, height: 1.4*S, fill: "#f1f5f9", stroke: "#cbd5e1", "stroke-width": 1 }, gBase);
+  el("rect", { x: ox - 18, y: py(oy, -1.4), width: 10*S + 36, height: 0.75*S, fill: "#e2e8f0" }, gBase);
+  txt(px(ox, 5.0), py(oy, -1.78), "VIA PÚBLICA — FRENTE SUDESTE (TESTADA 10,00 m)", { "font-size": 8.5, "font-weight": 700, fill: "#334155", "text-anchor": "middle" }, gBase);
+
+  // Curb cut 3.00m (Item 1.7.C)
+  el("line", { x1: ox - 18, y1: py(oy, -1.4), x2: px(ox, 0.3), y2: py(oy, -1.4), stroke: "#475569", "stroke-width": 2.2 }, gBase);
+  el("line", { x1: px(ox, 0.3), y1: py(oy, -1.4), x2: px(ox, 3.3), y2: py(oy, -1.4), stroke: "#ea580c", "stroke-width": 3.2, "stroke-dasharray": "5,2" }, gBase);
+  el("line", { x1: px(ox, 3.3), y1: py(oy, -1.4), x2: px(ox, 10) + 18, y2: py(oy, -1.4), stroke: "#475569", "stroke-width": 2.2 }, gBase);
+  if (isGround) {
+    txt(px(ox, 1.8), py(oy, -1.12), "Rebaixo meio-fio: 3,00 m (Máx. 3m)", { "font-size": 7, "font-weight": 700, fill: "#c2410c", "text-anchor": "middle" }, gBase);
+    txt(px(ox, 7.1), py(oy, -0.7), "PASSEIO PÚBLICO", { "font-size": 7.5, fill: "#64748b", "text-anchor": "middle" }, gBase);
+  }
+
+  // Lot base (Permeable hatch)
+  el("rect", { x: ox, y: oy, width: 10*S, height: 24*S, fill: isGround ? "url(#pat-grass)" : "#f8fafc" }, gBase);
+  el("rect", { x: ox, y: oy, width: 10*S, height: 24*S, fill: "none", stroke: "#0f172a", "stroke-width": 1.8 }, gWalls);
+
+  // Helper to create clickable room hit area + label
+  function roomZone(id, x, y, w, h, titleLines, areaText, levelText, fillHex = "#ffffff", isWet = false) {
+    el("rect", { x: px(ox, x), y: py(oy, y + h), width: w*S, height: h*S, fill: fillHex }, gFills);
+    if (isWet) {
+      el("rect", { x: px(ox, x), y: py(oy, y + h), width: w*S, height: h*S, fill: "url(#pat-tile)" }, gHatch);
+    }
+    const hit = el("rect", {
+      x: px(ox, x), y: py(oy, y + h), width: w*S, height: h*S,
+      fill: "transparent", class: "room-hit", "data-room": id
+    }, gHits);
+    hit.addEventListener("click", (e) => { e.stopPropagation(); selectRoom(id); });
+
+    const cx = px(ox, x + w/2), cy = py(oy, y + h/2);
+    const lines = [...titleLines];
+    if (areaText) lines.push(areaText);
+    if (levelText) lines.push(levelText);
+    const boxW = Math.min(w*S - 8, 92);
+    const boxH = lines.length * 9.5 + 4;
+    el("rect", {
+      x: cx - boxW/2, y: cy - boxH/2 - 1, width: boxW, height: boxH, rx: 2,
+      fill: "#ffffff", "fill-opacity": 0.78, "pointer-events": "none"
+    }, gLabels);
+    txt(cx, cy - (lines.length - 1)*4.6 + 2.5, lines, {
+      "font-size": 7.6, "font-weight": 700, fill: "#0f172a", "text-anchor": "middle", "data-lh": "1.22em", "pointer-events": "none"
+    }, gLabels);
+  }
+
+  if (isGround) {
+    // Driveway & Pedestrian path inside front setback (Item 1.7.A)
+    el("rect", { x: px(ox, 0.3), y: py(oy, 5.0), width: 3.0*S, height: 5.0*S, fill: "#f1f5f9", stroke: "#cbd5e1", "stroke-width": 0.9 }, gHatch);
+    el("rect", { x: px(ox, 3.6), y: py(oy, 5.0), width: 1.2*S, height: 5.0*S, fill: "#fefce8", stroke: "#d4d4d8", "stroke-width": 0.8 }, gHatch);
+
+    // Clickable Front & Rear Yards
+    const hitF = el("rect", { x: px(ox, 0), y: py(oy, 5.0), width: 10*S, height: 5.0*S, fill: "transparent", class: "room-hit", "data-room": "t-frontal" }, gHits);
+    hitF.addEventListener("click", (e) => { e.stopPropagation(); selectRoom("t-frontal"); });
+    const hitB = el("rect", { x: px(ox, 0), y: py(oy, 24.0), width: 10*S, height: 3.5*S, fill: "transparent", class: "room-hit", "data-room": "t-fundos" }, gHits);
+    hitB.addEventListener("click", (e) => { e.stopPropagation(); selectRoom("t-fundos"); });
+
+    // Mandatory Lixeira (1.9.E) & Gas (1.6.B)
+    el("rect", { x: px(ox, 8.5), y: py(oy, 1.0), width: 1.5*S, height: 1.0*S, fill: "#fee2e2", stroke: "#991b1b", "stroke-width": 1.6 }, gWalls);
+    txt(px(ox, 9.25), py(oy, 0.55), ["LIXEIRA", "1,5×1,0 h=2,4", "(1.9.E)"], { "font-size": 6.2, "font-weight": 700, fill: "#7f1d1d", "text-anchor": "middle" }, gLabels);
+    el("rect", { x: px(ox, 7.6), y: py(oy, 0.8), width: 0.9*S, height: 0.8*S, fill: "#ffedd5", stroke: "#9a3412", "stroke-width": 1.2 }, gWalls);
+    txt(px(ox, 8.05), py(oy, 0.4), "GÁS", { "font-size": 6.5, "font-weight": 700, fill: "#9a3412", "text-anchor": "middle" }, gLabels);
+
+    txt(px(ox, 7.0), py(oy, 2.5), ["JARDIM FRONTAL PERMEÁVEL", "(Nível +0,10 · Item 1.7.A)"], { "font-size": 7.5, "font-weight": 700, fill: "#166534", "text-anchor": "middle", "pointer-events": "none" }, gLabels);
+    txt(px(ox, 3.8), py(oy, 22.3), ["QUINTAL DE FUNDOS PERMEÁVEL", "Recuo 3,50m (Mín. 1,50m) · Espaço p/ Piscina"], { "font-size": 7.5, "font-weight": 700, fill: "#166534", "text-anchor": "middle", "pointer-events": "none" }, gLabels);
+
+    // Mandatory Caixa de Gordura Padrão Ecovalle II (Anexos 10/11)
+    el("rect", { x: px(ox, 7.8), y: py(oy, 21.55), width: 1.9*S, height: 0.8*S, fill: "#fef3c7", stroke: "#92400e", "stroke-width": 1.3 }, gWalls);
+    txt(px(ox, 8.75), py(oy, 21.12), ["CX. GORDURA PADRÃO", "Anexos 10/11 (1.9.F)"], { "font-size": 5.8, "font-weight": 700, fill: "#78350f", "text-anchor": "middle" }, gLabels);
+
+    // ROOMS GROUND FLOOR
+    roomZone("t-garagem",  0.0,  5.0, 3.5, 5.2, ["GARAGEM COBERTA"], "18,20 m²", "+0,15", "#f8fafc", false);
+    roomZone("t-hall",     3.5,  5.0, 1.7, 5.2, ["HALL /", "CIRC."], "8,84 m²", "+0,25", "#ffffff", false);
+    roomZone("t-office",   5.2,  5.0, 4.8, 3.2, ["ESCRITÓRIO / QUARTO"], "15,36 m²", "+0,25", "#ffffff", false);
+    roomZone("t-escada",   5.2,  8.2, 2.6, 2.0, ["ESCADA", "Sobe 16 deg."], "", "", "#f1f5f9", false);
+    roomZone("t-lavabo",   7.8,  8.2, 2.2, 2.0, ["LAVABO"], "4,40 m²", "+0,23", "#ffffff", true);
+    roomZone("t-estar",    0.0, 10.2, 3.2, 5.6, ["SALA DE ESTAR", "E TV"], "17,92 m²", "+0,25", "#ffffff", false);
+    roomZone("t-jardim",   3.2, 10.2, 4.0, 5.6, ["JARDIM CENTRAL", "ABERTO ('U')"], "22,40 m²", "+0,15", "url(#pat-grass)", false);
+    roomZone("t-despensa", 7.2, 10.2, 2.8, 1.7, ["DESPENSA"], "4,76 m²", "+0,25", "#ffffff", false);
+    roomZone("t-lavand",   7.2, 11.9, 2.8, 2.2, ["LAVANDERIA"], "6,16 m²", "+0,23", "#ffffff", true);
+    roomZone("t-bwcg",     7.2, 14.1, 2.8, 1.7, ["BWC GOURMET"], "4,76 m²", "+0,23", "#ffffff", true);
+    roomZone("t-jantar",   0.0, 15.8, 4.5, 4.7, ["SALA DE JANTAR"], "21,15 m²", "+0,25", "#ffffff", false);
+    roomZone("t-cozinha",  4.5, 15.8, 5.5, 4.7, ["COZINHA EM ILHA &", "ESPAÇO GOURMET"], "25,85 m²", "+0,25", "#ffffff", true);
+
+    // Draw Stair Treads accurately (8 steps per flight + landing)
+    for (let i = 1; i <= 7; i++) {
+      const sx = px(ox, 5.2 + i * 0.25);
+      el("line", { x1: sx, y1: py(oy, 10.2), x2: sx, y2: py(oy, 8.2), stroke: "#64748b", "stroke-width": 0.7 }, gMob);
+    }
+    el("line", { x1: px(ox, 5.2), y1: py(oy, 9.2), x2: px(ox, 6.95), y2: py(oy, 9.2), stroke: "#334155", "stroke-width": 1.2 }, gMob);
+    // Up arrow
+    el("path", { d: `M ${px(ox,5.4)} ${py(oy,9.7)} L ${px(ox,7.35)} ${py(oy,9.7)} L ${px(ox,7.35)} ${py(oy,8.7)} L ${px(ox,5.4)} ${py(oy,8.7)}`, fill: "none", stroke: "#0284c7", "stroke-width": 1.1, "marker-end": "url(#blue-arrow)" }, gMob);
+
+    // STRUCTURAL WALLS (0.15m real thickness)
+    // Perimeter of 'U'
+    drawWall(gWalls, ox, oy, 0.0, 5.0, 0.0, 20.5, 0.18);   // Left blind boundary wall
+    drawWall(gWalls, ox, oy, 10.0, 5.0, 10.0, 20.5, 0.18); // Right blind boundary wall
+    drawWall(gWalls, ox, oy, 0.0, 5.0, 10.0, 5.0, 0.18);   // Front facade
+    drawWall(gWalls, ox, oy, 0.0, 20.5, 10.0, 20.5, 0.18); // Rear facade
+    // Courtyard walls
+    drawWall(gWalls, ox, oy, 3.2, 10.2, 3.2, 15.8, 0.15);
+    drawWall(gWalls, ox, oy, 7.2, 10.2, 7.2, 15.8, 0.15);
+    drawWall(gWalls, ox, oy, 3.2, 10.2, 7.2, 10.2, 0.15);
+    drawWall(gWalls, ox, oy, 3.2, 15.8, 7.2, 15.8, 0.15);
+    // Internal partitions
+    drawWall(gWalls, ox, oy, 3.5, 5.0, 3.5, 10.2, 0.15);   // Garage / Hall
+    drawWall(gWalls, ox, oy, 0.0, 10.2, 3.5, 10.2, 0.15);  // Garage / Living
+    drawWall(gWalls, ox, oy, 5.2, 5.0, 5.2, 10.2, 0.15);   // Hall / Office+Stair
+    drawWall(gWalls, ox, oy, 5.2, 8.2, 10.0, 8.2, 0.15);   // Office / Stair+Lavabo
+    drawWall(gWalls, ox, oy, 7.8, 8.2, 7.8, 10.2, 0.15);   // Stair / Lavabo
+    drawWall(gWalls, ox, oy, 7.2, 10.2, 10.0, 10.2, 0.15); // Lavabo / Despensa
+    drawWall(gWalls, ox, oy, 7.2, 11.9, 10.0, 11.9, 0.13); // Despensa / Laundry
+    drawWall(gWalls, ox, oy, 7.2, 14.1, 10.0, 14.1, 0.13); // Laundry / BWC Gourmet
+    drawWall(gWalls, ox, oy, 7.2, 15.8, 10.0, 15.8, 0.15); // BWC Gourmet / Kitchen
+
+    // DOORS (NBR 6492 with swing arcs!)
+    drawWindow(gWalls, gEsqTag, ox, oy, 0.25, 5.0, 3.25, 5.0, "PG1", true);  // Garage gate 3.0m
+    drawDoor(gWalls, gEsqTag, ox, oy, 3.75, 5.0, 1.20, "H", "NW", "P1");     // Main pivot door
+    drawDoor(gWalls, gEsqTag, ox, oy, 3.5, 7.2, 0.80, "V", "ES", "P4");      // Garage -> Hall
+    drawDoor(gWalls, gEsqTag, ox, oy, 5.2, 6.2, 0.80, "V", "ES", "P2");      // Hall -> Office
+    drawDoor(gWalls, gEsqTag, ox, oy, 7.8, 8.4, 0.70, "V", "EN", "P3");      // Under-stair/hall -> Lavabo
+    drawDoor(gWalls, gEsqTag, ox, oy, 7.5, 11.9, 0.70, "H", "SW", "P3");     // Laundry -> Despensa
+    drawDoor(gWalls, gEsqTag, ox, oy, 7.6, 15.8, 0.80, "H", "SW", "P4");     // Kitchen -> Service/Laundry corridor
+    drawDoor(gWalls, gEsqTag, ox, oy, 8.6, 15.8, 0.70, "H", "SW", "P3");     // Gourmet -> BWC Gourmet
+
+    // WINDOWS & SLIDING GLASS DOORS (ZERO openings on left/right lot boundaries!)
+    drawWindow(gWalls, gEsqTag, ox, oy, 6.4, 5.0, 8.8, 5.0, "J1", false);     // Office front window
+    drawWindow(gWalls, gEsqTag, ox, oy, 3.55, 10.2, 5.05, 10.2, "PC3", true); // Hall -> Central Garden
+    drawWindow(gWalls, gEsqTag, ox, oy, 3.2, 10.9, 3.2, 15.1, "PC1", true);   // Living -> Central Garden (4.2m!)
+    drawWindow(gWalls, gEsqTag, ox, oy, 7.2, 12.4, 7.2, 13.6, "J3", false);   // Laundry -> Central Garden
+    drawWindow(gWalls, gEsqTag, ox, oy, 7.2, 14.4, 7.2, 15.5, "J3", false);   // BWC -> Central Garden
+    drawWindow(gWalls, gEsqTag, ox, oy, 3.5, 15.8, 6.9, 15.8, "PC2", true);   // Dining/Kitchen -> Central Garden
+    drawWindow(gWalls, gEsqTag, ox, oy, 0.7, 20.5, 4.1, 20.5, "PC2", true);   // Dining -> Rear Yard
+    drawWindow(gWalls, gEsqTag, ox, oy, 5.3, 20.5, 8.7, 20.5, "PC2", true);   // Kitchen/Gourmet -> Rear Yard
+
+    drawFurnitureGround(gMob, ox, oy);
+
+  } else {
+    // UPPER FLOOR (2º PAVIMENTO)
+    txt(px(ox, 5.0), py(oy, 2.5), "Projeção do Recuo Frontal Térreo (5,00 m livres)", { "font-size": 7.5, "font-style": "italic", fill: "#64748b", "text-anchor": "middle" }, gLabels);
+    txt(px(ox, 5.0), py(oy, 22.3), "Projeção do Quintal de Fundos Térreo (3,50 m livres)", { "font-size": 7.5, "font-style": "italic", fill: "#64748b", "text-anchor": "middle" }, gLabels);
+
+    // Allowed Roof Overhangs (0.60m <= 0.80m — Item 1.6.A)
+    el("rect", { x: px(ox, 0), y: py(oy, 5.0), width: 10*S, height: 0.6*S, fill: "none", stroke: "#64748b", "stroke-width": 0.9, "stroke-dasharray": "6,3" }, gRecuos);
+    el("rect", { x: px(ox, 0), y: py(oy, 21.1), width: 10*S, height: 0.6*S, fill: "none", stroke: "#64748b", "stroke-width": 0.9, "stroke-dasharray": "6,3" }, gRecuos);
+    txt(px(ox, 5.0), py(oy, 4.68), "Beiral 0,60 m (Permitido até 0,80 m s/ recuo — Item 1.6.A)", { "font-size": 6.8, fill: "#475569", "text-anchor": "middle" }, gRecuos);
+
+    // ROOMS UPPER FLOOR
+    roomZone("s-q1",      0.0,  5.0, 4.4, 3.6, ["DORMITÓRIO 01"], "15,84 m²", "+3,20", "#ffffff", false);
+    roomZone("s-q1",      0.0,  8.6, 3.2, 1.6, ["CLOSET Q.01"], "5,12 m²", "+3,20", "#ffffff", false);
+    roomZone("s-sacada",  4.4,  5.0, 1.2, 3.2, ["SACADA"], "3,84 m²", "+3,18", "#fefce8", true);
+    roomZone("s-q2",      5.6,  5.0, 4.4, 3.2, ["DORMITÓRIO 02"], "14,08 m²", "+3,20", "#ffffff", false);
+    roomZone("s-hall",    3.2,  8.2, 2.0, 2.0, ["HALL", "ÍNTIMO"], "4,00 m²", "+3,20", "#ffffff", false);
+    roomZone("t-escada",  5.2,  8.2, 2.6, 2.0, ["ESCADA", "Desce"], "", "", "#f1f5f9", false);
+    roomZone("s-hall",    7.8,  8.2, 2.2, 2.0, ["ROUPARIA /", "ESTUDOS"], "4,40 m²", "+3,20", "#ffffff", false);
+    roomZone("s-galeria", 0.0, 10.2, 3.2, 5.6, ["SALA ÍNTIMA /", "GALERIA PÁTIO"], "17,92 m²", "+3,20", "#ffffff", false);
+    roomZone("s-bwcsoc",  7.2, 10.2, 2.8, 2.6, ["BWC SOCIAL"], "7,28 m²", "+3,18", "#ffffff", true);
+    roomZone("s-bwcmast", 7.2, 12.8, 2.8, 3.0, ["BANHO MASTER", "(Cuba/Ducha Dupla)"], "8,40 m²", "+3,18", "#ffffff", true);
+    roomZone("s-suite",   0.0, 15.8, 6.2, 3.4, ["SUÍTE MASTER CASAL"], "21,08 m²", "+3,20", "#ffffff", false);
+    roomZone("s-varanda", 0.0, 19.2, 6.2, 1.3, ["VARANDA PRIVATIVA SUÍTE"], "8,06 m²", "+3,18", "#fefce8", true);
+    roomZone("s-closet",  6.2, 15.8, 3.8, 4.7, ["CLOSET WALK-IN", "MASTER"], "17,86 m²", "+3,20", "#ffffff", false);
+
+    // Central Courtyard Void (Vazio sobre Jardim Central — Architectural X)
+    el("rect", { x: px(ox, 3.2), y: py(oy, 15.8), width: 4.0*S, height: 5.6*S, fill: "#f0fdf4", stroke: "#15803d", "stroke-width": 1.4 }, gFills);
+    el("line", { x1: px(ox, 3.2), y1: py(oy, 15.8), x2: px(ox, 7.2), y2: py(oy, 10.2), stroke: "#86efac", "stroke-width": 1, "stroke-dasharray": "5,3" }, gHatch);
+    el("line", { x1: px(ox, 7.2), y1: py(oy, 15.8), x2: px(ox, 3.2), y2: py(oy, 10.2), stroke: "#86efac", "stroke-width": 1, "stroke-dasharray": "5,3" }, gHatch);
+    txt(px(ox, 5.2), py(oy, 13.1), ["VAZIO SOBRE", "JARDIM CENTRAL", "(4,00 × 5,60 m)"], { "font-size": 8, "font-weight": 700, fill: "#166534", "text-anchor": "middle" }, gLabels);
+
+    // Stairs arrival treads
+    for (let i = 1; i <= 7; i++) {
+      const sx = px(ox, 5.2 + i * 0.25);
+      el("line", { x1: sx, y1: py(oy, 10.2), x2: sx, y2: py(oy, 8.2), stroke: "#64748b", "stroke-width": 0.7 }, gMob);
+    }
+    el("line", { x1: px(ox, 5.2), y1: py(oy, 9.2), x2: px(ox, 6.95), y2: py(oy, 9.2), stroke: "#334155", "stroke-width": 1.2 }, gMob);
+
+    // STRUCTURAL WALLS 2º PAV
+    drawWall(gWalls, ox, oy, 0.0, 5.0, 0.0, 20.5, 0.18);
+    drawWall(gWalls, ox, oy, 10.0, 5.0, 10.0, 20.5, 0.18);
+    drawWall(gWalls, ox, oy, 0.0, 5.0, 10.0, 5.0, 0.18);
+    drawWall(gWalls, ox, oy, 0.0, 20.5, 10.0, 20.5, 0.18);
+    // Courtyard void perimeter
+    drawWall(gWalls, ox, oy, 3.2, 10.2, 3.2, 15.8, 0.15);
+    drawWall(gWalls, ox, oy, 7.2, 10.2, 7.2, 15.8, 0.15);
+    drawWall(gWalls, ox, oy, 3.2, 10.2, 7.2, 10.2, 0.15);
+    drawWall(gWalls, ox, oy, 3.2, 15.8, 7.2, 15.8, 0.15);
+    // Internal partitions
+    drawWall(gWalls, ox, oy, 4.4, 5.0, 4.4, 8.2, 0.15);
+    drawWall(gWalls, ox, oy, 5.6, 5.0, 5.6, 8.2, 0.15);
+    drawWall(gWalls, ox, oy, 0.0, 8.6, 4.4, 8.6, 0.13);
+    drawWall(gWalls, ox, oy, 3.2, 8.6, 3.2, 10.2, 0.13);
+    drawWall(gWalls, ox, oy, 5.2, 8.2, 10.0, 8.2, 0.15);
+    drawWall(gWalls, ox, oy, 5.2, 8.2, 5.2, 10.2, 0.13);
+    drawWall(gWalls, ox, oy, 7.8, 8.2, 7.8, 10.2, 0.13);
+    drawWall(gWalls, ox, oy, 7.2, 10.2, 10.0, 10.2, 0.15);
+    drawWall(gWalls, ox, oy, 7.2, 12.8, 10.0, 12.8, 0.15);
+    drawWall(gWalls, ox, oy, 7.2, 15.8, 10.0, 15.8, 0.15);
+    drawWall(gWalls, ox, oy, 0.0, 15.8, 3.2, 15.8, 0.15);
+    drawWall(gWalls, ox, oy, 6.2, 15.8, 6.2, 20.5, 0.15);
+    drawWall(gWalls, ox, oy, 0.0, 19.2, 6.2, 19.2, 0.15);
+
+    // DOORS UPPER FLOOR
+    drawDoor(gWalls, gEsqTag, ox, oy, 3.4, 8.6, 0.80, "H", "SW", "P2");   // Hall -> Dorm 01
+    drawDoor(gWalls, gEsqTag, ox, oy, 2.2, 8.6, 0.80, "H", "NW", "P2");   // Dorm 01 -> Closet
+    drawDoor(gWalls, gEsqTag, ox, oy, 5.9, 8.2, 0.80, "H", "SW", "P2");   // Hall/Stair -> Dorm 02
+    drawDoor(gWalls, gEsqTag, ox, oy, 7.8, 10.2, 0.70, "H", "NW", "P3");  // Corridor -> BWC Social
+    drawDoor(gWalls, gEsqTag, ox, oy, 2.2, 15.8, 0.80, "H", "NW", "P2");  // Intimate Gallery -> Master Suite
+    drawDoor(gWalls, gEsqTag, ox, oy, 6.2, 16.5, 0.80, "V", "EN", "P2");  // Master Suite -> Walk-in Closet
+    drawDoor(gWalls, gEsqTag, ox, oy, 7.6, 15.8, 0.70, "H", "SW", "P3");  // Walk-in Closet -> Master Bath
+
+    // WINDOWS & GLASS DOORS UPPER FLOOR
+    drawWindow(gWalls, gEsqTag, ox, oy, 1.0, 5.0, 3.4, 5.0, "J1", false);     // Dorm 01 front
+    drawWindow(gWalls, gEsqTag, ox, oy, 4.45, 5.0, 5.55, 5.0, "GC", true);    // Sacada railing
+    drawWindow(gWalls, gEsqTag, ox, oy, 4.45, 8.2, 5.55, 8.2, "PC3", true);   // Hall -> Sacada
+    drawWindow(gWalls, gEsqTag, ox, oy, 6.6, 5.0, 9.0, 5.0, "J1", false);     // Dorm 02 front
+    drawWindow(gWalls, gEsqTag, ox, oy, 3.4, 10.2, 5.0, 10.2, "J2", false);   // Hall -> Void
+    drawWindow(gWalls, gEsqTag, ox, oy, 3.2, 10.9, 3.2, 15.1, "PC1", true);   // Gallery -> Void (4.2m)
+    drawWindow(gWalls, gEsqTag, ox, oy, 7.2, 10.9, 7.2, 12.1, "J3", false);   // BWC Social -> Void
+    drawWindow(gWalls, gEsqTag, ox, oy, 7.2, 13.7, 7.2, 14.9, "J3", false);   // Master Bath -> Void
+    drawWindow(gWalls, gEsqTag, ox, oy, 3.5, 15.8, 5.9, 15.8, "J1", false);   // Master Suite -> Void
+    drawWindow(gWalls, gEsqTag, ox, oy, 1.4, 19.2, 4.8, 19.2, "PC2", true);   // Master Suite -> Balcony
+    drawWindow(gWalls, gEsqTag, ox, oy, 0.6, 20.5, 5.6, 20.5, "GC", true);    // Balcony glass railing
+    drawWindow(gWalls, gEsqTag, ox, oy, 7.2, 20.5, 9.0, 20.5, "J2", false);   // Walk-in Closet rear window
+
+    drawFurnitureUpper(gMob, ox, oy);
+  }
+
+  // SETBACK & BLIND WALL COMPLIANCE OVERLAY (Layer: layer-recuos)
+  el("line", { x1: px(ox, 0), y1: py(oy, 5.0), x2: px(ox, 10), y2: py(oy, 5.0), stroke: "#dc2626", "stroke-width": 1.3, "stroke-dasharray": "6,3" }, gRecuos);
+  el("line", { x1: px(ox, 0), y1: py(oy, 22.5), x2: px(ox, 10), y2: py(oy, 22.5), stroke: "#dc2626", "stroke-width": 1.0, "stroke-dasharray": "3,3" }, gRecuos);
+  // Highlight blind walls (15.5m left + 15.5m right = 31.0m <= 34.0m max)
+  el("line", { x1: px(ox, 0) - 2, y1: py(oy, 5.0), x2: px(ox, 0) - 2, y2: py(oy, 20.5), stroke: "#ea580c", "stroke-width": 3.5, "stroke-opacity": 0.75 }, gRecuos);
+  el("line", { x1: px(ox, 10) + 2, y1: py(oy, 5.0), x2: px(ox, 10) + 2, y2: py(oy, 20.5), stroke: "#ea580c", "stroke-width": 3.5, "stroke-opacity": 0.75 }, gRecuos);
+
+  // EXTERNAL DIMENSION CHAINS (NBR 6492)
+  // Top horizontal chain (Lot width + subdivisions)
+  drawDimH(gCotas, ox, oy, 0, 10, 24, -28, "10,00 m (Testada / Fundos)");
+  if (isGround) {
+    drawDimH(gCotas, ox, oy, 0, 4.5, 24, -13, "4,50");
+    drawDimH(gCotas, ox, oy, 4.5, 10, 24, -13, "5,50");
+  } else {
+    drawDimH(gCotas, ox, oy, 0, 6.2, 24, -13, "6,20");
+    drawDimH(gCotas, ox, oy, 6.2, 10, 24, -13, "3,80");
+  }
+  // Left vertical chain (Total depth 24.00m + segments)
+  drawDimV(gCotas, ox, oy, 0, 0, 24, -36, "24,00 m (Profundidade — Divisa Esq.)");
+  drawDimV(gCotas, ox, oy, 0, 0, 5.0, -18, "5,00", "#dc2626");
+  drawDimV(gCotas, ox, oy, 0, 5.0, 10.2, -18, "5,20");
+  drawDimV(gCotas, ox, oy, 0, 10.2, 15.8, -18, "5,60");
+  drawDimV(gCotas, ox, oy, 0, 15.8, 20.5, -18, "4,70");
+  drawDimV(gCotas, ox, oy, 0, 20.5, 24.0, -18, "3,50", "#15803d");
+
+  // Right vertical chain (Blind wall total 15.50m)
+  drawDimV(gCotas, ox, oy, 10, 0, 5.0, 20, "5,00 (Recuo)", "#dc2626");
+  drawDimV(gCotas, ox, oy, 10, 5.0, 20.5, 20, isGround ? "15,50 m (Parede Cega)" : "15,50 m (h=6,80m ≤ 8m)", "#ea580c");
+  drawDimV(gCotas, ox, oy, 10, 20.5, 24.0, 20, "3,50 (Fundos)", "#15803d");
+
+  // Discipline Overlays (Elétrica / Hidrossanitária)
+  if (currentDiscipline === "ele") drawElectricalOverlay(gDisc, ox, oy, isGround);
+  if (currentDiscipline === "hid") drawHydraulicOverlay(gDisc, ox, oy, isGround);
+}
+
+// =============================================================================
+// TECHNICAL TITLE BLOCK (CARIMBO ABNT NBR 10068 / 6492 — LOWER RIGHT)
+// =============================================================================
+function drawTitleBlock(root) {
+  const bx = 1185, by = 60, bw = 465, bh = 1045;
+  const g = el("g", { id: "title-block" }, root);
+
+  // Outer sheet margin border (Prancha A3 style)
+  el("rect", { x: 20, y: 20, width: 1640, height: 1100, fill: "none", stroke: "#0f172a", "stroke-width": 2.2 }, root);
+  el("rect", { x: 25, y: 25, width: 1630, height: 1090, fill: "none", stroke: "#64748b", "stroke-width": 0.7 }, root);
+
+  // Side Technical Panel + Carimbo
+  el("rect", { x: bx, y: by, width: bw, height: bh, fill: "#ffffff", stroke: "#0f172a", "stroke-width": 1.6 }, g);
+
+  // 1. North Arrow & Solar Orientation
+  el("rect", { x: bx, y: by, width: bw, height: 110, fill: "#f8fafc", stroke: "#0f172a", "stroke-width": 1 }, g);
+  const nx = bx + 62, ny = by + 56;
+  el("circle", { cx: nx, cy: ny, r: 30, fill: "#fff", stroke: "#0f172a", "stroke-width": 1.2 }, g);
+  // Front is SE (bottom), Back is NW (top) -> North points upper-right (~45 deg clockwise from top!)
+  el("polygon", { points: `${nx},${ny-26} ${nx+8},${ny} ${nx},${ny-6} ${nx-8},${ny}`, fill: "#0f172a", transform: `rotate(45 ${nx} ${ny})` }, g);
+  txt(nx + 23, ny - 21, "N", { "font-size": 11, "font-weight": 800, fill: "#0f172a", "text-anchor": "middle" }, g);
+  txt(bx + 120, by + 30, ["ORIENTAÇÃO SOLAR (Terreno 10,00 × 24,00 m)", "• Frente: Sudeste (Sol da manhã nos quartos e escritório)", "• Fundos: Noroeste (Sol da tarde na suíte master e gourmet)", "• Jardim Central: Iluminação zenital o dia todo no coração da casa"], { "font-size": 9, fill: "#1e293b", "data-lh": "1.55em" }, g);
+
+  // 2. Quadro de Áreas NBR
+  const y2 = by + 110;
+  el("rect", { x: bx, y: y2, width: bw, height: 22, fill: "#1e3a5f" }, g);
+  txt(bx + 12, y2 + 15, "QUADRO DE ÁREAS E ÍNDICES URBANÍSTICOS (ZDU-V)", { "font-size": 9.5, "font-weight": 800, fill: "#ffffff" }, g);
+
+  const areaRows = [
+    ["Área Total do Terreno (10,00 × 24,00 m)", "240,00 m²", "Perím. 68,0 m"],
+    ["Área Construída — 1º Pavimento (Térreo em 'U')", "132,60 m²", "TO = 55,25% (≤60%)"],
+    ["Área Construída — 2º Pavimento (Superior em 'U')", "132,60 m²", "h total = 6,80 m"],
+    ["ÁREA TOTAL CONSTRUÍDA (Mín. Reg.: 60,00 m²)", "265,20 m²", "CA = 1,11 (≤ 2,0)"],
+    ["Jardim Central Aberto (Coração do 'U')", "22,40 m²", "4,00 × 5,60 m"],
+    ["Área Permeável Total (Frontal + Central + Fundos)", "~82,70 m²", "34,5% do lote"],
+    ["Paredes Cegas nas Divisas (15,50 + 15,50 m)", "31,00 m", "≤ 34,00 m (50%)"]
+  ];
+  areaRows.forEach((r, idx) => {
+    const ry = y2 + 22 + idx * 24;
+    el("rect", { x: bx, y: ry, width: bw, height: 24, fill: idx % 2 ? "#f8fafc" : "#fff", stroke: "#cbd5e1", "stroke-width": 0.6 }, g);
+    txt(bx + 10, ry + 15, r[0], { "font-size": 8.6, "font-weight": idx === 3 ? 800 : 500, fill: "#0f172a" }, g);
+    txt(bx + 325, ry + 15, r[1], { "font-size": 8.8, "font-weight": 800, fill: "#0f172a", "text-anchor": "end" }, g);
+    txt(bx + 455, ry + 15, r[2], { "font-size": 8.2, "font-weight": 700, fill: "#047857", "text-anchor": "end" }, g);
+  });
+
+  // 3. Tabela Resumida de Esquadrias
+  const y3 = y2 + 22 + areaRows.length * 24 + 10;
+  el("rect", { x: bx, y: y3, width: bw, height: 22, fill: "#1e3a5f" }, g);
+  txt(bx + 12, y3 + 15, "TABELA DE ESQUADRIAS (REFERÊNCIA P/ EXECUTIVO)", { "font-size": 9.5, "font-weight": 800, fill: "#ffffff" }, g);
+
+  const esqRows = [
+    ["P1", "Pivotante Entrada", "1,20 × 2,20 m", "h=0,00", "1 un"],
+    ["P2", "Abrir Dorm./Escrit.", "0,80 × 2,10 m", "h=0,00", "7 un"],
+    ["P3", "Abrir Banheiros/Desp.", "0,70 × 2,10 m", "h=0,00", "5 un"],
+    ["P4", "Abrir Serviço/Garag.", "0,80 × 2,10 m", "h=0,00", "2 un"],
+    ["PC1", "Correr Vidro 4 fls", "4,20 × 2,40 m", "h=0,00", "2 un"],
+    ["PC2", "Correr Vidro 3 fls", "3,40 × 2,40 m", "h=0,00", "3 un"],
+    ["PC3", "Correr Vidro 2 fls", "1,50 × 2,40 m", "h=0,00", "2 un"],
+    ["PG1", "Portão Garagem", "3,00 × 2,40 m", "h=0,00", "1 un"],
+    ["J1", "Correr c/ Persiana", "2,40 × 1,40 m", "p=0,90", "4 un"],
+    ["J2", "Correr Alumínio", "1,80 × 1,20 m", "p=1,10", "2 un"],
+    ["J3", "Maxim-ar Molhadas", "1,20 × 0,60 m", "p=1,60", "4 un"]
+  ];
+  esqRows.forEach((r, idx) => {
+    const ry = y3 + 22 + idx * 20;
+    el("rect", { x: bx, y: ry, width: bw, height: 20, fill: idx % 2 ? "#f8fafc" : "#fff", stroke: "#cbd5e1", "stroke-width": 0.5 }, g);
+    txt(bx + 10, ry + 13, r[0], { "font-size": 8.4, "font-weight": 800, fill: "#0369a1" }, g);
+    txt(bx + 52, ry + 13, r[1], { "font-size": 8.4, fill: "#0f172a" }, g);
+    txt(bx + 225, ry + 13, r[2], { "font-size": 8.4, "font-weight": 700, fill: "#0f172a" }, g);
+    txt(bx + 340, ry + 13, r[3], { "font-size": 8.2, fill: "#475569" }, g);
+    txt(bx + 455, ry + 13, r[4], { "font-size": 8.2, "font-weight": 700, fill: "#0f172a", "text-anchor": "end" }, g);
+  });
+
+  // 4. Notas Técnicas para o Engenheiro / AECO
+  const y4 = y3 + 22 + esqRows.length * 20 + 10;
+  el("rect", { x: bx, y: y4, width: bw, height: 22, fill: "#334155" }, g);
+  txt(bx + 12, y4 + 15, "NOTAS TÉCNICAS OBRIGATÓRIAS — ECOVALLE II / ARAQUARI", { "font-size": 9.2, "font-weight": 800, fill: "#ffffff" }, g);
+  const notes = [
+    "1. Alvenaria convencional / concreto armado (vedado madeira — Item 1.9.D).",
+    "2. Recuo frontal 5,00m sem pavimentação além de acessos (Item 1.7.A); meio-fio 3,00m.",
+    "3. Paredes cegas nas divisas: zero aberturas, soma 31,0m ≤ 34,0m e h=6,80m ≤ 8,00m.",
+    "4. Lixeira frontal 1,50×1,00×2,40m toda azulejada c/ acesso direto da rua (1.9.E).",
+    "5. Caixa de Gordura padrão Anexos 10/11 (cap. 5 pessoas) na saída da cozinha (1.9.F).",
+    "6. Reservatório superior 1.500 L (≥ 100 L/dia por quarto e sala — Item 1.9.B).",
+    "7. Muros de divisa em alvenaria h ≥ 2,20 m (Item 1.5.C); tapume obra h ≥ 2,00 m.",
+    "8. Submeter projeto executivo à AECO (Anexos 01-09) antes da Prefeitura de Araquari."
+  ];
+  txt(bx + 10, y4 + 38, notes, { "font-size": 8.2, fill: "#1e293b", "data-lh": "1.52em" }, g);
+
+  // 5. Formal Stamp (Carimbo ABNT bottom-right)
+  const y5 = by + bh - 168;
+  el("rect", { x: bx, y: y5, width: bw, height: 168, fill: "#ffffff", stroke: "#0f172a", "stroke-width": 1.8 }, g);
+  el("rect", { x: bx, y: y5, width: bw, height: 32, fill: "#0f172a" }, g);
+  const discTitle = currentDiscipline === "ele" ? "REFERÊNCIA ELÉTRICA (NBR 5410)" :
+                    currentDiscipline === "hid" ? "REFERÊNCIA HIDROSSANITÁRIA (NBR 5626/8160)" :
+                    "ESTUDO PRELIMINAR ARQUITETÔNICO (NBR 6492)";
+  txt(bx + 14, y5 + 21, discTitle, { "font-size": 11, "font-weight": 800, fill: "#ffffff", "letter-spacing": "0.5px" }, g);
+
+  el("line", { x1: bx, y1: y5 + 68, x2: bx + bw, y2: y5 + 68, stroke: "#0f172a", "stroke-width": 1 }, g);
+  el("line", { x1: bx, y1: y5 + 104, x2: bx + bw, y2: y5 + 104, stroke: "#0f172a", "stroke-width": 1 }, g);
+  el("line", { x1: bx, y1: y5 + 136, x2: bx + bw, y2: y5 + 136, stroke: "#0f172a", "stroke-width": 1 }, g);
+  el("line", { x1: bx + 260, y1: y5 + 104, x2: bx + 260, y2: y5 + 168, stroke: "#0f172a", "stroke-width": 1 }, g);
+  el("line", { x1: bx + 370, y1: y5 + 104, x2: bx + 370, y2: y5 + 168, stroke: "#0f172a", "stroke-width": 1 }, g);
+
+  txt(bx + 10, y5 + 45, "OBRA / PROJETO:", { "font-size": 7.5, "font-weight": 700, fill: "#64748b" }, g);
+  txt(bx + 10, y5 + 60, "RESIDÊNCIA UNIFAMILIAR EM 'U' (2 PAVIMENTOS · 265,20 m²)", { "font-size": 10.5, "font-weight": 800, fill: "#0f172a" }, g);
+
+  txt(bx + 10, y5 + 80, "TERRENO / DIRETRIZES:", { "font-size": 7.5, "font-weight": 700, fill: "#64748b" }, g);
+  txt(bx + 10, y5 + 95, "Lote Padrão 10,00 × 24,00 m (240,00 m²) · Zoneamento ZDU-V (Ecovalle II)", { "font-size": 8.8, "font-weight": 600, fill: "#0f172a" }, g);
+
+  txt(bx + 10, y5 + 116, "PROPRIETÁRIO:", { "font-size": 7.5, "font-weight": 700, fill: "#64748b" }, g);
+  txt(bx + 10, y5 + 129, "Uso Exclusivo — Estudo Preliminar", { "font-size": 9, "font-weight": 700, fill: "#0f172a" }, g);
+
+  txt(bx + 270, y5 + 116, "ESCALA:", { "font-size": 7.5, "font-weight": 700, fill: "#64748b" }, g);
+  txt(bx + 270, y5 + 129, "1 : 100", { "font-size": 9.5, "font-weight": 800, fill: "#0f172a" }, g);
+
+  txt(bx + 380, y5 + 116, "PRANCHA:", { "font-size": 7.5, "font-weight": 700, fill: "#64748b" }, g);
+  const pranchaCod = currentDiscipline === "ele" ? "ELE-01/01" : currentDiscipline === "hid" ? "HID-01/01" : "ARQ-01/01";
+  txt(bx + 380, y5 + 129, pranchaCod, { "font-size": 9.5, "font-weight": 800, fill: "#0284c7" }, g);
+
+  txt(bx + 10, y5 + 148, "RESP. TÉCNICO EXECUTIVO (A PREENCHER):", { "font-size": 7.2, "font-weight": 700, fill: "#64748b" }, g);
+  txt(bx + 10, y5 + 161, "Eng. Civil / Arq. _____________________ · CREA/CAU:", { "font-size": 8.2, fill: "#334155" }, g);
+
+  txt(bx + 270, y5 + 148, "REVISÃO:", { "font-size": 7.2, "font-weight": 700, fill: "#64748b" }, g);
+  txt(bx + 270, y5 + 161, "R01 — Estudo", { "font-size": 8.2, "font-weight": 700, fill: "#0f172a" }, g);
+
+  txt(bx + 380, y5 + 148, "FORMATO:", { "font-size": 7.2, "font-weight": 700, fill: "#64748b" }, g);
+  txt(bx + 380, y5 + 161, "A3 (Paisagem)", { "font-size": 8.2, "font-weight": 700, fill: "#0f172a" }, g);
+}
+
+// =============================================================================
+// RENDER CONTROLLER
+// =============================================================================
+function render() {
+  svg.innerHTML = "";
+  addDefs(svg);
+  el("rect", { x: 0, y: 0, width: 1680, height: 1140, fill: "#ffffff" }, svg);
+
+  if (currentFloor === "both") {
+    buildFloor(svg, 115, 130, true);
+    buildFloor(svg, 685, 130, false);
+  } else if (currentFloor === "terreo") {
+    buildFloor(svg, 395, 130, true);
+  } else {
+    buildFloor(svg, 395, 130, false);
+  }
+  drawTitleBlock(svg);
+
+  // Reapply layer checkbox visibility
+  toggleLayer("layer-cotas", document.getElementById("chk-cotas").checked);
+  toggleLayer("layer-mob", document.getElementById("chk-mob").checked);
+  toggleLayer("layer-esq-tags", document.getElementById("chk-esq").checked);
+  toggleLayer("layer-recuos", document.getElementById("chk-rec").checked);
+  toggleLayer("layer-hatch", document.getElementById("chk-hatch").checked);
+  if (selectedRoomId) selectRoom(selectedRoomId);
+  updateLegend();
+}
+
+function updateLegend() {
+  const elLeg = document.getElementById("legend-content");
+  if (currentDiscipline === "ele") {
+    elLeg.innerHTML = `
+      <div class="leg-item"><div class="leg-swatch" style="background:#ef4444;"></div>QDG / QD2 — Quadro de Distribuição</div>
+      <div class="leg-item"><div class="leg-swatch" style="background:#fef3c7;border:2px solid #d97706;"></div>Ponto de Luz no Teto (C01 / C02)</div>
+      <div class="leg-item"><div class="leg-swatch" style="background:#dc2626;"></div>TUE — Carga Dedicada (AC, Chuveiro, Wallbox)</div>
+      <div class="leg-item"><div class="leg-swatch" style="border-top:2px dashed #ea580c;height:2px;"></div>Eletrodutos embutidos na laje (Ref.)</div>
+    `;
+  } else if (currentDiscipline === "hid") {
+    elLeg.innerHTML = `
+      <div class="leg-item"><div class="leg-swatch" style="background:#0284c7;"></div>Água Fria (AF Ø25mm) + Cx. d'Água 1.500 L</div>
+      <div class="leg-item"><div class="leg-swatch" style="background:#7c2d12;"></div>Esgoto Sanitário (ES Ø100mm) + CIs / Prumadas</div>
+      <div class="leg-item"><div class="leg-swatch" style="background:#fef3c7;border:2px solid #92400e;"></div>Caixa de Gordura Padrão Ecovalle II (An. 10/11)</div>
+      <div class="leg-item"><div class="leg-swatch" style="border-top:3px dashed #16a34a;height:2px;"></div>Águas Pluviais (AP Ø100mm) — Rede Independente</div>
+    `;
+  } else {
+    elLeg.innerHTML = `
+      <div class="leg-item"><div class="leg-swatch" style="background:#1e293b;"></div>Alvenaria Estrutural / Vedação (0,15 m)</div>
+      <div class="leg-item"><div class="leg-swatch" style="background:#ea580c;"></div>Parede Cega na Divisa (s/ abertura · 31m ≤ 34m)</div>
+      <div class="leg-item"><div class="leg-swatch" style="background:#0f766e;"></div>Janela (J1, J2, J3) c/ ventilação natural</div>
+      <div class="leg-item"><div class="leg-swatch" style="background:#0284c7;"></div>Porta de Correr em Vidro (PC1, PC2, PC3)</div>
+      <div class="leg-item"><div class="leg-swatch" style="border-top:2px dashed #dc2626;height:2px;"></div>Linhas de Recuo Obrigatório (5,0m / 1,5m)</div>
+    `;
+  }
+}
+
+function setDiscipline(disc, btn) {
+  currentDiscipline = disc;
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+
+  const isReg = disc === "reg";
+  const isIlus = disc === "ilus";
+  const isBlueprint = !isReg && !isIlus;
+  document.getElementById("viewport").style.display = isBlueprint ? "block" : "none";
+  document.getElementById("sidebar").style.display = isBlueprint ? "flex" : "none";
+  document.getElementById("ilus-view").style.display = isIlus ? "block" : "none";
+  document.getElementById("reg-view").style.display = isReg ? "block" : "none";
+  if (isBlueprint) render();
+}
+
+function setFloor(fl) {
+  currentFloor = fl;
+  document.querySelectorAll(".floor-btn").forEach(b => b.classList.remove("active"));
+  document.getElementById("fl-" + fl).classList.add("active");
+  render();
+}
+
+function toggleLayer(cls, show) {
+  document.querySelectorAll("." + cls).forEach(n => n.style.display = show ? "" : "none");
+}
+
+// =============================================================================
+// PAN & ZOOM INTERACTION
+// =============================================================================
+let scale = 0.72, panX = 18, panY = 12, dragging = false, startX = 0, startY = 0;
+const viewport = document.getElementById("viewport");
+const stage = document.getElementById("stage");
+
+function applyTransform() {
+  stage.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+  document.getElementById("zoom-pct").textContent = Math.round(scale * 100) + "%";
+}
+function resetView() {
+  const vw = viewport.clientWidth - 40;
+  const vh = viewport.clientHeight - 40;
+  scale = Math.min(vw / 1720, vh / 1180, 1.0);
+  panX = Math.max(10, (vw - 1680 * scale) / 2);
+  panY = Math.max(8, (vh - 1140 * scale) / 2);
+  applyTransform();
+}
+function zoomBy(delta) {
+  scale = Math.min(2.6, Math.max(0.35, scale + delta));
+  applyTransform();
+}
+
+viewport.addEventListener("wheel", (e) => {
+  e.preventDefault();
+  const rect = viewport.getBoundingClientRect();
+  const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+  const oldScale = scale;
+  const factor = e.deltaY < 0 ? 1.12 : 0.89;
+  scale = Math.min(2.8, Math.max(0.35, scale * factor));
+  panX = mx - (mx - panX) * (scale / oldScale);
+  panY = my - (my - panY) * (scale / oldScale);
+  applyTransform();
+}, { passive: false });
+
+viewport.addEventListener("mousedown", (e) => {
+  if (e.target.classList.contains("room-hit")) return;
+  dragging = true; startX = e.clientX - panX; startY = e.clientY - panY;
+});
+window.addEventListener("mousemove", (e) => {
+  if (!dragging) return;
+  panX = e.clientX - startX; panY = e.clientY - startY;
+  applyTransform();
+});
+window.addEventListener("mouseup", () => dragging = false);
+viewport.addEventListener("touchstart", (e) => {
+  if (e.touches.length === 1 && !e.target.classList.contains("room-hit")) {
+    dragging = true;
+    startX = e.touches[0].clientX - panX;
+    startY = e.touches[0].clientY - panY;
+  }
+}, { passive: true });
+viewport.addEventListener("touchmove", (e) => {
+  if (!dragging || e.touches.length !== 1) return;
+  panX = e.touches[0].clientX - startX;
+  panY = e.touches[0].clientY - startY;
+  applyTransform();
+}, { passive: true });
+window.addEventListener("touchend", () => dragging = false);
+window.addEventListener("resize", resetView);
+
+// Initial render
+render();
+setTimeout(resetView, 40);
+</script>
+</body>
+</html>
