@@ -276,8 +276,8 @@
       <h3>Índices R02 (ZDU-V)</h3>
       <div class="metric-row"><span>Terreno (10 × 24 m)</span><strong>240,00 m²</strong></div>
       <div class="metric-row"><span>Térreo em "U" (TO)</span><strong class="ok">120,88 m² (50,4% ≤ 60%)</strong></div>
-      <div class="metric-row"><span>2º Pav. Otimizado</span><strong class="ok">71,70 m²</strong></div>
-      <div class="metric-row"><span>Área Total (CA)</span><strong class="ok">192,58 m² (0,80 ≤ 2,0)</strong></div>
+      <div class="metric-row"><span>2º Pav. Otimizado</span><strong class="ok">74,66 m²</strong></div>
+      <div class="metric-row"><span>Área Total (CA)</span><strong class="ok">195,54 m² (0,81 ≤ 2,0)</strong></div>
       <div class="metric-row"><span>Recuo Frontal / Fundos</span><strong class="ok">5,00 m / 5,20 m</strong></div>
       <div class="metric-row"><span>Paredes Cegas Divisa</span><strong class="ok">27,6 m ≤ 34,0 m (50%)</strong></div>
       <div class="metric-row"><span>Altura Divisa / Total</span><strong class="ok">6,50 m ≤ 8,00 m</strong></div>
@@ -741,7 +741,7 @@ function buildFloorR02(root, ox, oy, isGround) {
 
   txt(px(ox, 5.0), oy - 48, isGround
     ? "1º PAVIMENTO (TÉRREO: 120,88 m²) · ESC. 1:100"
-    : "2º PAVIMENTO OTIMIZADO (71,70 m²) · ESC. 1:100",
+    : "2º PAVIMENTO OTIMIZADO (74,66 m²) · ESC. 1:100",
     { "font-size": 12.8, "font-weight": 800, fill: "#0f172a", "text-anchor": "middle" }, gBase);
 
   // Sidewalk & Street
@@ -864,8 +864,9 @@ function buildFloorR02(root, ox, oy, isGround) {
     drawWindow(gWalls, gEsqTag, ox, oy, 5.4, 18.8, 8.6, 18.8, "PC2", true);
 
   } else {
-    // 2º PAVIMENTO OTIMIZADO (71,70 m²)
-    roomZone("s-roof", 0.0, 5.0, 10.0, 1.4, ["COBERTURA FRONTAL (1,40m) · Recuo Volumétrico"], "", "", "url(#pat-roof)", false);
+    // 2º PAVIMENTO OTIMIZADO (74,66 m² — Circulação Contínua Hall → Passarela → Suíte!)
+    roomZone("s-roof", 0.0, 5.0, 6.3, 1.4, ["COBERTURA FRONTAL (1,40m)"], "", "", "url(#pat-roof)", false);
+    roomZone("s-roof", 6.3, 5.0, 3.7, 0.6, ["BEIRAL"], "", "", "url(#pat-roof)", false);
     roomZone("s-roof", 0.0, 9.8, 4.0, 9.0, ["TELHADO EMBUTIDO", "SOBRE SALA / JANTAR", "(Economia de Obra!)"], "", "", "url(#pat-roof)", false);
 
     // Central Void
@@ -875,28 +876,36 @@ function buildFloorR02(root, ox, oy, isGround) {
     txt(px(ox, 5.15), py(oy, 12.4), ["VAZIO", "JARDIM", "CENTRAL"], { "font-size": 7.5, "font-weight": 700, fill: "#166534", "text-anchor": "middle" }, gLabels);
 
     roomZone("s-q1",      0.0, 6.4, 3.6, 3.4, ["DORMITÓRIO 01"], "12,24 m²", "+3,20", "#ffffff", false);
-    roomZone("s-hall",    3.6, 6.4, 2.8, 3.4, ["HALL ÍNTIMO", "& ESCADA"], "9,52 m²", "+3,20", "#f8fafc", false);
-    roomZone("s-q2",      6.4, 6.4, 3.6, 3.4, ["DORMITÓRIO 02"], "12,24 m²", "+3,20", "#ffffff", false);
+    roomZone("s-hall",    3.6, 6.4, 2.7, 3.4, ["HALL ÍNTIMO", "& ESCADA"], "9,18 m²", "+3,20", "#f8fafc", false);
+    roomZone("s-hall",    6.3, 8.7, 1.1, 1.1, [""], "", "", "#fefce8", false);
+    roomZone("s-q2",      6.3, 5.6, 3.7, 3.1, ["DORMITÓRIO 02"], "11,47 m²", "+3,20", "#ffffff", false);
+    roomZone("s-hall",    7.4, 8.7, 2.6, 1.1, ["ROUPARIA"], "2,86 m²", "", "#f8fafc", false);
     roomZone("s-pass",    6.3, 9.8, 1.1, 5.0, ["PASS.", "VIDRO"], "5,50 m²", "", "#fefce8", false);
     roomZone("s-bwcsoc",  7.4, 9.8, 2.6, 2.4, ["BWC SOCIAL"], "6,24 m²", "+3,18", "#ffffff", true);
     roomZone("s-bwcmast", 7.4, 12.2, 2.6, 2.6, ["BANHO MASTER"], "6,76 m²", "+3,18", "#ffffff", true);
     roomZone("s-suite",   4.0, 14.8, 4.2, 3.2, ["SUÍTE MASTER", "CASAL"], "13,44 m²", "+3,20", "#ffffff", false);
     roomZone("s-closet",  8.2, 14.8, 1.8, 3.2, ["MINI", "CLOSET"], "5,76 m²", "+3,20", "#ffffff", false);
 
+    // Circulation arrow showing open flow Hall -> Passarela -> Suite!
+    el("path", { d: `M ${px(ox, 5.8)} ${py(oy, 9.25)} L ${px(ox, 6.85)} ${py(oy, 9.25)} L ${px(ox, 6.85)} ${py(oy, 10.6)}`, fill: "none", stroke: "#0284c7", "stroke-width": 1.2, "stroke-dasharray": "3,2", "marker-end": "url(#blue-arrow)" }, gMob);
+
     // Beds
     el("rect", { x: px(ox, 0.3), y: py(oy, 9.3), width: 1.5*S, height: 1.9*S, rx: 2, fill: "#f8fafc", stroke: "#64748b", "stroke-width": 0.8 }, gMob);
-    el("rect", { x: px(ox, 8.2), y: py(oy, 9.3), width: 1.5*S, height: 1.9*S, rx: 2, fill: "#f8fafc", stroke: "#64748b", "stroke-width": 0.8 }, gMob);
+    el("rect", { x: px(ox, 8.2), y: py(oy, 8.2), width: 1.5*S, height: 1.9*S, rx: 2, fill: "#f8fafc", stroke: "#64748b", "stroke-width": 0.8 }, gMob);
     el("rect", { x: px(ox, 4.4), y: py(oy, 17.5), width: 1.9*S, height: 2.0*S, rx: 2, fill: "#f8fafc", stroke: "#64748b", "stroke-width": 0.8 }, gMob);
 
-    // WALLS 2º PAV
-    drawWall(gWalls, ox, oy, 0.0, 6.4, 10.0, 6.4, 0.18);
+    // WALLS 2º PAV (Open 1,10m passage at x=6.3, y=8.7..9.8 AND y=9.8, x=6.3..7.4!)
+    drawWall(gWalls, ox, oy, 0.0, 6.4, 6.3, 6.4, 0.18);
+    drawWall(gWalls, ox, oy, 6.3, 5.6, 10.0, 5.6, 0.18);
     drawWall(gWalls, ox, oy, 0.0, 6.4, 0.0, 9.8, 0.18);
-    drawWall(gWalls, ox, oy, 10.0, 6.4, 10.0, 18.0, 0.18);
-    drawWall(gWalls, ox, oy, 0.0, 9.8, 10.0, 9.8, 0.15);
+    drawWall(gWalls, ox, oy, 10.0, 5.6, 10.0, 18.0, 0.18);
+    drawWall(gWalls, ox, oy, 0.0, 9.8, 6.3, 9.8, 0.15);   // Stops at x=6.3 -> open passage to Passarela!
+    drawWall(gWalls, ox, oy, 7.4, 9.8, 10.0, 9.8, 0.15);  // Wall between Rouparia & BWC Social
     drawWall(gWalls, ox, oy, 3.6, 6.4, 3.6, 9.8, 0.15);
-    drawWall(gWalls, ox, oy, 6.4, 6.4, 6.4, 9.8, 0.15);
-    drawWall(gWalls, ox, oy, 6.3, 9.8, 6.3, 14.8, 0.13);
-    drawWall(gWalls, ox, oy, 7.4, 9.8, 7.4, 14.8, 0.15);
+    drawWall(gWalls, ox, oy, 6.3, 5.6, 6.3, 8.7, 0.15);   // Stops at y=8.7 -> open passage from Hall!
+    drawWall(gWalls, ox, oy, 6.3, 8.7, 10.0, 8.7, 0.15);  // Wall between Q2 & Corridor/Rouparia
+    drawWall(gWalls, ox, oy, 6.3, 9.8, 6.3, 14.8, 0.13);  // Glass wall of Passarela facing Void
+    drawWall(gWalls, ox, oy, 7.4, 8.7, 7.4, 14.8, 0.15);  // Spine separating Passarela from Rouparia/BWCs
     drawWall(gWalls, ox, oy, 7.4, 12.2, 10.0, 12.2, 0.15);
     drawWall(gWalls, ox, oy, 4.0, 14.8, 10.0, 14.8, 0.15);
     drawWall(gWalls, ox, oy, 4.0, 14.8, 4.0, 18.0, 0.18);
@@ -904,15 +913,15 @@ function buildFloorR02(root, ox, oy, isGround) {
     drawWall(gWalls, ox, oy, 8.2, 14.8, 8.2, 18.0, 0.13);
 
     // DOORS & WINDOWS 2º PAV
-    drawDoor(gWalls, gEsqTag, ox, oy, 3.6, 8.5, 0.80, "V", "WS", "P2");
-    drawDoor(gWalls, gEsqTag, ox, oy, 6.4, 8.5, 0.80, "V", "ES", "P2");
-    drawDoor(gWalls, gEsqTag, ox, oy, 7.4, 10.4, 0.70, "V", "EN", "P3");
-    drawDoor(gWalls, gEsqTag, ox, oy, 6.4, 14.8, 0.80, "H", "NW", "P2");
-    drawDoor(gWalls, gEsqTag, ox, oy, 8.2, 16.0, 0.80, "V", "EN", "P2");
-    drawDoor(gWalls, gEsqTag, ox, oy, 8.5, 14.8, 0.70, "H", "SW", "P3");
+    drawDoor(gWalls, gEsqTag, ox, oy, 3.6, 8.5, 0.80, "V", "WS", "P2");   // Hall -> Q1
+    drawDoor(gWalls, gEsqTag, ox, oy, 6.45, 8.7, 0.80, "H", "SW", "P2");  // Hall/Corridor -> Q2
+    drawDoor(gWalls, gEsqTag, ox, oy, 7.4, 10.4, 0.70, "V", "EN", "P3");  // Passarela -> BWC Social
+    drawDoor(gWalls, gEsqTag, ox, oy, 6.45, 14.8, 0.80, "H", "NW", "P2"); // Passarela -> Suíte Master!
+    drawDoor(gWalls, gEsqTag, ox, oy, 8.2, 16.0, 0.80, "V", "EN", "P2");  // Suíte Master -> Mini Closet
+    drawDoor(gWalls, gEsqTag, ox, oy, 8.5, 14.8, 0.70, "H", "SW", "P3");  // Mini Closet -> Banho Master
 
     drawWindow(gWalls, gEsqTag, ox, oy, 0.7, 6.4, 2.9, 6.4, "J1", false);
-    drawWindow(gWalls, gEsqTag, ox, oy, 7.1, 6.4, 9.3, 6.4, "J1", false);
+    drawWindow(gWalls, gEsqTag, ox, oy, 7.0, 5.6, 9.2, 5.6, "J1", false);
     drawWindow(gWalls, gEsqTag, ox, oy, 6.3, 10.4, 6.3, 14.2, "PC1", true);
     drawWindow(gWalls, gEsqTag, ox, oy, 4.5, 14.8, 6.0, 14.8, "J2", false);
     drawWindow(gWalls, gEsqTag, ox, oy, 5.0, 18.0, 7.2, 18.0, "J1", false);
@@ -1114,8 +1123,8 @@ function drawTitleBlock(root) {
   const rows = [
     ["Terreno Padrão (10,00 × 24,00 m)", "240,00 m²", "Perím. 68,0 m"],
     ["1º Pavimento (Térreo em 'U' — Sala 4,0m)", "120,88 m²", "TO 50,37% (≤60%)"],
-    ["2º Pavimento Otimizado (Suíte + 2 Qts)", "71,70 m²", "h = 6,50m (≤8m)"],
-    ["ÁREA TOTAL CONSTRUÍDA (R02)", "192,58 m²", "CA 0,80 (≤ 2,0)"],
+    ["2º Pavimento Otimizado (Suíte + 2 Qts)", "74,66 m²", "h = 6,50m (≤8m)"],
+    ["ÁREA TOTAL CONSTRUÍDA (R02)", "195,54 m²", "CA 0,81 (≤ 2,0)"],
     ["Jardim Central Aberto ('U')", "17,00 m²", "3,40 × 5,00 m"],
     ["Piscina Opcional Fundos (Item 1.8)", "13,44 m²", "Fora da TO"],
     ["Paredes Cegas Divisa (13,8 + 13,8m)", "27,60 m", "≤ 34,00 m (50%)"]
@@ -1331,7 +1340,7 @@ function drawIso3D() {
 // =============================================================================
 let costTier = "med";
 const TIER_RATE = { eco: 3050, med: 3650, alto: 4550 };
-const AREA_R02 = 192.58;
+const AREA_R02 = 195.54;
 const AREA_R01 = 265.20;
 
 function fmtBRL(v) { return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 }); }
