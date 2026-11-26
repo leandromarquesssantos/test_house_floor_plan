@@ -44,6 +44,7 @@
   .tab-btn.active { background: #0284c7; color: #fff; box-shadow: 0 2px 8px rgba(2,132,199,.35); }
   .tab-btn.show.active { background: #e11d48; }
   .tab-btn.iso.active { background: #7c3aed; }
+  .tab-btn.eco.active { background: #16a34a; }
   .tab-btn.elec.active { background: #d97706; }
   .tab-btn.hidro.active { background: #0891b2; }
   .tab-btn.sec.active { background: #6366f1; }
@@ -189,6 +190,46 @@
   @media (max-width: 1050px) { .site-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 600px) { .site-grid { grid-template-columns: 1fr; } .ba-tag { font-size: 10px; padding: 4px 7px; } }
 
+  /* PALETTE COMPARATOR, TOUR 3D, SOLAR & FINANCE */
+  .pal-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .pal-btn {
+    flex: 1 1 200px; background: #0f172a; border: 1.5px solid #334155; color: #e2e8f0;
+    padding: 9px 12px; border-radius: 8px; cursor: pointer; text-align: left; transition: .15s;
+  }
+  .pal-btn:hover { border-color: #64748b; }
+  .pal-btn.active { border-color: #38bdf8; background: rgba(56,189,248,.12); box-shadow: 0 0 0 1px #38bdf8; }
+  .pal-btn strong { display: block; font-size: 12.4px; color: #fff; }
+  .pal-btn span { font-size: 10.8px; color: #94a3b8; }
+  .swatch-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+  .swatch-chip { background: #0f172a; border: 1px solid #334155; border-radius: 7px; padding: 8px; display: flex; align-items: center; gap: 8px; }
+  .swatch-dot { width: 24px; height: 24px; border-radius: 5px; border: 1px solid rgba(255,255,255,.25); flex-shrink: 0; }
+  .swatch-chip small { display: block; font-size: 9.6px; color: #94a3b8; }
+  .swatch-chip b { font-size: 11px; color: #f1f5f9; }
+  .tour-bar {
+    display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+    background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 8px 12px;
+  }
+  .tour-btn {
+    background: #1e293b; color: #e2e8f0; border: 1px solid #475569; padding: 5px 10px;
+    border-radius: 6px; font-size: 11.4px; font-weight: 600; cursor: pointer; transition: .15s;
+  }
+  .tour-btn:hover, .tour-btn.active { background: #7c3aed; border-color: #8b5cf6; color: #fff; }
+  .fin-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
+  .fin-field { background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 9px 11px; }
+  .fin-field label { display: flex; justify-content: space-between; font-size: 11px; color: #94a3b8; margin-bottom: 5px; }
+  .fin-field label strong { color: #38bdf8; }
+  .fin-field input[type="range"] { width: 100%; accent-color: #10b981; cursor: pointer; }
+  .phase-pill { display: inline-block; padding: 2px 7px; border-radius: 99px; font-size: 10px; font-weight: 800; }
+  .phase-1 { background: rgba(16,185,129,.18); color: #34d399; border: 1px solid #059669; }
+  .phase-2 { background: rgba(245,158,11,.18); color: #fbbf24; border: 1px solid #d97706; }
+  .brief-banner {
+    background: linear-gradient(135deg, rgba(2,132,199,.18), rgba(16,185,129,.18));
+    border: 1.5px solid #38bdf8; border-radius: 10px; padding: 14px 16px;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+  }
+  @media (max-width: 820px) { .swatch-row, .fin-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .swatch-row, .fin-grid { grid-template-columns: 1fr; } }
+
   .tier-group { display: flex; gap: 8px; flex-wrap: wrap; }
   .tier-btn { padding: 7px 12px; border-radius: 7px; border: 1px solid #475569; background: #0f172a; color: #cbd5e1; font-size: 11.8px; font-weight: 700; cursor: pointer; }
   .tier-btn.active { background: #10b981; color: #022c22; border-color: #34d399; }
@@ -295,12 +336,13 @@
     <button class="tab-btn active" onclick="setTab('arq', this)">📐 Arquitetônico</button>
     <button class="tab-btn show" onclick="setTab('show', this)">🏡 Showroom</button>
     <button class="tab-btn iso" onclick="setTab('iso', this)">🧊 3D Interativo</button>
+    <button class="tab-btn eco" onclick="setTab('eco', this)">🌿 Paisagismo &amp; Solar</button>
     <button class="tab-btn elec" onclick="setTab('ele', this)">⚡ Elétrica</button>
     <button class="tab-btn hidro" onclick="setTab('hid', this)">💧 Hidráulica</button>
     <button class="tab-btn sec" onclick="setTab('sec', this)">📏 Cortes &amp; Fachada</button>
-    <button class="tab-btn cost" onclick="setTab('cost', this)">💰 Custos (CUB)</button>
+    <button class="tab-btn cost" onclick="setTab('cost', this)">💰 Custos &amp; Obra</button>
     <button class="tab-btn ilus" onclick="setTab('ilus', this)">🎨 Ilustrativa</button>
-    <button class="tab-btn reg" onclick="setTab('reg', this)">📋 Regras &amp; Revisão</button>
+    <button class="tab-btn reg" onclick="setTab('reg', this)">📋 Regras &amp; Briefing</button>
   </div>
 
   <div class="actions">
@@ -437,19 +479,40 @@
         </div>
       </div>
 
-      <div class="grid-2">
-        <div class="render-card">
-          <a href="render_fachada.jpg" target="_blank"><img src="render_fachada.jpg" alt="Fachada Contemporânea"></a>
-          <div class="render-cap">
-            <strong>Perspectiva Externa — Fachada Frontal (Sudeste · Sol da Manhã)</strong>
-            <span>Recuo frontal de 5,00 m ajardinado e permeável, pista permeável de garagem (rebaixo 3,00 m), porta pivotante em madeira, brises ripados sobre a escada, platibanda grafite e abrigo de lixo frontal integrado (Item 1.9.E).</span>
-          </div>
+      <!-- ITEM 7: COMPARADOR DE PALETAS DE ACABAMENTO (SINCRONIZADO COM 3D) -->
+      <div class="box">
+        <h2>🎨 Comparador de Paletas de Acabamento (Fachada + Materiais · Sincronizado com o 3D) <span style="font-size:11px;color:#38bdf8;font-weight:600;">Clique para comparar</span></h2>
+        <div class="pal-tabs">
+          <button class="pal-btn active" id="pal-grafite" onclick="setPalette('grafite')">
+            <strong>1. Contemporâneo Grafite + Madeira</strong>
+            <span>Branco neve · Platibanda grafite · Brise cedro</span>
+          </button>
+          <button class="pal-btn" id="pal-areia" onclick="setPalette('areia')">
+            <strong>2. Minimalista Areia &amp; Travertino</strong>
+            <span>Bege mineral · Esquadria bronze · Freijó claro</span>
+          </button>
+          <button class="pal-btn" id="pal-industrial" onclick="setPalette('industrial')">
+            <strong>3. Industrial Cimento Queimado &amp; Corten</strong>
+            <span>Concreto aparente · Preto fosco · Aço corten</span>
+          </button>
         </div>
-        <div class="render-card">
-          <a href="render_patio.jpg" target="_blank"><img src="render_patio.jpg" alt="Pátio Central e Sala Integrada"></a>
-          <div class="render-cap">
-            <strong>Perspectiva Interna — Sala 4,00 m + Jardim Central + Galeria Coberta</strong>
-            <span>Integração total entre a sala ampliada, o pátio arborizado aberto ao céu, a Galeria Coberta lateral (proteção contra chuva) levando à cozinha em ilha e o corredor envidraçado do 2º pavimento com guarda-corpo de segurança.</span>
+        <div class="grid-2" style="align-items:start;">
+          <div class="render-card">
+            <a id="pal-img-link" href="render_fachada.jpg" target="_blank"><img id="pal-img" src="render_fachada.jpg" alt="Fachada na paleta selecionada"></a>
+            <div class="render-cap">
+              <strong id="pal-title">Paleta 1 — Contemporâneo Grafite + Madeira Natural</strong>
+              <span id="pal-desc">Alto contraste limpo, fácil manutenção e excelente revenda. Alvenaria branca com textura acrílica hidrorepelente, platibanda grafite e brises ripados em madeira cumaru/cedro ou alumínio amadeirado.</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div class="render-card">
+              <a href="render_patio.jpg" target="_blank"><img src="render_patio.jpg" alt="Pátio Central e Sala Integrada"></a>
+              <div class="render-cap">
+                <strong>Perspectiva Interna — Sala 4,00 m + Jardim Central + Galeria Coberta</strong>
+                <span>Integração total entre sala ampliada, pátio arborizado aberto ao céu, Galeria Coberta com forro de madeira e cozinha gourmet em ilha.</span>
+              </div>
+            </div>
+            <div class="swatch-row" id="pal-swatches"></div>
           </div>
         </div>
       </div>
@@ -468,17 +531,24 @@
     <div class="container">
       <div class="iso-toolbar">
         <div class="iso-ctrl">
-          <strong style="color:#38bdf8;">Maquete 3D Interativa:</strong>
-          <button class="btn" onclick="set3DCam(15, 11, 22)">Vista Frontal SE</button>
-          <button class="btn" onclick="set3DCam(-14, 12, -16)">Fundos / Pergolado</button>
-          <button class="btn" onclick="set3DCam(2, 22, 6)">Vista Aérea do "U"</button>
-          <button class="btn" onclick="set3DCam(-16, 10, 14)">Corte Lateral</button>
+          <strong style="color:#38bdf8;">Câmeras Externas:</strong>
+          <button class="btn" onclick="flyTo3D(-14, 11, 21, 0, 2.4, 0, true, true)">Frontal SE</button>
+          <button class="btn" onclick="flyTo3D(-14, 12, -16, 0, 2.4, 0, true, true)">Fundos / Pergolado</button>
+          <button class="btn" onclick="flyTo3D(1, 23, 5, 0, 1.5, 0, true, true)">Aérea do "U"</button>
+          <button class="btn" onclick="flyTo3D(12, 14, -2, 1.5, 6.4, -0.5, true, true)">☀️ Placas Solares</button>
         </div>
         <div class="iso-ctrl">
-          <label><input type="checkbox" id="w3-upper" checked onchange="rebuild3D()" style="accent-color:#38bdf8;"> 2º Pavimento</label>
-          <label><input type="checkbox" id="w3-roof" checked onchange="rebuild3D()" style="accent-color:#38bdf8;"> Telhado / Platibanda</label>
+          <label><input type="checkbox" id="w3-upper" checked onchange="rebuild3D()" style="accent-color:#38bdf8;"> 2º Pav.</label>
+          <label><input type="checkbox" id="w3-roof" checked onchange="rebuild3D()" style="accent-color:#38bdf8;"> Telhado</label>
           <label><input type="checkbox" id="w3-furn" checked onchange="rebuild3D()" style="accent-color:#38bdf8;"> Mobiliário 3D</label>
-          <label><input type="checkbox" id="w3-walls" checked onchange="rebuild3D()" style="accent-color:#38bdf8;"> Muros Divisa (2,2m)</label>
+          <label><input type="checkbox" id="w3-walls" checked onchange="rebuild3D()" style="accent-color:#38bdf8;"> Muros</label>
+          <label><input type="checkbox" id="w3-solar" checked onchange="rebuild3D()" style="accent-color:#fbbf24;"> ☀️ Solar</label>
+          <label><input type="checkbox" id="w3-hedge" checked onchange="rebuild3D()" style="accent-color:#22c55e;"> 🌿 Cerca Acústica</label>
+          <select id="w3-pal" onchange="setPalette(this.value)" style="background:#0f172a;color:#fff;border:1px solid #475569;padding:4px 7px;border-radius:5px;font-size:11.5px;">
+            <option value="grafite">Paleta: Grafite + Madeira</option>
+            <option value="areia">Paleta: Areia &amp; Travertino</option>
+            <option value="industrial">Paleta: Industrial &amp; Corten</option>
+          </select>
         </div>
         <div class="iso-ctrl" style="gap:10px;">
           <strong style="color:#fbbf24;">☀️ Sol Real (26°S):</strong>
@@ -487,16 +557,86 @@
             <option value="equinox" selected>Equinócio (Mar/Set)</option>
             <option value="winter">Inverno (Jun)</option>
           </select>
-          <input type="range" id="w3-hour" min="6.5" max="17.5" step="0.25" value="9.5" oninput="updateSun3D()" style="width:115px;accent-color:#fbbf24;cursor:pointer;">
-          <strong id="w3-hour-lbl" style="color:#fbbf24;min-width:44px;font-variant-numeric:tabular-nums;">09:30</strong>
+          <input type="range" id="w3-hour" min="6.5" max="17.5" step="0.25" value="9.5" oninput="updateSun3D()" style="width:110px;accent-color:#fbbf24;cursor:pointer;">
+          <strong id="w3-hour-lbl" style="color:#fbbf24;min-width:42px;font-variant-numeric:tabular-nums;">09:30</strong>
           <button class="btn" id="w3-play-btn" onclick="toggleSunAnim()">▶ Dia</button>
         </div>
+      </div>
+
+      <!-- ITEM 5: TOUR 3D EM PRIMEIRA PESSOA -->
+      <div class="tour-bar">
+        <strong style="color:#a78bfa;font-size:12px;">🚶 Tour 1ª Pessoa (Caminhar dentro da casa):</strong>
+        <button class="tour-btn" onclick="startFPV('hall', this)">🚪 Entrada / Hall</button>
+        <button class="tour-btn" onclick="startFPV('sala', this)">🛋️ Sala → Jardim</button>
+        <button class="tour-btn" onclick="startFPV('cozinha', this)">🍽️ Cozinha Gourmet</button>
+        <button class="tour-btn" onclick="startFPV('corredor', this)">🪟 Corredor 2º Pav.</button>
+        <button class="tour-btn" onclick="startFPV('quintal', this)">🌿 Quintal Acústico</button>
+        <button class="tour-btn" id="btn-autotour" style="background:#059669;border-color:#10b981;color:#fff;" onclick="toggleAutoTour()">▶ Tour Automático</button>
+        <span id="tour-caption" style="font-size:11.2px;color:#94a3b8;margin-left:auto;">Clique num cômodo para entrar na casa!</span>
       </div>
 
       <div class="canvas-3d-wrap" id="canvas-3d-wrap">
         <div class="hud-3d">
           <div class="hud-pill">🖱️ <strong>Arraste</strong> para girar 360° · <strong>Pinça / Roda</strong> para zoom</div>
           <div class="hud-pill hud-tip" style="color:#34d399;">Dica: desmarque <strong>"2º Pavimento"</strong> ou <strong>"Telhado"</strong> para ver todos os móveis e ambientes por dentro!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW: PAISAGISMO ACÚSTICO & ENERGIA SOLAR (ITENS 1 & 3) -->
+  <div id="eco-view" class="full-view">
+    <div class="container">
+      <div class="box">
+        <h2>🌿 1. Estudo de Paisagismo + Barreira Acústica (Clima Úmido · Litoral Norte SC) <span style="font-size:11px;color:#34d399;">Raízes seguras + Conforto sonoro NW</span></h2>
+        <div class="grid-2" style="align-items:start;">
+          <div style="background:#0f172a;border:1px solid #334155;border-radius:8px;padding:12px;text-align:center;">
+            <svg id="landscape-svg" xmlns="http://www.w3.org/2000/svg" width="540" height="720" viewBox="0 0 540 720" style="max-width:100%;height:auto;border-radius:6px;background:#f8fafc;"></svg>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <table class="tech">
+              <thead><tr><th>Zona do Lote</th><th>Espécies Ideais (SC)</th><th>Função Técnica</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Barreira Fundos NW</strong><br><small>Muro fundos (10,0 m)</small></td><td><strong>Podocarpus</strong> (<em>P. macrophyllus</em>) espaçado a 0,70 m ou <strong>Murta-de-cheiro</strong> (h=3,0–4,0 m)</td><td>Atenuação acústica contra rodovia (~130 m NW), quebra-vento e privacidade visual sem raiz agressiva ao muro.</td></tr>
+                <tr><td><strong>Quintal de Fundos</strong><br><small>52,00 m² · Sol Tarde</small></td><td>Grama Esmeralda, <strong>Clúsia</strong> lateral e pomar compacto (Pitangueira / Limão Siciliano em vaso grande)</td><td>Alta permeabilidade do solo, redução da ilha de calor no Noroeste e área segura para pets/crianças.</td></tr>
+                <tr><td><strong>Jardim Central "U"</strong><br><small>10,08 m² · 2 Ralos</small></td><td><strong>Jabuticabeira Híbrida anã</strong> (em floreira/anel de contenção) ou <strong>Pleomele</strong> + Palmeira Ráfis + Grama-Amendoim</td><td><strong>Raízes fasciculadas não invasivas</strong> (zero risco para vigas baldrame e drenagem pluvial dos 2 ralos).</td></tr>
+                <tr><td><strong>Galeria Coberta</strong><br><small>Meia-sombra protegida</small></td><td>Zamioculca, Jiboia, Pacová ou Espada-de-São-Jorge em vasos drenantes</td><td>Fácil manutenção, alta resistência à umidade costeira de SC e purificação do ar.</td></tr>
+                <tr><td><strong>Recuo Frontal SE</strong><br><small>50,00 m² · Sol Manhã</small></td><td>Moreia branca, Capim-do-Texas verde, Agave-dragão + pisantes permeáveis</td><td>Atende Item 1.7.A (sem pavimentação contínua), baixa manutenção e fachada valorizada.</td></tr>
+              </tbody>
+            </table>
+            <div style="background:#0f172a;border:1px solid #10b981;border-radius:8px;padding:11px;font-size:11.6px;line-height:1.5;color:#cbd5e1;">
+              <strong style="color:#34d399;">💧 Pontos de Água &amp; Acústica Recomendados na Obra:</strong><br>
+              • Prever <strong>3 pontos de torneira externa / irrigação</strong> (Recuo Frontal, Jardim Central e Quintal de Fundos) ligados à <strong>Cisterna de Reúso</strong>.<br>
+              • Prever <strong>tubulação seca (eletroduto Ø25mm)</strong> no perímetro do jardim para balizadores LED de baixo consumo (12V/24V).<br>
+              • Na <strong>Suíte Master (fundos NW)</strong>, especificar vidro laminado 4+4 mm ou duplo com persiana integrada para somar <strong>~28–34 dB</strong> de isolamento acústico à cerca viva.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="box">
+        <h2>☀️ 2. Pré-Dimensionamento de Energia Solar (Fotovoltaica · Lat. 26°S) &amp; Captação de Chuva <span style="font-size:11px;color:#fbbf24;">Simulador Interativo</span></h2>
+        <div class="fin-grid">
+          <div class="fin-field">
+            <label><span>Consumo Mensal Alvo (kWh/mês)</span><strong id="sol-kwh-lbl">650 kWh</strong></label>
+            <input type="range" id="sol-kwh" min="300" max="1400" step="50" value="650" oninput="renderSolar()">
+            <small style="font-size:10px;color:#94a3b8;">Inclua indução, 4 splits e futuro Wallbox (+150–250 kWh)</small>
+          </div>
+          <div class="fin-field">
+            <label><span>Tarifa Energia SC (R$/kWh)</span><strong id="sol-tar-lbl">R$ 0,88</strong></label>
+            <input type="range" id="sol-tar" min="0.70" max="1.25" step="0.02" value="0.88" oninput="renderSolar()">
+            <small style="font-size:10px;color:#94a3b8;">Média residencial SC c/ impostos e bandeiras</small>
+          </div>
+          <div class="fin-field">
+            <label><span>Cisterna de Chuva (Litros)</span><strong id="sol-rain-lbl">3.000 L</strong></label>
+            <input type="range" id="sol-rain" min="1500" max="6000" step="500" value="3000" oninput="renderSolar()">
+            <small style="font-size:10px;color:#94a3b8;">Área de captação telhado: ~140 m² · Chuva SC ~1.800 mm/ano</small>
+          </div>
+        </div>
+        <div class="grid-4" id="solar-kpis"></div>
+        <div class="grid-2" style="margin-top:12px;">
+          <div style="background:#0f172a;border:1px solid #334155;border-radius:8px;padding:12px;font-size:11.6px;line-height:1.52;color:#cbd5e1;" id="solar-tech-notes"></div>
+          <div style="background:#0f172a;border:1px solid #334155;border-radius:8px;padding:12px;font-size:11.6px;line-height:1.52;color:#cbd5e1;" id="rain-tech-notes"></div>
         </div>
       </div>
     </div>
@@ -540,6 +680,56 @@
           </div>
         </div>
       </div>
+
+      <!-- ITEM 2: VERSÃO "CASA CRESCENTE" — OBRA EM 2 FASES -->
+      <div class="box">
+        <h2>🧱 3. Planejamento "Casa Crescente" — Obra em 2 Fases (Otimização de Fluxo de Caixa) <span style="font-size:11px;color:#34d399;">Sem quebrar parede na Fase 2!</span></h2>
+        <div class="grid-2" style="align-items:start;">
+          <div style="background:#0f172a;border:1px solid #334155;border-radius:8px;padding:12px;" id="phase-summary-box"></div>
+          <table class="tech" id="phase-table"></table>
+        </div>
+      </div>
+
+      <!-- ITEM 6: CRONOGRAMA MÊS A MÊS (CURVA S) + SIMULADOR DE FINANCIAMENTO -->
+      <div class="grid-2">
+        <div class="box">
+          <h2>📅 4. Cronograma Físico-Financeiro Mês a Mês <span style="display:flex;gap:5px;">
+            <button class="btn" id="dur-12" onclick="setBuildMonths(12)">12 meses</button>
+            <button class="btn btn-primary" id="dur-15" onclick="setBuildMonths(15)">15 meses</button>
+            <button class="btn" id="dur-18" onclick="setBuildMonths(18)">18 meses</button>
+          </span></h2>
+          <div style="background:#0f172a;border:1px solid #334155;border-radius:8px;padding:10px;overflow-x:auto;">
+            <svg id="schedule-svg" xmlns="http://www.w3.org/2000/svg" width="600" height="230" viewBox="0 0 600 230" style="width:100%;height:auto;"></svg>
+          </div>
+          <div style="max-height:210px;overflow-y:auto;margin-top:10px;">
+            <table class="tech" id="schedule-table"></table>
+          </div>
+        </div>
+
+        <div class="box">
+          <h2>🏦 5. Simulador de Financiamento Construção (Tabela SAC · Caixa/SBPE)</h2>
+          <div class="fin-grid" style="grid-template-columns:1fr;">
+            <div class="fin-field">
+              <label><span>Entrada / Recursos Próprios</span><strong id="fin-down-lbl">R$ 200.000</strong></label>
+              <input type="range" id="fin-down" min="0" max="600000" step="10000" value="200000" oninput="renderFinance()">
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div class="fin-field">
+                <label><span>Juros Anuais (% a.a.)</span><strong id="fin-rate-lbl">10,5% a.a.</strong></label>
+                <input type="range" id="fin-rate" min="7.5" max="13.5" step="0.25" value="10.5" oninput="renderFinance()">
+              </div>
+              <div class="fin-field">
+                <label><span>Prazo (Anos)</span><strong id="fin-years-lbl">30 anos</strong></label>
+                <input type="range" id="fin-years" min="10" max="35" step="5" value="30" oninput="renderFinance()">
+              </div>
+            </div>
+          </div>
+          <div class="grid-2" id="fin-kpis" style="gap:10px;"></div>
+          <div style="margin-top:10px;font-size:11px;color:#94a3b8;line-height:1.45;">
+            * Simulação educativa em <strong>Sistema SAC</strong> (amortização constante, parcelas decrescentes). Não inclui taxas de seguro MIP/DFI (~R$ 120–240/mês) nem TR. Durante a obra, paga-se apenas juros proporcionais às medições liberadas.
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -560,6 +750,18 @@
   <!-- VIEW: ESQUADRIAS, ELÉTRICA, HIDRÁULICA & CHECKLIST REVISÃO R03 -->
   <div id="reg-view" class="full-view">
     <div class="container">
+      <!-- ITEM 8: EXPORTAR DOSSIÊ / BRIEFING EXECUTIVO EM 1 CLIQUE -->
+      <div class="brief-banner">
+        <div>
+          <div style="font-size:15.5px;font-weight:800;color:#fff;">📋 Dossiê / Briefing Executivo Completo (Pronto p/ Arquiteto &amp; Engenheiro)</div>
+          <div style="font-size:11.6px;color:#cbd5e1;">Consolida automaticamente todas as áreas exatas R03, esquadrias, elétrica NBR 5410, hidráulica, diagnóstico real do terreno (poste, cavalete, rodovia NW), solar, paisagismo e checklist AECO/SPT.</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn btn-primary" onclick="downloadBriefingMD()">📄 Baixar Briefing (.md)</button>
+          <button class="btn" style="background:#0284c7;border-color:#38bdf8;" onclick="printBriefingHTML()">🖨️ Imprimir / Salvar Dossiê PDF</button>
+        </div>
+      </div>
+
       <div class="grid-2">
         <div class="box">
           <h2>Quadro de Esquadrias — R03 (Zero divergências!)</h2>
@@ -1401,11 +1603,75 @@ function renderShowroomPlan() {
 }
 
 // =============================================================================
-// REAL 3D INTERACTIVE ARCHITECTURAL VIEWER (THREE.JS WEBGL)
+// PALETTE COMPARATOR (ITEM 7 — SYNCED WITH 3D!)
+// =============================================================================
+let currentPalette = "grafite";
+const PALETTES = {
+  grafite: {
+    img: "render_fachada.jpg",
+    title: "Paleta 1 — Contemporâneo Grafite + Madeira Natural",
+    desc: "Alto contraste limpo, fácil manutenção e excelente revenda. Alvenaria branca com textura acrílica hidrorepelente, platibanda grafite e brises ripados em madeira cumaru/cedro ou alumínio amadeirado.",
+    swatches: [
+      { col:"#f8fafc", lbl:"Fachada", val:"Branco Neve Fosco" },
+      { col:"#1e293b", lbl:"Platibanda / Esq.", val:"Grafite / Preto" },
+      { col:"#9a5b25", lbl:"Brise / Porta P1", val:"Madeira Cedro" },
+      { col:"#e7d3b7", lbl:"Piso Social", val:"Porcelanato / Madeira" }
+    ],
+    three: { wall: 0xf8fafc, trim: 0x1e293b, wood: 0x9a5b25, woodL: 0xd4a373, floor: 0xe7d3b7 }
+  },
+  areia: {
+    img: "render_paleta_areia.jpg",
+    title: "Paleta 2 — Minimalista Areia, Travertino & Bronze",
+    desc: "Visual orgânico, acolhedor e atemporal (suja menos no clima úmido de SC). Reboco mineral cor areia quente, esquadrias champagne/bronze, freijó claro nos brises e murete em pedra travertino.",
+    swatches: [
+      { col:"#d8cab8", lbl:"Fachada", val:"Areia Mineral" },
+      { col:"#8c7b6b", lbl:"Platibanda / Esq.", val:"Bronze / Champagne" },
+      { col:"#cfa77b", lbl:"Brise / Porta P1", val:"Freijó Claro" },
+      { col:"#dfd2be", lbl:"Murete / Piso", val:"Travertino Natural" }
+    ],
+    three: { wall: 0xe5dac9, trim: 0x7c6f63, wood: 0xc89d70, woodL: 0xdcc29e, floor: 0xede2d0 }
+  },
+  industrial: {
+    img: "render_paleta_industrial.jpg",
+    title: "Paleta 3 — Industrial Cimento Queimado & Aço Corten",
+    desc: "Personalidade forte e baixa manutenção contra maresia/umidade. Textura cimento queimado + concreto ripado no 2º pavimento, esquadrias preto fosco e brise/porta pivotante em aço corten (ou madeira escura).",
+    swatches: [
+      { col:"#a8aeb5", lbl:"Fachada", val:"Cimento Queimado" },
+      { col:"#111827", lbl:"Platibanda / Esq.", val:"Preto Fosco" },
+      { col:"#7c3a1d", lbl:"Brise / Porta P1", val:"Aço Corten" },
+      { col:"#cbd5e1", lbl:"Piso Social", val:"Concreto Polido" }
+    ],
+    three: { wall: 0xb0b7bf, trim: 0x111827, wood: 0x7c3a1d, woodL: 0x8f5638, floor: 0xd1d5db }
+  }
+};
+
+function setPalette(key) {
+  if (!PALETTES[key]) return;
+  currentPalette = key;
+  const p = PALETTES[key];
+  ["grafite","areia","industrial"].forEach(k => {
+    const b = document.getElementById("pal-" + k);
+    if (b) b.classList.toggle("active", k === key);
+  });
+  const img = document.getElementById("pal-img");
+  const lnk = document.getElementById("pal-img-link");
+  if (img) img.src = p.img;
+  if (lnk) lnk.href = p.img;
+  const tt = document.getElementById("pal-title"); if (tt) tt.textContent = p.title;
+  const dd = document.getElementById("pal-desc"); if (dd) dd.textContent = p.desc;
+  const sw = document.getElementById("pal-swatches");
+  if (sw) sw.innerHTML = p.swatches.map(s => `<div class="swatch-chip"><div class="swatch-dot" style="background:${s.col};"></div><div><small>${s.lbl}</small><b>${s.val}</b></div></div>`).join("");
+  const sel3 = document.getElementById("w3-pal");
+  if (sel3 && sel3.value !== key) sel3.value = key;
+  if (is3DReady) rebuild3D();
+}
+
+// =============================================================================
+// REAL 3D INTERACTIVE ARCHITECTURAL VIEWER (THREE.JS WEBGL) + TOUR 1ª PESSOA
 // =============================================================================
 let scene3D, camera3D, renderer3D, houseGroup3D, sunLight3D, animId3D;
 let camTheta = -0.58, camPhi = 0.95, camRadius = 26, camTarget = null;
-let is3DReady = false;
+let is3DReady = false, camLerp = null, autoTourTimer = null;
 
 function init3D() {
   const wrap = document.getElementById("canvas-3d-wrap");
@@ -1450,7 +1716,7 @@ function init3D() {
   // Smooth Orbit Controls (mouse + mobile 1-finger orbit + 2-finger pinch zoom)
   let drag3 = false, lx = 0, ly = 0, pinch3 = 0;
   const dom = renderer3D.domElement;
-  dom.addEventListener("mousedown", e => { drag3 = true; lx = e.clientX; ly = e.clientY; });
+  dom.addEventListener("mousedown", e => { camLerp = null; stopAutoTour(); drag3 = true; lx = e.clientX; ly = e.clientY; });
   window.addEventListener("mousemove", e => {
     if (!drag3) return;
     camTheta -= (e.clientX - lx) * 0.008;
@@ -1460,6 +1726,7 @@ function init3D() {
   });
   window.addEventListener("mouseup", () => drag3 = false);
   dom.addEventListener("touchstart", e => {
+    camLerp = null; stopAutoTour();
     if (e.touches.length === 1) { drag3 = true; pinch3 = 0; lx = e.touches[0].clientX; ly = e.touches[0].clientY; }
     else if (e.touches.length === 2) {
       drag3 = false;
@@ -1476,22 +1743,37 @@ function init3D() {
     } else if (e.touches.length === 2 && pinch3 > 0) {
       e.preventDefault();
       const d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
-      camRadius = Math.max(10, Math.min(52, camRadius * (pinch3 / Math.max(10, d))));
+      camRadius = Math.max(3, Math.min(52, camRadius * (pinch3 / Math.max(10, d))));
       pinch3 = d;
       updateCam3D();
     }
   }, { passive: false });
   window.addEventListener("touchend", () => { drag3 = false; pinch3 = 0; });
   dom.addEventListener("wheel", e => {
-    e.preventDefault();
-    camRadius = Math.max(10, Math.min(52, camRadius + e.deltaY * 0.018));
+    e.preventDefault(); camLerp = null; stopAutoTour();
+    camRadius = Math.max(3, Math.min(52, camRadius + e.deltaY * 0.018));
     updateCam3D();
   }, { passive: false });
 
   updateSun3D();
   rebuild3D();
   updateCam3D();
-  (function loop() { animId3D = requestAnimationFrame(loop); renderer3D.render(scene3D, camera3D); })();
+  (function loop() {
+    animId3D = requestAnimationFrame(loop);
+    if (camLerp && camera3D) {
+      camera3D.position.lerp(camLerp.pos, 0.09);
+      camTarget.lerp(camLerp.tgt, 0.09);
+      camera3D.lookAt(camTarget);
+      if (camera3D.position.distanceTo(camLerp.pos) < 0.08 && camTarget.distanceTo(camLerp.tgt) < 0.08) {
+        const v = camera3D.position.clone().sub(camTarget);
+        camRadius = Math.max(2.5, v.length());
+        camPhi = Math.acos(Math.max(-1, Math.min(1, v.y / camRadius)));
+        camTheta = Math.atan2(v.x, v.z);
+        camLerp = null;
+      }
+    }
+    renderer3D.render(scene3D, camera3D);
+  })();
 }
 
 function updateCam3D() {
@@ -1503,13 +1785,55 @@ function updateCam3D() {
   );
   camera3D.lookAt(camTarget);
 }
-function set3DCam(x, y, z) {
+
+// Smooth camera fly-to (supports both exterior and 1st-person interior tour!)
+function flyTo3D(px, py, pz, tx, ty, tz, showUpper = true, showRoof = true) {
   if (!is3DReady) init3D();
-  const v = new THREE.Vector3(x, y, z).sub(camTarget);
-  camRadius = v.length();
-  camPhi = Math.acos(Math.max(-1, Math.min(1, v.y / camRadius)));
-  camTheta = Math.atan2(v.x, v.z);
-  updateCam3D();
+  const u = document.getElementById("w3-upper"), r = document.getElementById("w3-roof");
+  if (u && r && (u.checked !== showUpper || r.checked !== showRoof)) {
+    u.checked = showUpper; r.checked = showRoof; rebuild3D();
+  }
+  camLerp = { pos: new THREE.Vector3(px, py, pz), tgt: new THREE.Vector3(tx, ty, tz) };
+}
+
+// ITEM 5: 1ST-PERSON WALKTHROUGH PRESETS (lot coords: X=lotX-5, Y=height, Z=12-lotY)
+const FPV_STOPS = {
+  hall:     { pos:[-0.4, 1.85, 8.6],  tgt:[-0.2, 1.65, 2.5],  up:true, roof:true,  cap:"🚪 Entrada pelo Hall (1,80 m prof.) — vista para a porta pivotante e escada ao fundo." },
+  sala:     { pos:[-3.4, 1.75, -0.4], tgt:[1.5, 1.55, -0.6],  up:true, roof:true,  cap:"🛋️ Sentado na Sala (4,00 m) — abertura total de 3,80 m para o Jardim Central e Galeria Coberta." },
+  cozinha:  { pos:[3.2, 1.85, -5.8],  tgt:[-1.8, 1.45, -1.2], up:true, roof:true,  cap:"🍽️ Cozinha em Ilha & Gourmet — integração direta com Jantar, Jardim Central e Quintal NW." },
+  corredor: { pos:[1.65, 4.95, 1.8],  tgt:[0.5, 4.45, -4.5],  up:true, roof:true,  cap:"🪟 Corredor Envidraçado (2º Pav.) — guarda-corpo h=1,10 m com vista do vazio central e Suíte Master." },
+  quintal:  { pos:[-2.5, 2.1, -10.4], tgt:[0.5, 2.2, -5.5],   up:true, roof:true,  cap:"🌿 Quintal de Fundos (5,20 m) — Pergolado/Brise Noroeste e barreira acústica de Podocarpus." }
+};
+
+function startFPV(key, btn) {
+  stopAutoTour();
+  const s = FPV_STOPS[key]; if (!s) return;
+  document.querySelectorAll(".tour-btn").forEach(b => b.classList.remove("active"));
+  if (btn) btn.classList.add("active");
+  const cap = document.getElementById("tour-caption"); if (cap) cap.textContent = s.cap;
+  flyTo3D(s.pos[0], s.pos[1], s.pos[2], s.tgt[0], s.tgt[1], s.tgt[2], s.up, s.roof);
+}
+
+function stopAutoTour() {
+  if (autoTourTimer) { clearInterval(autoTourTimer); autoTourTimer = null; }
+  const b = document.getElementById("btn-autotour");
+  if (b) b.textContent = "▶ Tour Automático";
+}
+function toggleAutoTour() {
+  if (autoTourTimer) { stopAutoTour(); return; }
+  const seq = ["hall","sala","cozinha","corredor","quintal"];
+  let idx = 0;
+  const b = document.getElementById("btn-autotour");
+  if (b) b.textContent = "⏸ Parar Tour";
+  const step = () => {
+    const k = seq[idx % seq.length];
+    const s = FPV_STOPS[k];
+    const cap = document.getElementById("tour-caption"); if (cap) cap.textContent = s.cap;
+    flyTo3D(s.pos[0], s.pos[1], s.pos[2], s.tgt[0], s.tgt[1], s.tgt[2], s.up, s.roof);
+    idx++;
+  };
+  step();
+  autoTourTimer = setInterval(step, 3600);
 }
 let sunAnimTimer = null;
 function toggleSunAnim() {
@@ -1583,17 +1907,22 @@ function rebuild3D() {
   const showRoof  = document.getElementById("w3-roof").checked;
   const showFurn  = document.getElementById("w3-furn").checked;
   const showWalls = document.getElementById("w3-walls").checked;
+  const showSolar = document.getElementById("w3-solar") ? document.getElementById("w3-solar").checked : true;
+  const showHedge = document.getElementById("w3-hedge") ? document.getElementById("w3-hedge").checked : true;
+  const pal = PALETTES[currentPalette].three;
 
-  // Materials
+  // Materials (synchronized with selected finish palette!)
   const mGrass = new THREE.MeshLambertMaterial({ color: 0x4ade80 });
   const mRoad  = new THREE.MeshLambertMaterial({ color: 0x475569 });
   const mWalk  = new THREE.MeshLambertMaterial({ color: 0xcbd5e1 });
-  const mWall  = new THREE.MeshLambertMaterial({ color: 0xf8fafc });
-  const mTrim  = new THREE.MeshLambertMaterial({ color: 0x1e293b });
-  const mWood  = new THREE.MeshLambertMaterial({ color: 0x9a5b25 });
-  const mWoodL = new THREE.MeshLambertMaterial({ color: 0xd4a373 });
-  const mFloor = new THREE.MeshLambertMaterial({ color: 0xe7d3b7 });
+  const mWall  = new THREE.MeshLambertMaterial({ color: pal.wall });
+  const mTrim  = new THREE.MeshLambertMaterial({ color: pal.trim });
+  const mWood  = new THREE.MeshLambertMaterial({ color: pal.wood });
+  const mWoodL = new THREE.MeshLambertMaterial({ color: pal.woodL });
+  const mFloor = new THREE.MeshLambertMaterial({ color: pal.floor });
   const mTile  = new THREE.MeshLambertMaterial({ color: 0xe2e8f0 });
+  const mSolar = new THREE.MeshLambertMaterial({ color: 0x1e3a8a });
+  const mHedge = new THREE.MeshLambertMaterial({ color: 0x15803d });
   const mGlass = new THREE.MeshPhysicalMaterial({ color: 0x7dd3fc, transparent: true, opacity: 0.42, roughness: 0.1 });
   const mWater = new THREE.MeshLambertMaterial({ color: 0x0ea5e9 });
   const mLeaf  = new THREE.MeshLambertMaterial({ color: 0x16a34a });
@@ -1793,6 +2122,29 @@ function rebuild3D() {
       // Water tank enclosure over Shaft (x=7.7..9.6, y=11.2..12.6)
       box(7.7, 11.2, 6.52, 9.6, 12.6, 7.45, mWall);
       box(7.65, 11.15, 7.45, 9.65, 12.65, 7.62, mTrim);
+
+      // ITEM 3: 12x 550Wp Solar Photovoltaic Panels tilted ~18° toward North/NW!
+      if (showSolar) {
+        function addPanel(lx, ly, lz) {
+          const p = new THREE.Mesh(new THREE.BoxGeometry(1.12, 0.06, 2.05), mSolar);
+          p.position.set(lx - 5, lz + 0.35, 12 - ly);
+          p.rotation.x = 0.28; // Tilted toward back/North-NW!
+          p.castShadow = true; p.receiveShadow = true;
+          houseGroup3D.add(p);
+        }
+        for (let i = 0; i < 6; i++) addPanel(0.9 + i*1.42, 8.1, 6.52);   // 6 panels on Front Upper Roof
+        for (let i = 0; i < 4; i++) addPanel(4.7 + i*1.32, 16.4, 6.52);  // 4 panels on Suite Master Roof
+        for (let i = 0; i < 2; i++) addPanel(1.1 + i*1.5, 14.2, h1+0.3); // 2 panels on Sala Roof
+      }
+    }
+  }
+  // ITEM 1: Acoustic Podocarpus Hedge along Rear NW Wall (y=23.25, h=3.4m)
+  if (showHedge) {
+    for (let hx = 0.55; hx <= 9.5; hx += 0.72) {
+      const bush = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.40, 3.2, 7), (Math.round(hx*10)%2 ? mHedge : mLeaf));
+      bush.position.set(hx - 5, 1.6, 12 - 23.35);
+      bush.castShadow = true; bush.receiveShadow = true;
+      houseGroup3D.add(bush);
     }
   }
 }
@@ -1859,6 +2211,306 @@ function renderCosts() {
     `<thead><tr><th>Etapa (Material + Mão de Obra)</th><th class="num">%</th><th class="num">Estimativa</th></tr></thead><tbody>` +
     stages.map(s => `<tr><td>${s[0]}</td><td class="num">${s[1]}</td><td class="num"><strong>${fmtBRL(s[2])}</strong></td></tr>`).join("") +
     `<tr style="background:#0f172a;"><td><strong>TOTAL PARAMÉTRICO ESTIMADO</strong></td><td class="num"><strong>100%</strong></td><td class="num"><strong style="color:#34d399;font-size:13px;">${fmtBRL(total)}</strong></td></tr></tbody>`;
+
+  renderPhases(baseHouse, extrasCost);
+  renderSchedule(total);
+  renderFinance(total);
+}
+
+// =============================================================================
+// ITEM 1 & 3: PAISAGISMO ACÚSTICO (SVG) & SIMULADOR SOLAR + CHUVA (LAT 26°S)
+// =============================================================================
+function renderLandscapePlan() {
+  const lsvg = document.getElementById("landscape-svg");
+  if (!lsvg) return;
+  lsvg.innerHTML = "";
+  const sc = 26, ox = 140, oy = 48;
+  const X = m => ox + m * sc, Y = m => oy + (24 - m) * sc;
+
+  el("rect", { width: 540, height: 720, fill: "#f8fafc" }, lsvg);
+  txt(270, 26, "ESTUDO DE PAISAGISMO & BARREIRA ACÚSTICA (LOTE 10 × 24 m)", { "font-size": 11.5, "font-weight": 800, fill: "#0f172a", "text-anchor": "middle" }, lsvg);
+
+  // Lot base
+  el("rect", { x: ox, y: oy, width: 10*sc, height: 24*sc, fill: "#bbf7d0", stroke: "#1e293b", "stroke-width": 2.2 }, lsvg);
+  // House footprint (neutral grey so green areas pop!)
+  el("rect", { x: X(0), y: Y(18.8), width: 10*sc, height: 13.8*sc, fill: "#e2e8f0", stroke: "#475569", "stroke-width": 1.6 }, lsvg);
+  // Open Central Garden cutout
+  el("rect", { x: X(4.0), y: Y(14.8), width: 2.1*sc, height: 4.8*sc, fill: "#86efac", stroke: "#15803d", "stroke-width": 1.8 }, lsvg);
+  txt(X(5.05), Y(11.4), ["JARDIM","CENTRAL","10,08 m²"], { "font-size": 7.4, "font-weight": 800, fill: "#14532d", "text-anchor": "middle" }, lsvg);
+
+  // Rear NW Acoustic Hedge (Podocarpus every 0.7m along y=23.2!)
+  for (let hx = 0.6; hx <= 9.4; hx += 0.75) {
+    el("circle", { cx: X(hx), cy: Y(23.3), r: 10.5, fill: "#15803d", "fill-opacity": 0.9, stroke: "#052e16", "stroke-width": 0.8 }, lsvg);
+  }
+  txt(X(5.0), Y(22.1), "BARREIRA ACÚSTICA PODOCARPUS / MURTA (h=3,5m)", { "font-size": 7.6, "font-weight": 800, fill: "#052e16", "text-anchor": "middle" }, lsvg);
+  txt(X(5.0), oy - 8, "▲ NOROESTE — Rodovia a ~130 m (Barreira Sonora + Sol da Tarde) ▲", { "font-size": 8.0, "font-weight": 800, fill: "#b45309", "text-anchor": "middle" }, lsvg);
+
+  // Pergolado NW
+  el("rect", { x: X(0.4), y: Y(19.7), width: 8.6*sc, height: 0.9*sc, fill: "#fef3c7", stroke: "#b45309", "stroke-width": 1.2, "stroke-dasharray": "4,2" }, lsvg);
+  txt(X(4.7), Y(19.2), "Pergolado + Brise NW", { "font-size": 7.2, "font-weight": 700, fill: "#92400e", "text-anchor": "middle" }, lsvg);
+
+  // Side fruit/shrubs + Central Jabuticabeira + Front Garden
+  el("circle", { cx: X(5.05), cy: Y(13.2), r: 17, fill: "#16a34a", "fill-opacity": 0.85 }, lsvg);
+  el("circle", { cx: X(5.05), cy: Y(13.2), r: 8, fill: "#4ade80" }, lsvg);
+  el("circle", { cx: X(1.8), cy: Y(21.2), r: 14, fill: "#22c55e", "fill-opacity": 0.8 }, lsvg);
+  el("circle", { cx: X(8.2), cy: Y(21.2), r: 13, fill: "#22c55e", "fill-opacity": 0.8 }, lsvg);
+
+  // Front permeable driveway + stepping stones + front shrubs
+  el("rect", { x: X(0.45), y: Y(5.0), width: 0.7*sc, height: 5.0*sc, fill: "#cbd5e1" }, lsvg);
+  el("rect", { x: X(2.15), y: Y(5.0), width: 0.7*sc, height: 5.0*sc, fill: "#cbd5e1" }, lsvg);
+  for (let sy = 0.6; sy < 4.6; sy += 0.85) el("rect", { x: X(3.85), y: Y(sy+0.4), width: 1.0*sc, height: 0.42*sc, rx: 2, fill: "#e7e5e4", stroke: "#78716c" }, lsvg);
+  el("circle", { cx: X(6.5), cy: Y(3.1), r: 14, fill: "#16a34a", "fill-opacity": 0.8 }, lsvg);
+  el("circle", { cx: X(8.4), cy: Y(2.9), r: 16, fill: "#22c55e", "fill-opacity": 0.8 }, lsvg);
+  txt(X(5.0), Y(-0.7), "FRENTE SUDESTE — Rua sem Saída (Sol da Manhã)", { "font-size": 8.0, "font-weight": 800, fill: "#0369a1", "text-anchor": "middle" }, lsvg);
+
+  // 3 Irrigation / Water tap points (blue circles)
+  [[5.8, 4.6, "T1"], [5.8, 13.8, "T2"], [1.0, 19.3, "T3"]].forEach(t => {
+    el("circle", { cx: X(t[0]), cy: Y(t[1]), r: 7, fill: "#0284c7", stroke: "#fff", "stroke-width": 1.5 }, lsvg);
+    txt(X(t[0]), Y(t[1]) + 2.5, t[2], { "font-size": 6.5, "font-weight": 800, fill: "#fff", "text-anchor": "middle" }, lsvg);
+  });
+  txt(270, 706, "T1 / T2 / T3 = Pontos de Torneira / Irrigação (Cisterna de Reúso) · Círculos escuros = Barreira Acústica", { "font-size": 8.4, "font-weight": 700, fill: "#334155", "text-anchor": "middle" }, lsvg);
+}
+
+function renderSolar() {
+  const kwhEl = document.getElementById("sol-kwh");
+  if (!kwhEl) return;
+  const kwh = +kwhEl.value;
+  const tar = +document.getElementById("sol-tar").value;
+  const rainL = +document.getElementById("sol-rain").value;
+  document.getElementById("sol-kwh-lbl").textContent = `${kwh} kWh`;
+  document.getElementById("sol-tar-lbl").textContent = `R$ ${tar.toFixed(2).replace(".",",")}`;
+  document.getElementById("sol-rain-lbl").textContent = `${rainL.toLocaleString("pt-BR")} L`;
+
+  // Litoral Norte SC (Lat 26°S): HSP ~4.35 h/day, PR ~0.80 => ~104.4 kWh/month per kWp
+  const prodPerKwp = 4.35 * 30 * 0.80;
+  const reqKwp = kwh / prodPerKwp;
+  const panels = Math.max(6, Math.ceil((reqKwp * 1000) / 550));
+  const instKwp = +(panels * 0.55).toFixed(2);
+  const genMonth = Math.round(instKwp * prodPerKwp);
+  const panelArea = +(panels * 2.58).toFixed(1);
+  const estCost = Math.round(instKwp * 3900 + 3500);
+  const annualSave = Math.round(Math.min(genMonth, kwh) * tar * 12 * 0.86); // after Fio B / min availability
+  const payback = +(estCost / Math.max(1, annualSave)).toFixed(1);
+
+  document.getElementById("solar-kpis").innerHTML = `
+    <div class="kpi"><div class="k-lbl">Sistema Fotovoltaico</div><div class="k-val" style="color:#fbbf24;">${instKwp.toFixed(2).replace(".",",")} kWp</div><div class="k-sub">${panels} placas × 550 Wp (${panelArea.toFixed(1).replace(".",",")} m² de telhado)</div></div>
+    <div class="kpi"><div class="k-lbl">Geração Média SC</div><div class="k-val" style="color:#38bdf8;">${genMonth} kWh/mês</div><div class="k-sub">HSP 4,35 h/dia · Telhado N/NW (~95 m² livres)</div></div>
+    <div class="kpi"><div class="k-lbl">Investimento Estimado</div><div class="k-val">${fmtBRL(estCost)}</div><div class="k-sub">Chave na mão (inversor + projeto Celesc)</div></div>
+    <div class="kpi"><div class="k-lbl">Economia / Payback</div><div class="k-val" style="color:#34d399;">${payback.toFixed(1).replace(".",",")} anos</div><div class="k-sub">Economia estimada: ~${fmtBRL(annualSave)}/ano</div></div>
+  `;
+
+  document.getElementById("solar-tech-notes").innerHTML = `
+    <strong style="color:#fbbf24;">⚡ Preparação Fotovoltaica na Obra (Custo quase zero na Fase 1):</strong><br>
+    • Deixar <strong>eletroduto dedicado Ø32mm</strong> descendo da cobertura (junto ao Shaft) direto até o inversor na <strong>Garagem / Despensa (QDG)</strong>.<br>
+    • Área livre na cobertura do 2º Pav. + Sala (~95 m²) comporta até <strong>24 módulos (~13,2 kWp)</strong> com folga caso inclua 2 carros elétricos no futuro.<br>
+    • Prever espaço no QDG (já com 20% reserva na R03) para disjuntor fotovoltaico + DPS CC/CA.
+  `;
+  const monthlyRainUse = Math.round(Math.min(rainL * 1.4, 140 * 140 * 0.75));
+  document.getElementById("rain-tech-notes").innerHTML = `
+    <strong style="color:#38bdf8;">🌧️ Captação de Água da Chuva (Clima Litoral Norte SC):</strong><br>
+    • Com ~140 m² de telhado e pluviosidade média de <strong>~1.800 mm/ano</strong> em SC, o telhado capta até <strong>18.000 L/mês</strong>.<br>
+    • Com uma cisterna de <strong>${rainL.toLocaleString("pt-BR")} L</strong> + filtro separador de folhas + primeira chuva, você atende ~<strong>${monthlyRainUse.toLocaleString("pt-BR")} L/mês</strong> em irrigação dos 3 jardins, lavagem da garagem e calçada (economia de ~25–35% na conta de água).
+  `;
+}
+
+// =============================================================================
+// ITEM 2 & 6: OBRA EM 2 FASES + CRONOGRAMA MÊS A MÊS + FINANCIAMENTO SAC
+// =============================================================================
+let buildMonths = 15, lastTotalForFinance = 795000;
+function setBuildMonths(m) {
+  buildMonths = m;
+  [12,15,18].forEach(k => {
+    const b = document.getElementById("dur-" + k);
+    if (b) b.className = k === m ? "btn btn-primary" : "btn";
+  });
+  renderSchedule(lastTotalForFinance);
+}
+
+function renderPhases(baseHouse, extrasCost) {
+  const phase2Items = [
+    ["Pergolado + Brise Vertical NW (deixar chumbadores na Fase 1)", 18000, "Fase 2"],
+    ["Paisagismo Completo + Barreira Acústica Podocarpus + Irrigação", 16000, "Fase 2"],
+    ["Marcenaria Planejada (Cozinha, Closet, Escritório, Banheiros)", 48000, "Fase 2"],
+    ["Sistema Solar Fotovoltaico (deixar eletroduto Ø32mm na Fase 1)", 26000, "Fase 2"],
+    ["Carregador Wallbox 7,4 kW (deixar cabo 10mm² C13 na Fase 1)", 8000, "Fase 2"]
+  ];
+  const p2Total = phase2Items.reduce((s, i) => s + i[1], 0);
+  const p1Total = baseHouse + extrasCost;
+
+  document.getElementById("phase-summary-box").innerHTML = `
+    <div style="font-size:13px;font-weight:800;color:#fff;margin-bottom:8px;">Estratégia "Casa Crescente" (Sem Quebra-Quebra)</div>
+    <div class="metric-row"><span><span class="phase-pill phase-1">FASE 1</span> Casa Pronta p/ Morar + Infraestrutura</span><strong style="color:#34d399;">${fmtBRL(p1Total)}</strong></div>
+    <div class="metric-row"><span><span class="phase-pill phase-2">FASE 2</span> Upgrades Pós-Mudança (Opcional/Gradual)</span><strong style="color:#fbbf24;">+ ${fmtBRL(p2Total)}</strong></div>
+    <div class="metric-row"><span><strong>Total Completo (Casa + Todos Upgrades)</strong></span><strong style="color:#38bdf8;">${fmtBRL(p1Total + p2Total)}</strong></div>
+    <div style="margin-top:10px;font-size:11.3px;color:#cbd5e1;line-height:1.48;">
+      ✔ <strong>Segredo de engenharia:</strong> na Fase 1 você investe apenas ~R$ 3–4 mil em infraestrutura oculta (eletroduto solar Ø32mm, cabo C13 Wallbox, pontos T1/T2/T3 de irrigação e chumbadores do pergolado), adiando <strong>${fmtBRL(p2Total)}</strong> para depois da mudança sem quebrar uma única parede!
+    </div>
+  `;
+  document.getElementById("phase-table").innerHTML =
+    `<thead><tr><th>Item Planejado p/ Fase 2 (Infra pronta na Fase 1)</th><th>Fase</th><th class="num">Desembolso Adiado</th></tr></thead><tbody>` +
+    phase2Items.map(i => `<tr><td>${i[0]}</td><td><span class="phase-pill phase-2">${i[2]}</span></td><td class="num"><strong>${fmtBRL(i[1])}</strong></td></tr>`).join("") +
+    `<tr style="background:#0f172a;"><td colspan="2"><strong>ECONOMIA NO DESEMBOLSO INICIAL (FASE 1)</strong></td><td class="num"><strong style="color:#34d399;">${fmtBRL(p2Total)}</strong></td></tr></tbody>`;
+}
+
+function renderSchedule(total) {
+  lastTotalForFinance = total;
+  // Realistic residential S-curve weights normalized to 100%
+  const curves = {
+    12: [3, 5, 8, 10, 11, 11, 10, 10, 10, 9, 8, 5],
+    15: [2.5, 3.5, 5, 7, 8, 9, 9, 9, 8.5, 8.5, 8, 7.5, 6.5, 5, 3],
+    18: [2, 2.5, 4, 5, 6.5, 7.5, 8, 8, 7.5, 7.5, 7, 7, 6.5, 6, 5.5, 4.5, 3.5, 2]
+  };
+  const labels = (m, n) => {
+    const p = m / n;
+    if (p <= 0.14) return "Projetos / SPT / Fundações";
+    if (p <= 0.42) return "Estrutura + Lajes + Alvenaria";
+    if (p <= 0.58) return "Cobertura + Elétrica + Hidráulica";
+    if (p <= 0.78) return "Reboco + Pisos + Esquadrias";
+    return "Acabamentos + Pintura + Entrega";
+  };
+  const w = curves[buildMonths] || curves[15];
+  const sumW = w.reduce((a, b) => a + b, 0);
+  const ssvg = document.getElementById("schedule-svg");
+  if (!ssvg) return;
+  ssvg.innerHTML = "";
+  const W = 600, H = 230, padL = 48, padR = 16, padT = 22, padB = 34;
+  const maxPct = Math.max(...w) / sumW;
+  const bw = (W - padL - padR) / w.length;
+
+  let acc = 0, pts = [];
+  const rowsHtml = [];
+  w.forEach((v, i) => {
+    const pct = v / sumW;
+    const val = total * pct;
+    acc += val;
+    const barH = (pct / maxPct) * (H - padT - padB - 14);
+    const x = padL + i * bw + 3, y = H - padB - barH;
+    el("rect", { x, y, width: Math.max(8, bw - 6), height: barH, rx: 3, fill: "#0284c7" }, ssvg);
+    txt(x + (bw - 6)/2, H - 14, `M${i+1}`, { "font-size": 8.5, fill: "#94a3b8", "text-anchor": "middle" }, ssvg);
+    if (i % 2 === 0 || w.length <= 12) {
+      txt(x + (bw - 6)/2, y - 4, `${Math.round(val/1000)}k`, { "font-size": 7.6, "font-weight": 700, fill: "#38bdf8", "text-anchor": "middle" }, ssvg);
+    }
+    const cy = H - padB - (acc / total) * (H - padT - padB);
+    pts.push(`${x + (bw - 6)/2},${cy}`);
+    rowsHtml.push(`<tr><td><strong>Mês ${i+1}</strong></td><td>${labels(i+1, w.length)}</td><td class="num">${fmtBRL(val)}</td><td class="num" style="color:#34d399;">${fmtBRL(acc)}</td></tr>`);
+  });
+  el("polyline", { points: pts.join(" "), fill: "none", stroke: "#34d399", "stroke-width": 2.2 }, ssvg);
+  txt(padL, 13, "Barras azuis = Desembolso Mensal (R$ mil) · Linha verde = Curva S Acumulada (100%)", { "font-size": 9, "font-weight": 700, fill: "#cbd5e1" }, ssvg);
+
+  document.getElementById("schedule-table").innerHTML =
+    `<thead><tr><th>Mês</th><th>Foco Principal da Obra</th><th class="num">No Mês</th><th class="num">Acumulado</th></tr></thead><tbody>` + rowsHtml.join("") + `</tbody>`;
+}
+
+function renderFinance(totalArg) {
+  const total = typeof totalArg === "number" ? totalArg : lastTotalForFinance;
+  const downEl = document.getElementById("fin-down");
+  if (!downEl) return;
+  const down = Math.min(+downEl.value, total);
+  const annualRate = +document.getElementById("fin-rate").value;
+  const years = +document.getElementById("fin-years").value;
+  document.getElementById("fin-down-lbl").textContent = fmtBRL(down);
+  document.getElementById("fin-rate-lbl").textContent = `${annualRate.toFixed(2).replace(".",",")}% a.a.`;
+  document.getElementById("fin-years-lbl").textContent = `${years} anos (${years*12}x)`;
+
+  const loan = Math.max(0, total - down);
+  const n = years * 12;
+  const i = Math.pow(1 + annualRate / 100, 1 / 12) - 1;
+  const amort = loan / n;
+  const p1 = amort + loan * i;
+  const pLast = amort + amort * i;
+  const totalInterest = loan * i * (n + 1) / 2;
+  const reqIncome = p1 / 0.30;
+
+  document.getElementById("fin-kpis").innerHTML = `
+    <div class="kpi"><div class="k-lbl">Valor Financiado</div><div class="k-val" style="color:#38bdf8;">${fmtBRL(loan)}</div><div class="k-sub">${Math.round((loan/Math.max(1,total))*100)}% do custo estimado</div></div>
+    <div class="kpi"><div class="k-lbl">1ª Parcela (SAC)</div><div class="k-val" style="color:#fbbf24;">${fmtBRL(p1)}</div><div class="k-sub">Última parcela: ${fmtBRL(pLast)}</div></div>
+    <div class="kpi"><div class="k-lbl">Renda Familiar Sugerida</div><div class="k-val" style="color:#34d399;">${fmtBRL(reqIncome)}</div><div class="k-sub">Regra padrão 30% da renda bruta</div></div>
+    <div class="kpi"><div class="k-lbl">Total Pago (Principal+Juros)</div><div class="k-val">${fmtBRL(loan + totalInterest)}</div><div class="k-sub">Juros totais no prazo: ${fmtBRL(totalInterest)}</div></div>
+  `;
+}
+
+// =============================================================================
+// ITEM 8: EXPORTAR DOSSIÊ / BRIEFING EXECUTIVO (MARKDOWN & PDF LIMPO)
+// =============================================================================
+function buildBriefingMarkdown() {
+  const rate = TIER_RATE[costTier];
+  const baseHouse = AREA_TOTAL * rate;
+  const extrasCost = document.getElementById("cost-muros").checked ? 54000 : 0;
+  const kwh = document.getElementById("sol-kwh") ? +document.getElementById("sol-kwh").value : 650;
+  const panels = Math.max(6, Math.ceil(((kwh / (4.35*30*0.80)) * 1000) / 550));
+  const instKwp = (panels * 0.55).toFixed(2).replace(".",",");
+
+  return `# BRIEFING & DOSSIÊ EXECUTIVO — CASA EM "U" (REVISÃO R03)
+*Documento técnico de referência para Reunião Inicial com Arquiteto(a) e Engenheiro(a) Estrutural*
+
+## 1. DADOS DO LOTE & PARÂMETROS URBANÍSTICOS (ZDU-V · ECOVALLE II)
+- **Terreno:** 10,00 m (testada) × 24,00 m (profundidade) = **240,00 m²** (perímetro 68,00 m)
+- **Topografia & Entorno (Foto Real):** Terreno 100% plano nivelado com a calçada, em rua sem saída (*cul-de-sac*).
+- **Orientação Solar Validada (Lat. ~26°S):** Frente **Sudeste (~135°, sol da manhã)** | Fundos **Noroeste (~315°, sol forte da tarde)**.
+- **Infraestrutura Real na Calçada:**
+  - **Poste de energia** na extremidade **direita (Nordeste)** da testada → Garagem e rebaixo de meio-fio (3,00 m) posicionados na **esquerda**, 100% livres do poste. Lixeira frontal deslocada levemente à esquerda do poste.
+  - **Cavaletes de água** já instalados na extremidade **esquerda**.
+- **Conforto Acústico:** Rodovia paralela aos fundos (~130 m Noroeste) → Planta em "U" protege o pátio central + especificar **vidro laminado/acústico** na Suíte Master + **barreira vegetal de Podocarpus/Murta** no muro de fundos.
+
+## 2. QUADRO EXATO DE ÁREAS (AUTO-VERIFICADO R03)
+- **1º Pavimento (Térreo + Galeria Coberta + Lavabo):** ${AREA_TERREO.toFixed(2).replace(".",",")} m² — **TO: ${TO_PCT.toFixed(2).replace(".",",")}%** (limite 60% = 144 m²)
+- **2º Pavimento (100% empilhado sobre ala molhada e Galeria):** ${AREA_SUP.toFixed(2).replace(".",",")} m²
+- **ÁREA TOTAL CONSTRUÍDA:** **${AREA_TOTAL.toFixed(2).replace(".",",")} m²** — **CA: ${CA_VAL.toFixed(2).replace(".",",")}** (limite 2,0)
+- **Recuos:** Frontal 5,00 m (permeável, Item 1.7.A) | Fundos 5,20 m (≥ 1,50 m) | Jardim Central 100% aberto 10,08 m² (2,10 × 4,80 m)
+- **Paredes Cegas na Divisa:** 13,80 m + 13,80 m = **27,60 m** (≤ 34,00 m / 50%) | Altura máxima na divisa: **6,50 m** (≤ 8,00 m)
+
+## 3. PROGRAMA DE AMBIENTES R03
+### 1º Pavimento (${AREA_TERREO.toFixed(2).replace(".",",")} m²)
+${ROOM_DEFS.filter(r => r.floor === "terreo").map(r => `- **${r.name}:** ${r.w.toFixed(2).replace(".",",")} × ${r.h.toFixed(2).replace(".",",")} m = **${(r.w*r.h).toFixed(2).replace(".",",")} m²** (${r.esq})`).join("\n")}
+
+### 2º Pavimento (${AREA_SUP.toFixed(2).replace(".",",")} m²)
+${ROOM_DEFS.filter(r => r.floor === "sup").map(r => `- **${r.name}:** ${r.w.toFixed(2).replace(".",",")} × ${r.h.toFixed(2).replace(".",",")} m = **${(r.w*r.h).toFixed(2).replace(".",",")} m²** (${r.esq})`).join("\n")}
+
+## 4. DIRETRIZES TÉCNICAS OBRIGATÓRIAS (AUDITORIA R03)
+1. **Circulação Seca:** Galeria Coberta Leste (1,10 × 4,80 m) protegendo Hall ↔ Lavabo ↔ Lavanderia ↔ BWC Apoio ↔ Cozinha.
+2. **Guarda-Corpo 2º Pavimento:** Altura mínima **1,10 m (NBR 14718)** com vidro laminado/temperado sobre o vazio central.
+3. **Prumada & Shaft:** Shaft hidráulico dedicado na Rouparia entre BWC Social e Banho Master, 100% alinhado sobre Lavanderia/BWC/Lavabo térreos.
+4. **Insolação & Térmico:** Pergolado + Brise Vertical Noroeste nos fundos, vidros de baixo fator solar (PC2) e **telha sanduíche termoacústica** sobre a laje da Sala e Jantar.
+5. **Elétrica (NBR 5410 / 17019):** QDG com DPS + DR Geral + 20% reserva; C04a/b separados (Cozinha/Gourmet); C06a Cooktop Indução **40A/10mm²**; C06b Forno 20A/4mm²; C08 Chuveiro Master **40A/10mm²**; C09a/b separados **32A/6mm²**; C13 Wallbox **40A/10mm²**; C14 Pressurizador; C15 Portão; C16 Rede/CFTV.
+6. **Hidrossanitária & Pluvial:** Cisterna + Pressurizador para pressão adequada no 2º Pav.; Caixa d'água 1.500 L sobre o shaft (calcular carga de 1,5 t na laje!); **2 ralos + caixa de areia + extravasor** no Jardim Central (Ø100mm, caimento ≥ 1% até sarjeta); Caixa de Gordura padrão Anexos 10/11 (1,90 × 0,80 m); sem abrigo de gás frontal (cozinha 100% indução).
+7. **Energia Solar & Reúso:** Prever eletroduto Ø32mm cobertura → QDG/Garagem para **${panels} módulos × 550 Wp (${instKwp} kWp)** + 3 pontos externos de irrigação ligados à cisterna de chuva.
+8. **Paleta Escolhida no Showroom:** ${PALETTES[currentPalette].title}.
+
+## 5. ESTIMATIVA PARAMÉTRICA & PRÓXIMOS PASSOS (OBRIGATÓRIOS)
+- **Referência CUB/SC (${costTier.toUpperCase()} — ${fmtBRL(rate)}/m²):** ${fmtBRL(baseHouse)} (+ ${fmtBRL(extrasCost)} muros/lixeira/cisterna = **${fmtBRL(baseHouse + extrasCost)}**) — *estimativa paramétrica, não substitui orçamento executivo.*
+- **Pré-requisitos antes de iniciar obra:**
+  1. Contratar **Sondagem SPT** do solo antes de dimensionar fundações.
+  2. Desenvolver Projetos Executivos (Arquitetônico, Estrutural, Elétrico, Hidrossanitário).
+  3. Submeter projeto para aprovação na **AECO (Associação Ecovalle)** antes do protocolo na Prefeitura.
+  4. Confirmar exigências do **CBMSC** para residência unifamiliar de 203 m².
+`;
+}
+
+function downloadBriefingMD() {
+  const md = buildBriefingMarkdown();
+  const blob = new Blob([md], { type: "text/markdown;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "Briefing_Executivo_Casa_U_R03.md";
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+function printBriefingHTML() {
+  const md = buildBriefingMarkdown();
+  const htmlBody = md
+    .replace(/^# (.*)$/gm, "<h1>$1</h1>")
+    .replace(/^## (.*)$/gm, "<h2>$1</h2>")
+    .replace(/^### (.*)$/gm, "<h3>$1</h3>")
+    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\*(.*?)\*/g, "<em>$1</em>")
+    .replace(/^- (.*)$/gm, "<li>$1</li>")
+    .replace(/^(\d+)\. (.*)$/gm, "<li><strong>$1.</strong> $2</li>")
+    .replace(/\n\n/g, "<br>");
+  const w = window.open("", "_blank");
+  if (!w) { alert("Permita pop-ups para imprimir o Dossiê em PDF."); return; }
+  w.document.write(`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Dossiê Executivo — Casa em U R03</title><style>body{font-family:'Segoe UI',sans-serif;max-width:860px;margin:28px auto;padding:0 20px;color:#0f172a;line-height:1.55;font-size:13px;}h1{font-size:20px;border-bottom:2px solid #0284c7;padding-bottom:6px;}h2{font-size:15px;color:#0369a1;margin-top:18px;border-bottom:1px solid #cbd5e1;padding-bottom:3px;}h3{font-size:13px;margin-top:10px;}li{margin:3px 0 3px 18px;}@media print{body{margin:10mm;}}</style></head><body>${htmlBody}<script>window.onload=()=>setTimeout(()=>window.print(),300);<\/script></body></html>`);
+  w.document.close();
 }
 
 // =============================================================================
@@ -2021,10 +2673,11 @@ function setTab(tab, btn) {
   document.getElementById("sidebar").style.display = isBP ? "flex" : "none";
   const drawerBtn = document.getElementById("btn-drawer");
   if (drawerBtn) drawerBtn.style.visibility = isBP ? "visible" : "hidden";
-  ["show","iso","cost","ilus","reg"].forEach(v => document.getElementById(v + "-view").style.display = tab === v ? "block" : "none");
+  ["show","iso","eco","cost","ilus","reg"].forEach(v => document.getElementById(v + "-view").style.display = tab === v ? "block" : "none");
   if (isBP) { renderBlueprint(); setTimeout(resetView, 25); }
-  if (tab === "show") { renderShowroomPlan(); setTimeout(initBeforeAfter, 30); }
+  if (tab === "show") { renderShowroomPlan(); setPalette(currentPalette); setTimeout(initBeforeAfter, 30); }
   if (tab === "iso") setTimeout(init3D, 30);
+  if (tab === "eco") { renderLandscapePlan(); renderSolar(); }
   if (tab === "cost") renderCosts();
 }
 function setFloor(fl) {
@@ -2161,8 +2814,10 @@ if (isMobile()) {
 }
 renderBlueprint();
 renderCosts();
+setPalette("grafite");
+renderSolar();
 const urlTab = new URLSearchParams(window.location.search).get("tab");
-if (urlTab && ["arq","show","iso","ele","hid","sec","cost","ilus","reg"].includes(urlTab)) {
+if (urlTab && ["arq","show","iso","eco","ele","hid","sec","cost","ilus","reg"].includes(urlTab)) {
   const matchBtn = Array.from(document.querySelectorAll(".tab-btn")).find(b => b.getAttribute("onclick").includes(`'${urlTab}'`));
   setTab(urlTab, matchBtn);
 } else {
