@@ -521,9 +521,9 @@ const ROOMS = {
   "s-pass":    { floor:"2º Pavimento", name:"Corredor Envidraçado (s/ cobrir jardim)", dims:"1,00 × 6,00 m", area:"6,71 m²", esq:"PC1 Vidro (4,20×2,40) p/ Vazio", note:"Alinhado 100% sobre a ala direita do térreo — o Jardim Central (3,00 × 5,00 m) fica 100% aberto ao céu!" },
   "s-bwcsoc":  { floor:"2º Pavimento", name:"Banheiro Social Superior", dims:"1,75 × 2,25 m", area:"4,56 m²", esq:"P3 (0,70) · Ventilação Zenital/Duto", note:"Separado fisicamente do Banho Master pela Despensa Superior (mais privacidade acústica)." },
   "s-desp":    { floor:"2º Pavimento", name:"Despensa / Depósito Superior", dims:"1,75 × 1,15 m", area:"2,47 m²", esq:"P3 (0,70×2,10)", note:"Posicionado entre o BWC Social e o Banho Master para que os banheiros não fiquem colados." },
-  "s-bwcmast": { floor:"2º Pavimento", name:"Banho Suíte Master", dims:"1,75 × 2,25 m", area:"4,56 m²", esq:"P3 (0,70) · Ventilação Zenital/Duto", note:"Separado do BWC Social pela Despensa. Acima da laje fica o reservatório de 1.500 L (Item 1.9.B)." },
-  "s-suite":   { floor:"2º Pavimento", name:"Suíte Master Casal", dims:"4,05 × 3,05 m", area:"13,44 m²", esq:"P2 (0,80) · J1 (2,20) · J2 (1,50)", note:"Ventilação cruzada entre o Jardim Central e os Fundos (com brise/beiral de 0,80 m p/ sol da tarde)." },
-  "s-closet":  { floor:"2º Pavimento", name:"Mini Closet Prático", dims:"1,65 × 3,05 m", area:"5,76 m²", esq:"P2 (0,80) · J2 (1,50×1,20)", note:"Reduzido de 17,86 m² (R01) para 5,76 m² práticos na R02, mantendo ventilação natural contra umidade." },
+  "s-bwcmast": { floor:"2º Pavimento", name:"Banho Master c/ Hidromassagem", dims:"1,75 × 3,35 m", area:"6,65 m²", esq:"P3 (0,70) · Ventilação Zenital/Duto", note:"Ampliado para comportar banheira de hidromassagem (1,70×1,05m), box separado, cuba e vaso. Separado do BWC Social pela Despensa. Reservatório 1.500 L acima." },
+  "s-suite":   { floor:"2º Pavimento", name:"Suíte Master Casal", dims:"3,95 × 3,05 m", area:"13,12 m²", esq:"P2 (0,80) · J1 (2,20) · J2 (1,50)", note:"Acesso independente para o Mini Closet e para o Banho Master com Hidro, além de ventilação cruzada (Pátio e Fundos)." },
+  "s-closet":  { floor:"2º Pavimento", name:"Mini Closet Compacto", dims:"1,75 × 1,95 m", area:"3,99 m²", esq:"P2 (0,80) · J2 (1,50×1,20)", note:"Enxugado ao mínimo prático (3,99 m²) para dar espaço à hidromassagem no Banho Master, mantendo janela nos fundos contra umidade." },
   "s-roof":    { floor:"Cobertura Econômica", name:"Telhado Embutido s/ Sala e Jantar", dims:"4,00 × 9,00 m", area:"36,00 m² (sem 2º pav.)", esq:"Sem carga de 2º pavimento", note:"PRINCIPAL ECONOMIA DA R02: eliminar o 2º andar neste trecho poupa ~R$ 140 mil em laje, pilares, alvenaria e acabamento!" }
 };
 
@@ -874,17 +874,21 @@ function buildFloorR02(root, ox, oy, isGround) {
     roomZone("s-pass",    7.0, 8.7, 1.1, 6.1, ["CORREDOR", "VIDRO"], "6,71 m²", "", "#fefce8", false);
     roomZone("s-bwcsoc",  8.1, 8.7, 1.9, 2.4, ["BWC SOCIAL"], "4,56 m²", "+3,18", "#ffffff", true);
     roomZone("s-desp",    8.1, 11.1, 1.9, 1.3, ["DESPENSA"], "2,47 m²", "+3,20", "#f8fafc", false);
-    roomZone("s-bwcmast", 8.1, 12.4, 1.9, 2.4, ["BANHO", "MASTER"], "4,56 m²", "+3,18", "#ffffff", true);
-    roomZone("s-suite",   4.0, 14.8, 4.2, 3.2, ["SUÍTE MASTER", "CASAL"], "13,44 m²", "+3,20", "#ffffff", false);
-    roomZone("s-closet",  8.2, 14.8, 1.8, 3.2, ["MINI", "CLOSET"], "5,76 m²", "+3,20", "#ffffff", false);
+    roomZone("s-bwcmast", 8.1, 12.4, 1.9, 3.5, ["BANHO MASTER", "c/ HIDRO"], "6,65 m²", "+3,18", "#ffffff", true);
+    roomZone("s-suite",   4.0, 14.8, 4.1, 3.2, ["SUÍTE MASTER", "CASAL"], "13,12 m²", "+3,20", "#ffffff", false);
+    roomZone("s-closet",  8.1, 15.9, 1.9, 2.1, ["MINI", "CLOSET"], "3,99 m²", "+3,20", "#ffffff", false);
 
     // Clean flow arrow Hall -> Corredor -> Suite
     el("path", { d: `M ${px(ox, 5.9)} ${py(oy, 9.25)} L ${px(ox, 7.55)} ${py(oy, 9.25)} L ${px(ox, 7.55)} ${py(oy, 10.6)}`, fill: "none", stroke: "#0284c7", "stroke-width": 1.2, "stroke-dasharray": "3,2", "marker-end": "url(#blue-arrow)" }, gMob);
 
-    // Beds
+    // Beds + Hidromassagem CAD Fixture inside Banho Master!
     el("rect", { x: px(ox, 0.3), y: py(oy, 9.3), width: 1.5*S, height: 1.9*S, rx: 2, fill: "#f8fafc", stroke: "#64748b", "stroke-width": 0.8 }, gMob);
     el("rect", { x: px(ox, 8.2), y: py(oy, 8.2), width: 1.5*S, height: 1.9*S, rx: 2, fill: "#f8fafc", stroke: "#64748b", "stroke-width": 0.8 }, gMob);
     el("rect", { x: px(ox, 4.4), y: py(oy, 17.5), width: 1.9*S, height: 2.0*S, rx: 2, fill: "#f8fafc", stroke: "#64748b", "stroke-width": 0.8 }, gMob);
+    // Hidromassagem (1.70 x 1.05 m) at bottom of Banho Master (y=12.5..13.55)
+    el("rect", { x: px(ox, 8.2), y: py(oy, 13.55), width: 1.68*S, height: 1.05*S, rx: 6, fill: "#e0f2fe", stroke: "#0284c7", "stroke-width": 1.1 }, gMob);
+    el("rect", { x: px(ox, 8.32), y: py(oy, 13.43), width: 1.44*S, height: 0.81*S, rx: 10, fill: "#bae6fd", stroke: "#0369a1", "stroke-width": 0.8 }, gMob);
+    el("circle", { cx: px(ox, 9.04), cy: py(oy, 13.02), r: 2.2, fill: "#0369a1" }, gMob);
 
     // WALLS 2º PAV (100% aligned over Ground Floor Right Wing x=7.0..10.0!)
     drawWall(gWalls, ox, oy, 0.0, 6.4, 6.4, 6.4, 0.18);
@@ -896,13 +900,13 @@ function buildFloorR02(root, ox, oy, isGround) {
     drawWall(gWalls, ox, oy, 6.4, 5.4, 6.4, 8.7, 0.15);   // Open passage from Hall at y=8.7..9.8!
     drawWall(gWalls, ox, oy, 6.4, 8.7, 10.0, 8.7, 0.15);  // Separates Q2 from Corredor & BWC Social
     drawWall(gWalls, ox, oy, 7.0, 9.8, 7.0, 14.8, 0.13);  // Glass wall of Corredor facing 100% open Garden
-    drawWall(gWalls, ox, oy, 8.1, 8.7, 8.1, 14.8, 0.15);  // Spine separating Corredor from BWC Social / Despensa / Banho Master
+    drawWall(gWalls, ox, oy, 8.1, 8.7, 8.1, 18.0, 0.15);  // Continuous vertical spine (BWC / Despensa / Banho Master / Closet)
     drawWall(gWalls, ox, oy, 8.1, 11.1, 10.0, 11.1, 0.13);// Separates BWC Social & Despensa
     drawWall(gWalls, ox, oy, 8.1, 12.4, 10.0, 12.4, 0.13);// Separates Despensa & Banho Master
-    drawWall(gWalls, ox, oy, 4.0, 14.8, 10.0, 14.8, 0.15);
+    drawWall(gWalls, ox, oy, 8.1, 15.9, 10.0, 15.9, 0.13);// Separates Banho Master (c/ Hidro) & Mini Closet!
+    drawWall(gWalls, ox, oy, 4.0, 14.8, 8.1, 14.8, 0.15);
     drawWall(gWalls, ox, oy, 4.0, 14.8, 4.0, 18.0, 0.18);
     drawWall(gWalls, ox, oy, 4.0, 18.0, 10.0, 18.0, 0.18);
-    drawWall(gWalls, ox, oy, 8.2, 14.8, 8.2, 18.0, 0.13);
 
     // DOORS & WINDOWS 2º PAV
     drawDoor(gWalls, gEsqTag, ox, oy, 3.6, 8.5, 0.80, "V", "WS", "P2");   // Hall -> Q1
@@ -910,8 +914,8 @@ function buildFloorR02(root, ox, oy, isGround) {
     drawDoor(gWalls, gEsqTag, ox, oy, 8.1, 9.5, 0.70, "V", "EN", "P3");   // Corredor -> BWC Social
     drawDoor(gWalls, gEsqTag, ox, oy, 8.1, 11.4, 0.70, "V", "EN", "P3");  // Corredor -> Despensa (between bathrooms!)
     drawDoor(gWalls, gEsqTag, ox, oy, 7.15, 14.8, 0.80, "H", "NW", "P2"); // Corredor -> Suíte Master!
-    drawDoor(gWalls, gEsqTag, ox, oy, 8.2, 16.0, 0.80, "V", "EN", "P2");  // Suíte Master -> Mini Closet
-    drawDoor(gWalls, gEsqTag, ox, oy, 8.6, 14.8, 0.70, "H", "SW", "P3");  // Mini Closet -> Banho Master
+    drawDoor(gWalls, gEsqTag, ox, oy, 8.1, 15.05, 0.70, "V", "EN", "P3"); // Suíte Master -> Banho Master c/ Hidro!
+    drawDoor(gWalls, gEsqTag, ox, oy, 8.1, 16.3, 0.80, "V", "EN", "P2");  // Suíte Master -> Mini Closet!
 
     drawWindow(gWalls, gEsqTag, ox, oy, 0.7, 6.4, 2.9, 6.4, "J1", false);
     drawWindow(gWalls, gEsqTag, ox, oy, 7.1, 5.4, 9.3, 5.4, "J1", false);
