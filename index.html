@@ -161,6 +161,34 @@
   .render-cap strong { font-size: 13px; color: #fff; display: block; margin-bottom: 2px; }
   .render-cap span { font-size: 11.2px; color: #94a3b8; }
 
+  /* BEFORE / AFTER INTERACTIVE SLIDER */
+  .ba-wrap {
+    position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden;
+    border-radius: 10px; border: 1px solid #334155; background: #0b1120;
+    user-select: none; -webkit-user-select: none; touch-action: pan-y; cursor: ew-resize;
+  }
+  .ba-wrap img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; display: block; }
+  .ba-before-layer { position: absolute; inset: 0; overflow: hidden; width: 50%; border-right: 2.5px solid #38bdf8; box-shadow: 2px 0 18px rgba(0,0,0,.6); }
+  .ba-before-layer img { width: 100%; height: 100%; max-width: none; }
+  .ba-handle {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 44px; height: 44px; border-radius: 50%; background: #0f172a; border: 2.5px solid #38bdf8;
+    color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px;
+    box-shadow: 0 4px 18px rgba(0,0,0,.65); pointer-events: none; z-index: 5;
+  }
+  .ba-tag {
+    position: absolute; top: 12px; padding: 5px 10px; border-radius: 6px; font-size: 11.5px; font-weight: 800;
+    background: rgba(15,23,42,.82); color: #fff; border: 1px solid rgba(255,255,255,.18); backdrop-filter: blur(5px); z-index: 4; pointer-events: none;
+  }
+  .ba-tag.left { left: 12px; color: #fbbf24; }
+  .ba-tag.right { right: 12px; color: #34d399; }
+  .site-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 12px; }
+  .site-card { background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 10px 11px; }
+  .site-card strong { display: block; font-size: 11.8px; color: #38bdf8; margin-bottom: 4px; }
+  .site-card p { font-size: 11px; color: #cbd5e1; line-height: 1.42; }
+  @media (max-width: 1050px) { .site-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .site-grid { grid-template-columns: 1fr; } .ba-tag { font-size: 10px; padding: 4px 7px; } }
+
   .tier-group { display: flex; gap: 8px; flex-wrap: wrap; }
   .tier-btn { padding: 7px 12px; border-radius: 7px; border: 1px solid #475569; background: #0f172a; color: #cbd5e1; font-size: 11.8px; font-weight: 700; cursor: pointer; }
   .tier-btn.active { background: #10b981; color: #022c22; border-color: #34d399; }
@@ -373,6 +401,42 @@
         </div>
       </div>
 
+      <div class="box">
+        <h2>✨ Implantação no Terreno Real — Comparativo Interativo (Arraste para revelar!) <span style="font-size:11px;color:#34d399;font-weight:600;">Antes ↔ Depois</span></h2>
+        <div class="ba-wrap" id="ba-wrap">
+          <img src="terreno_depois.jpg" alt="Depois — Casa R03 implantada no terreno real">
+          <div class="ba-before-layer" id="ba-before-layer">
+            <img id="ba-before-img" src="terreno_antes.jpg" alt="Antes — Terreno real vazio">
+          </div>
+          <div class="ba-handle" id="ba-handle">◀▶</div>
+          <div class="ba-tag left">ANTES · Terreno Real</div>
+          <div class="ba-tag right">DEPOIS · Casa em "U" R03</div>
+        </div>
+
+        <div class="site-grid">
+          <div class="site-card">
+            <strong>⚡ Poste na Divisa Direita</strong>
+            <p>Garagem e rebaixo de 3,00 m ficam na <strong>esquerda</strong>, 100% livres do poste real. Lixeira posicionada respeitando o afastamento do poste.</p>
+          </div>
+          <div class="site-card">
+            <strong>💧 Infraestrutura na Esquerda</strong>
+            <p>Pontos de água/cavaletes já posicionados na calçada esquerda, encurtando a ligação até a cisterna subterrânea frontal.</p>
+          </div>
+          <div class="site-card">
+            <strong>☀️ Sol Real (Lat. 26°S · 135° SE)</strong>
+            <p>Satélite confirma frente <strong>Sudeste</strong> (sol da manhã) e fundos <strong>Noroeste</strong> (sol da tarde protegido pelo Pergolado/Brise NW).</p>
+          </div>
+          <div class="site-card">
+            <strong>🛣️ Rua sem Saída &amp; Lote Plano</strong>
+            <p><em>Cul-de-sac</em> sem trânsito de passagem na fachada e terreno 100% plano nivelado com a calçada (zero gasto com corte/aterro).</p>
+          </div>
+          <div class="site-card">
+            <strong>🔇 Barreira Acústica nos Fundos</strong>
+            <p>Com rodovia a ~130 m a Noroeste, o "U" protege o pátio interno; recomenda-se <strong>vidro laminado/acústico</strong> na Suíte Master e cerca viva nos fundos.</p>
+          </div>
+        </div>
+      </div>
+
       <div class="grid-2">
         <div class="render-card">
           <a href="render_fachada.jpg" target="_blank"><img src="render_fachada.jpg" alt="Fachada Contemporânea"></a>
@@ -416,13 +480,16 @@
           <label><input type="checkbox" id="w3-furn" checked onchange="rebuild3D()" style="accent-color:#38bdf8;"> Mobiliário 3D</label>
           <label><input type="checkbox" id="w3-walls" checked onchange="rebuild3D()" style="accent-color:#38bdf8;"> Muros Divisa (2,2m)</label>
         </div>
-        <div class="iso-ctrl">
-          <span>Sol:</span>
-          <select id="w3-sun" onchange="updateSun3D()" style="background:#0f172a;color:#fff;border:1px solid #475569;padding:4px 8px;border-radius:5px;font-size:11.5px;">
-            <option value="morning">Manhã (Sudeste — Frente)</option>
-            <option value="noon">Meio-Dia (Zenital no Pátio)</option>
-            <option value="afternoon">Tarde (Noroeste — Fundos)</option>
+        <div class="iso-ctrl" style="gap:10px;">
+          <strong style="color:#fbbf24;">☀️ Sol Real (26°S):</strong>
+          <select id="w3-season" onchange="updateSun3D()" style="background:#0f172a;color:#fff;border:1px solid #475569;padding:4px 7px;border-radius:5px;font-size:11.5px;">
+            <option value="summer">Verão (Dez)</option>
+            <option value="equinox" selected>Equinócio (Mar/Set)</option>
+            <option value="winter">Inverno (Jun)</option>
           </select>
+          <input type="range" id="w3-hour" min="6.5" max="17.5" step="0.25" value="9.5" oninput="updateSun3D()" style="width:115px;accent-color:#fbbf24;cursor:pointer;">
+          <strong id="w3-hour-lbl" style="color:#fbbf24;min-width:44px;font-variant-numeric:tabular-nums;">09:30</strong>
+          <button class="btn" id="w3-play-btn" onclick="toggleSunAnim()">▶ Dia</button>
         </div>
       </div>
 
@@ -1444,12 +1511,61 @@ function set3DCam(x, y, z) {
   camTheta = Math.atan2(v.x, v.z);
   updateCam3D();
 }
+let sunAnimTimer = null;
+function toggleSunAnim() {
+  const btn = document.getElementById("w3-play-btn");
+  if (sunAnimTimer) {
+    clearInterval(sunAnimTimer); sunAnimTimer = null;
+    if (btn) btn.textContent = "▶ Dia";
+    return;
+  }
+  if (btn) btn.textContent = "⏸ Parar";
+  const sl = document.getElementById("w3-hour");
+  sunAnimTimer = setInterval(() => {
+    let h = parseFloat(sl.value) + 0.15;
+    if (h > 17.5) h = 6.5;
+    sl.value = h.toFixed(2);
+    updateSun3D();
+  }, 90);
+}
+
+// Astronomical solar position for Latitude -26.425° (SC) & Lot front facing 135° SE!
 function updateSun3D() {
   if (!sunLight3D) return;
-  const mode = document.getElementById("w3-sun").value;
-  if (mode === "morning") sunLight3D.position.set(16, 18, 18);
-  else if (mode === "noon") sunLight3D.position.set(3, 28, 3);
-  else sunLight3D.position.set(-16, 14, -18);
+  const h = parseFloat(document.getElementById("w3-hour").value);
+  const season = document.getElementById("w3-season").value;
+  const hh = Math.floor(h), mm = Math.round((h - hh) * 60);
+  document.getElementById("w3-hour-lbl").textContent = `${String(hh).padStart(2,"0")}:${String(mm).padStart(2,"0")}`;
+
+  const lat = -26.425 * Math.PI / 180;
+  const declDeg = season === "summer" ? -23.4 : season === "winter" ? 23.4 : 0;
+  const decl = declDeg * Math.PI / 180;
+  const ha = (h - 12.0) * 15 * Math.PI / 180; // hour angle
+
+  const sinAlt = Math.sin(lat) * Math.sin(decl) + Math.cos(lat) * Math.cos(decl) * Math.cos(ha);
+  const alt = Math.max(0.10, Math.asin(Math.max(-1, Math.min(1, sinAlt))));
+  const cosAz = (Math.sin(decl) - Math.sin(alt) * Math.sin(lat)) / (Math.cos(alt) * Math.cos(lat));
+  let az = Math.acos(Math.max(-1, Math.min(1, cosAz)));
+  if (ha > 0) az = 2 * Math.PI - az; // Afternoon -> West
+
+  // Map true compass azimuth to 3D scene coords where Lot Front (+Z) = 135° SE, Right (+X) = 45° NE
+  const frontAz = 135 * Math.PI / 180;
+  const rel = az - frontAz; // 0 = front (+Z), -90° = right (+X), +90° = left (-X), 180° = back (-Z)
+  const dist = 30;
+  const sx = -Math.sin(rel) * Math.cos(alt) * dist;
+  const sy = Math.sin(alt) * dist;
+  const sz = Math.cos(rel) * Math.cos(alt) * dist;
+  sunLight3D.position.set(sx, Math.max(4, sy), sz);
+
+  // Warm golden hour at morning/late afternoon, crisp white daylight at midday
+  const warmth = Math.max(0, 1 - alt / 0.75);
+  sunLight3D.color.setRGB(1.0, 0.98 - warmth * 0.18, 0.94 - warmth * 0.38);
+  sunLight3D.intensity = 0.95 + Math.sin(alt) * 0.55;
+  if (scene3D) {
+    const skyR = 0.81 + warmth * 0.14, skyG = 0.89 - warmth * 0.08, skyB = 0.97 - warmth * 0.24;
+    scene3D.background.setRGB(skyR, skyG, skyB);
+    scene3D.fog.color.setRGB(skyR, skyG, skyB);
+  }
 }
 function resize3D() {
   if (!renderer3D) return;
@@ -1516,9 +1632,14 @@ function rebuild3D() {
   box(0.45, 0, 0, 1.15, 5.0, 0.05, mWalk, false);
   box(2.15, 0, 0, 2.85, 5.0, 0.05, mWalk, false);
   for (let sy = 0.4; sy < 4.7; sy += 0.8) box(3.85, sy, 0, 4.85, sy+0.45, 0.06, mWalk, false);
-  // Front Lixeira (h=2.40m)
-  box(8.5, 0, 0, 10.0, 1.0, 2.4, mWall);
-  box(8.7, -0.04, 0.1, 9.8, 0.04, 1.3, mWood);
+  // Front Lixeira (h=2.40m, shifted slightly left of real utility pole at x=9.9!)
+  box(8.1, 0, 0, 9.5, 1.0, 2.4, mWall);
+  box(8.3, -0.04, 0.1, 9.3, 0.04, 1.3, mWood);
+  // Real-world concrete utility pole on right sidewalk edge + water meter posts on left!
+  const mPole = new THREE.MeshLambertMaterial({ color: 0x64748b });
+  const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.17, 7.6, 10), mPole);
+  pole.position.set(9.85 - 5, 3.8, 12 - (-0.85)); pole.castShadow = true; houseGroup3D.add(pole);
+  box(0.2, -0.25, 0, 0.32, -0.15, 0.55, mTrim); // Real left water meter post
 
   // Perimeter Walls (h=2.20m)
   if (showWalls) {
@@ -1902,7 +2023,7 @@ function setTab(tab, btn) {
   if (drawerBtn) drawerBtn.style.visibility = isBP ? "visible" : "hidden";
   ["show","iso","cost","ilus","reg"].forEach(v => document.getElementById(v + "-view").style.display = tab === v ? "block" : "none");
   if (isBP) { renderBlueprint(); setTimeout(resetView, 25); }
-  if (tab === "show") renderShowroomPlan();
+  if (tab === "show") { renderShowroomPlan(); setTimeout(initBeforeAfter, 30); }
   if (tab === "iso") setTimeout(init3D, 30);
   if (tab === "cost") renderCosts();
 }
@@ -1998,6 +2119,36 @@ window.addEventListener("resize", () => {
   resetView();
   resize3D();
 });
+
+// Before/After Interactive Comparison Slider (Mouse + Touch)
+function initBeforeAfter() {
+  const wrap = document.getElementById("ba-wrap");
+  const layer = document.getElementById("ba-before-layer");
+  const imgBefore = document.getElementById("ba-before-img");
+  const handle = document.getElementById("ba-handle");
+  if (!wrap || wrap.dataset.ready) return;
+  wrap.dataset.ready = "1";
+  let pct = 42, active = false;
+  function syncBA() {
+    const w = wrap.clientWidth;
+    if (w > 0) imgBefore.style.width = w + "px";
+    layer.style.width = pct + "%";
+    handle.style.left = pct + "%";
+  }
+  function setFromX(clientX) {
+    const r = wrap.getBoundingClientRect();
+    pct = Math.max(4, Math.min(96, ((clientX - r.left) / r.width) * 100));
+    syncBA();
+  }
+  wrap.addEventListener("mousedown", e => { active = true; setFromX(e.clientX); });
+  window.addEventListener("mousemove", e => { if (active) setFromX(e.clientX); });
+  window.addEventListener("mouseup", () => active = false);
+  wrap.addEventListener("touchstart", e => { active = true; setFromX(e.touches[0].clientX); }, { passive: true });
+  wrap.addEventListener("touchmove", e => { if (active) setFromX(e.touches[0].clientX); }, { passive: true });
+  window.addEventListener("touchend", () => active = false);
+  window.addEventListener("resize", syncBA);
+  setTimeout(syncBA, 40);
+}
 
 // Init (+ mobile single-floor default + optional ?tab= deep link)
 if (isMobile()) {
